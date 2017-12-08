@@ -18,7 +18,7 @@ void reg_test() {
   for (i = R_EAX; i <= R_EDI; i ++) {
     sample[i] = rand();
     reg_l(i) = sample[i];
-	printf("%d", sample[i]);
+	printf("test: %d\n", sample[i] & 0xffff);
     assert(reg_w(i) == (sample[i] & 0xffff));
   }
 
