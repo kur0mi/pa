@@ -88,6 +88,11 @@ static int cmd_info(char *args){
   return 0;
 }
 
+static int cmd_x(char *args){
+  /* TODO:  */
+  return 0;
+}
+
 static struct {
   char *name;
   char *description;
@@ -100,7 +105,7 @@ static struct {
   /* TODO: Add more commands */ 
   { "si", "si [N], Exec next N instr, default to 1", cmd_si },
   { "info", "info r|w, Print infos of register or watchpoint", cmd_info },
-
+  { "x", "x N EXPR, Print memory by N bytes", cmd_x },
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
