@@ -38,6 +38,32 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
+static int cmd_si(char *args){
+  return 0;
+}
+
+static int cmd_info(char *args){
+  if (args == NULL){
+  	cmd_help("info");
+	return 0;
+  }
+
+  if (strcmp(args, "r") == 0){
+	char sT[9];
+	sprintf(sT, "%02x", cpu.eip);
+	printf("%%eip: 0x%s", sT);	
+  }
+  else if (strcmp(args, "w") == 0){
+	/* TODO: print watch points */
+  }
+  else{
+  	cmd_help("info");
+	return 0;
+  }
+
+  return 0;
+}
+
 static struct {
   char *name;
   char *description;
@@ -47,7 +73,9 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
 
-  /* TODO: Add more commands */
+  /* TODO: Add more commands */ 
+  { "si", "si [N], Exec next N instr, default to 1", cmd_si },
+  { "info", "info r|w, Print infos of register or watchpoint", cmd_info },
 
 };
 
