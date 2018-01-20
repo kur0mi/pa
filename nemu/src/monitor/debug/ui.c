@@ -49,9 +49,25 @@ static int cmd_info(char *args){
   }
 
   if (strcmp(args, "r") == 0){
-	char sT[9];
-	sprintf(sT, "%02x", cpu.eip);
-	printf("%%eip: 0x%s", sT);	
+	char eip[9], eax[9], ebx[9], ecx[9], edx[9], esp[9], ebp[9], esi[9], edi[9];
+	sprintf(eip, "%02x", cpu.eip);
+	sprintf(eax, "%02x", cpu.eax);
+	sprintf(ebx, "%02x", cpu.ebx);
+	sprintf(ecx, "%02x", cpu.ecx);
+	sprintf(edx, "%02x", cpu.edx);
+	sprintf(esp, "%02x", cpu.esp);
+	sprintf(ebp, "%02x", cpu.ebp);
+	sprintf(esi, "%02x", cpu.esi);
+	sprintf(edi, "%02x", cpu.edi);
+	printf("%%eip: 0x%s\n", eip);	
+	printf("%%eax: 0x%s\n", eax);	
+	printf("%%ebx: 0x%s\n", ebx);	
+	printf("%%ecx: 0x%s\n", ecx);	
+	printf("%%edx: 0x%s\n", edx);	
+	printf("%%esp: 0x%s\n", esp);	
+	printf("%%ebp: 0x%s\n", ebp);	
+	printf("%%esi: 0x%s\n", esi);	
+	printf("%%edi: 0x%s\n", edi);	
   }
   else if (strcmp(args, "w") == 0){
 	/* TODO: print watch points */
