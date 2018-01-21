@@ -125,9 +125,11 @@ static int cmd_p(char *args){
 	bool success = false;
 	int res = expr(args, &success);
 	if (success)
-		return res;
+		printf("result = %d\n", res);
 	else
 		panic("cmd_p fail");
+
+	return 0;
 }
 
 static struct {
