@@ -100,9 +100,10 @@ static int cmd_x(char *args){
   
   // convert
   int len = atoi(sLen);
-  vaddr_t *addr = (vaddr_t *)(sAddr + 2);
+  vaddr_t nAddr;
+  sscanf(sAddr + 2, "%x", &nAddr);
   
-  uint32_t nn = vaddr_read(*addr, len);
+  uint32_t nn = vaddr_read(nAddr, len);
   uint8_t *p_nn = (void *)&nn;
   int i;
   char temp[3];
