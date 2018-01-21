@@ -134,6 +134,9 @@ int get_dominant(int p, int q){
 	int level;
 	int cur;
 	for (cur = p; cur <= q; cur++){
+		if (!check_calcu_operate(cur))
+			continue;
+
 		switch (tokens[cur].type){
 			case TK_NEGTIVE:
 				assert(0);
