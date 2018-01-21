@@ -172,7 +172,7 @@ uint32_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  int res = eval(0, nr_token);
+  int res = eval(0, nr_token-1);
   *success = true;
 
   return res;
