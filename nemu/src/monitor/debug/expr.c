@@ -166,7 +166,7 @@ int get_dominant(int p, int q){
 	}
 
 	Log("hit level %d", min_level);
-	Assert(domi == -1, "cannot hit dominant");
+	Assert(domi != -1, "cannot hit dominant");
 	return domi;
 }
 
