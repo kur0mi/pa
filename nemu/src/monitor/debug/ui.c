@@ -101,12 +101,16 @@ static int cmd_x(char *args){
   // convert
   int len = atoi(sLen);
   vaddr_t *addr = (vaddr_t *)(sAddr + 2);
-  // uint32_t nn = vaddr_read(addr, len);
-  // uint8_t *p_nn = (void *)&nn;
+  
+  uint32_t nn = vaddr_read(*addr, len);
+  uint8_t *p_nn = (void *)&nn;
   int i;
+  char temp[3];
   for (i = 0; i < len; i++){
-  	printf("0x%s", (char *)addr);
+	sprintf(temp, "%02x", p_nn[i]);
+  	printf("0x%s ", temp);
   }
+  printf("\n");
   
   return 0;
 }
