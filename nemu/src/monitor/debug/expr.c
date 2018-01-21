@@ -183,7 +183,7 @@ uint32_t eval(int p, int q){
 	else{
 		int domi = get_dominant(p, q);
 		if (tokens[domi].type == TK_NEGTIVE)
-			return -eval(domi+1, q);
+			return -1 * eval(domi+1, q);
 
 		int val1 = eval(p, domi-1);
 		int val2 = eval(domi+1, q);
