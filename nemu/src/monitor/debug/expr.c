@@ -7,6 +7,7 @@
 #include <regex.h>
 
 bool check_calcu_operate(int t);
+bool check_negtive_prefixx(int t);
 
 enum {
   TK_NOTYPE = 256, TK_EQ, 
@@ -97,7 +98,7 @@ static bool make_token(char *e) {
 				tokens[nr_token].type = rules[i].token_type;
 				break;
 		  	case '-':
-				if (substr_start == e || check_calcu_operate(i-1))
+				if (substr_start == e || check_negtive_prefixx(i-1))
 					tokens[nr_token].type = TK_NEGTIVE;
 				else
 					tokens[nr_token].type = rules[i].token_type;
@@ -133,6 +134,13 @@ bool check_parentheses(int p, int q){
 	}
 	else
 		return false;
+}
+
+bool check_negtive_prefixx(int t){
+	if (tokens[t].type == '+' || tokens[t].type == '-' || tokens[t].type == '*' || tokens[t].type == '/' || tokens[t].type == TK_OPEN_PAREN || tokens[t].type == TK_COMMA || tokens[t].type == TK_NEGTIVE || tokens[t].type == TK_EQ)
+		 return true;
+	else
+		return false;	
 }
 
 // check add, sub, multi, div, neg
