@@ -165,6 +165,7 @@ int get_dominant(int p, int q){
 		}
 	}
 
+	Log("hit level %d", min_level);
 	return domi;
 }
 
