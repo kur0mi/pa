@@ -27,7 +27,7 @@ static struct rule {
   {"-", '-'},         	// sub
   {"\\*", '*'},         // multi
   {"/", '/'},         	// div
-  {"\\d+", TK_DECIMAL},	// decimal numbers
+  {"[0-9]+", TK_DECIMAL},	// decimal numbers
   {",", TK_COMMA},		// comma
   {"\\(", TK_OPEN_PAREN},	// open paren
   {"\\)", TK_CLOSE_PAREN},// close paren
