@@ -91,9 +91,11 @@ static int cmd_info(char *args){
 static int cmd_x(char *args){
   /* TODO: fetch memory */
   Assert(args != NULL, "too few argument");
-  //char *sn = strtok(NULL, " ");
-  //char *saddr = strtok(NULL, " ");
-  //char *end = strtok(NULL, " ");
+  char *sn = strtok(args, " ");
+  Assert(sn != NULL, "too few argument");
+  char *saddr = strtok(NULL, " ");
+  Assert(saddr != NULL, "too few argument");
+  Assert(strtok(NULL, " ") == NULL, "too many argument");
   return 0;
 }
 
