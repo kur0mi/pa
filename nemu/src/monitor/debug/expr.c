@@ -164,6 +164,8 @@ int get_dominant(int p, int q){
 			while (tokens[cur].type != TK_CLOSE_PAREN)
 				cur++;
 			cur++;
+			if (cur > q)
+				break;
 		}
 
 		if (!check_calcu_operate(cur))
