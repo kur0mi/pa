@@ -99,6 +99,7 @@ static bool make_token(char *e) {
 		  	case '-':
 				if (position == 0 || check_calcu_operate(i-1))
 					tokens[nr_token].type = TK_NEGTIVE;
+				break;
           	default:
 				tokens[nr_token].type = rules[i].token_type;
 		   		continue;
