@@ -10,7 +10,10 @@ enum {
   TK_NOTYPE = 256, TK_EQ, 
 
   /* TODO: Add more token types */
-  TK_DECIMAL, TK_COMMA, TK_OPEN_PAREN, TK_CLOSE_PAREN
+  TK_DECIMAL, 
+  TK_COMMA, 
+  TK_OPEN_PAREN, TK_CLOSE_PAREN, 
+  TK_NEGTIVE
 };
 
 static struct rule {
@@ -24,14 +27,14 @@ static struct rule {
 
   {" +", TK_NOTYPE},    // spaces
   {"\\+", '+'},         // plus
-  {"-", '-'},         	// sub
+  {"-", '-'},         	// sub or neg
   {"\\*", '*'},         // multi
   {"/", '/'},         	// div
   {"[0-9]+", TK_DECIMAL},	// decimal numbers
   {",", TK_COMMA},		// comma
   {"\\(", TK_OPEN_PAREN},	// open paren
   {"\\)", TK_CLOSE_PAREN},// close paren
-  {"==", TK_EQ}         // equal
+  {"==", TK_EQ},         // equal
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -109,6 +112,7 @@ static bool make_token(char *e) {
   return true;
 }
 
+// check open_paren & close_paren
 bool check_parentheses(int p, int q){
 	if (tokens[p].type == TK_OPEN_PAREN && tokens[q].type == TK_CLOSE_PAREN)
 		return true;
@@ -116,23 +120,43 @@ bool check_parentheses(int p, int q){
 		return false;
 }
 
+// check add, sub, multi, div, neg
 bool check_calcu_operate(int t){
-	if (tokens[t].type == '+' || tokens[t].type == '-' || tokens[t].type == '*' || tokens[t].type == '/' || tokens[t].type == TK_EQ)   
+	if (tokens[t].type == '+' || tokens[t].type == '-' || tokens[t].type == '*' || tokens[t].type == '/' || tokens[t].type == TK_NEGTIVE)   
 		return true;
 	else
 		return false;
 }
 
 int get_dominant(int p, int q){
-	int cur = p;
-	while (cur < q){
-		if (check_calcu_operate(cur)){
-			return cur;
+	int domi = -1;
+	int min_level = 15;
+	int level;
+	int cur;
+	for (cur = p; cur <= q; cur++){
+		switch (tokens[cur].type){
+			case TK_NEGTIVE:
+				assert(0);
+				break;
+			case '+':
+			case '-':
+				level = 7;
+				break;
+			case '*':
+			case '/':
+				level = 8;
+				break;
+			default:
+				assert(0);
 		}
-		cur++;
+
+		if (level <= min_level){
+			min_level = level;
+			domi = cur;
+		}
 	}
 
-	return -1;
+	return domi;
 }
 
 uint32_t eval(int p, int q){
