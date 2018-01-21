@@ -83,8 +83,8 @@ static bool make_token(char *e) {
         char *substr_start = e + position;
         int substr_len = pmatch.rm_eo;
 
-        Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
-            i, rules[i].regex, position, substr_len, substr_len, substr_start);
+        //Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
+        //    i, rules[i].regex, position, substr_len, substr_len, substr_start);
         position += substr_len;
 
         /* TODO: Now a new token is recognized with rules[i]. Add codes
@@ -102,8 +102,10 @@ static bool make_token(char *e) {
 					tokens[nr_token].type = TK_NEGTIVE;
 					Log("negtive");
 				}
-				else
+				else{
 					tokens[nr_token].type = rules[i].token_type;
+					Log("sub");
+				}
 				break;
           	default:
 				 tokens[nr_token].type = rules[i].token_type;
