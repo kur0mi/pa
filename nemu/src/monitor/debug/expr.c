@@ -6,6 +6,8 @@
 #include <sys/types.h>
 #include <regex.h>
 
+bool check_calcu_operate(int t);
+
 enum {
   TK_NOTYPE = 256, TK_EQ, 
 
@@ -90,12 +92,16 @@ static bool make_token(char *e) {
          */
 
         switch (rules[i].token_type) {
-		  case TK_DECIMAL:
-			tokens[nr_token].type = rules[i].token_type;
-			strncpy(tokens[nr_token].str, substr_start, substr_len);
-			break;
-          default: 
-			tokens[nr_token].type = rules[i].token_type;
+		  	case TK_DECIMAL:
+				strncpy(tokens[nr_token].str, substr_start, substr_len);
+				tokens[nr_token].type = rules[i].token_type;
+				break;
+		  	case '-':
+				if (position == 0 || check_calcu_operate(i-1))
+					tokens[nr_token].type = TK_NEGTIVE;
+          	default:
+				tokens[nr_token].type = rules[i].token_type;
+		   		continue;
         }
 
 		nr_token++;
@@ -139,7 +145,7 @@ int get_dominant(int p, int q){
 
 		switch (tokens[cur].type){
 			case TK_NEGTIVE:
-				assert(0);
+				level = 9;
 				break;
 			case '+':
 			case '-':
