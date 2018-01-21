@@ -89,6 +89,9 @@ static inline void restart() {
 }
 
 static inline void parse_args(int argc, char *argv[]) {
+  /*	-b(is_batch_mode)
+   *	-l log_file
+   */
   int o;
   while ( (o = getopt(argc, argv, "-bl:")) != -1) {
     switch (o) {
