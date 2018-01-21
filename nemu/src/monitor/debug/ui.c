@@ -103,27 +103,19 @@ static int cmd_x(char *args){
   vaddr_t nAddr;
   sscanf(sAddr + 2, "%x", &nAddr);
   
-  int nt;
-  for (nt = 0; nt < 10; nt++){
-  	printf("0x%02x ", pmem[0x100000 + nt]);
-  }
-  printf("\n");
-  return 0;
-
+  // print
   int i;
   for (i = 0; i < len; i+=4){
-  	uint32_t nn = vaddr_read(nAddr + i, 4);
-  	uint8_t *p_nn = (void *)&nn;
 	if (len - i < 4){
-		printf("%07x: ", nAddr + i);
+		printf("0x%07x: ", nAddr + i);
 		int k;
 		for (k = 0; k < len - i; k++){
-			printf("0x%02x ", p_nn[i+k]);
+			printf("0x%02x ", pmem[nAddr+i+k]);
 		}
 		printf("\n");
 	}
 	else{
-		printf("%07x: 0x%02x 0x%02x 0x%02x 0x%02x\n", nAddr + i, p_nn[i], p_nn[i+1], p_nn[i+2], p_nn[i+3]);
+		printf("0x%07x: 0x%02x 0x%02x 0x%02x 0x%02x\n", nAddr + i, pmem[nAddr+i], pmem[nAddr+i+1], pmem[nAddr+i+2], pmem[nAddr+i+3]);
 	}
   }
   
