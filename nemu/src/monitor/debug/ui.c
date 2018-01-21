@@ -108,13 +108,15 @@ static int cmd_x(char *args){
   int i;
   for (i = 0; i < len; i+=4){
 	if (len - i < 4){
-		printf("%p: ", &p_nn[i]);
+		printf("%07x: ", host_to_guest(&p_nn[i]));
 		int k;
 		for (k = 0; k < len - i; k++){
 			printf("0x%02x ", p_nn[i+k]);
 		}
 	}
-	printf("%p: 0x%02x 0x%02x 0x%02x 0x%02x\n", &p_nn[i], p_nn[i], p_nn[i+1], p_nn[i+2], p_nn[i+3]);
+	else{
+		printf("%07x: 0x%02x 0x%02x 0x%02x 0x%02x\n", host_to_guest(&p_nn[i]), p_nn[i], p_nn[i+1], p_nn[i+2], p_nn[i+3]);
+	}
   }
   
   return 0;
