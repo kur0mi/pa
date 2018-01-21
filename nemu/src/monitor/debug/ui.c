@@ -103,10 +103,10 @@ static int cmd_x(char *args){
   vaddr_t nAddr;
   sscanf(sAddr + 2, "%x", &nAddr);
   
-  uint32_t nn = vaddr_read(nAddr, 4);
-  uint8_t *p_nn = (void *)&nn;
   int i;
   for (i = 0; i < len; i+=4){
+  	uint32_t nn = vaddr_read(nAddr + i, 4);
+  	uint8_t *p_nn = (void *)&nn;
 	if (len - i < 4){
 		printf("%07x: ", nAddr + i);
 		int k;
