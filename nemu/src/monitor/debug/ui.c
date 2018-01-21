@@ -113,6 +113,7 @@ static int cmd_x(char *args){
 		for (k = 0; k < len - i; k++){
 			printf("0x%02x ", p_nn[i+k]);
 		}
+		printf("\n");
 	}
 	else{
 		printf("%07x: 0x%02x 0x%02x 0x%02x 0x%02x\n", host_to_guest(&p_nn[i]), p_nn[i], p_nn[i+1], p_nn[i+2], p_nn[i+3]);
