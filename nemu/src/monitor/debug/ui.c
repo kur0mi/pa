@@ -89,7 +89,11 @@ static int cmd_info(char *args){
 }
 
 static int cmd_x(char *args){
-  /* TODO:  */
+  /* TODO: fetch memory */
+  Assert(args != NULL, "too few argument");
+  //char *sn = strtok(NULL, " ");
+  //char *saddr = strtok(NULL, " ");
+  //char *end = strtok(NULL, " ");
   return 0;
 }
 
