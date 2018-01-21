@@ -87,7 +87,12 @@ static bool make_token(char *e) {
          */
 
         switch (rules[i].token_type) {
-          default: TODO();
+		  case TK_DECIMAL:
+			tokens[nr_token].type = rules[i].token_type;
+			strncpy(tokens[nr_token].str, substr_start, substr_len);
+			break;
+          default: 
+			tokens[nr_token].type = rules[i].token_type;
         }
 
         break;
@@ -103,14 +108,71 @@ static bool make_token(char *e) {
   return true;
 }
 
+bool check_parentheses(int p, int q){
+	if (tokens[p].type == TK_OPEN_PAREN && tokens[q].type == TK_CLOSE_PAREN)
+		return true;
+	else
+		return false;
+}
+
+bool check_calcu_operate(int t){
+	if (tokens[t].type == '+' || tokens[t].type == '-' || tokens[t].type == '*' || tokens[t].type == '/' || tokens[t].type == TK_EQ)   
+		return true;
+	else
+		return false;
+}
+
+int get_dominant(int p, int q){
+	int cur = p;
+	while (cur < q){
+		if (check_calcu_operate(cur)){
+			return cur;
+		}
+	}
+
+	return -1;
+}
+
+uint32_t eval(int p, int q){
+	if (p > q){
+		panic("Bad expression");
+	}
+	else if (p == q){
+		uint32_t n;
+		sscanf(tokens[p].str + 2, "%x", &n);
+		return n;
+	}
+	else if (check_parentheses(p, q)){
+		return eval(p+1, q-1);
+	}
+	else{
+		int domi = get_dominant(p, q);
+		int val1 = eval(p, domi-1);
+		int val2 = eval(domi+1, q);
+		switch (tokens[domi].type){
+			case '+':
+				return val1 + val2;
+			case '-':
+				return val1 - val2;
+			case '*':
+				return val1 * val2;
+			case '/':
+				return val1 / val2;
+			default:
+				assert(0);
+		}
+	}
+}
+			
+
 uint32_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
-    return 0;
+	return 0;
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  TODO();
+  int res = eval(0, nr_token);
 
-  return 0;
+  return res;
 }

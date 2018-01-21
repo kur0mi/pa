@@ -121,19 +121,29 @@ static int cmd_x(char *args){
   return 0;
 }
 
+static int cmd_p(char *args){
+	bool success = false;
+	int res = expr(args, &success);
+	if (success)
+		return res;
+	else
+		panic("cmd_p fail");
+}
+
 static struct {
   char *name;
   char *description;
   int (*handler) (char *);
 } cmd_table [] = {
   { "help", "Display informations about all supported commands", cmd_help },
-  { "c", "Continue the execution of the program", cmd_c },
-  { "q", "Exit NEMU", cmd_q },
+  { "c   ", "Continue the execution of the program", cmd_c },
+  { "q   ", "Exit NEMU", cmd_q },
 
   /* TODO: Add more commands */ 
-  { "si", "si [N], Exec next N instr, default to 1", cmd_si },
+  { "si  ", "si [N], Exec next N instr, default to 1", cmd_si },
   { "info", "info r|w, Print infos of register or watchpoint", cmd_info },
-  { "x", "x N EXPR, Print memory by N bytes", cmd_x },
+  { "x   ", "x N EXPR, Print memory by N bytes", cmd_x },
+  { "p   ", "p EXPR, calcu expression", cmd_p }
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
