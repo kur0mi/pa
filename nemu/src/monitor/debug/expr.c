@@ -8,10 +8,9 @@
 
 enum {
   TK_NOTYPE = 256, TK_EQ, 
-  TK_DECIMAL
 
   /* TODO: Add more token types */
-
+  TK_DECIMAL, TK_COMMA, TK_OPEN_PAREN, TK_CLOSE_PAREN
 };
 
 static struct rule {
@@ -25,10 +24,13 @@ static struct rule {
 
   {" +", TK_NOTYPE},    // spaces
   {"\\+", '+'},         // plus
-  {"\\-", '-'},         // sub
+  {"-", '-'},         	// sub
   {"\\*", '*'},         // multi
-  {"\\/", '/'},         // div
-  {"[1-9]\\d+", TK_DECIMAL},		// decimal numbers
+  {"/", '/'},         	// div
+  {"\\d*", TK_DECIMAL},	// decimal numbers
+  {",", TK_COMMA},		// comma
+  {"\\(", TK_OPEN_PAREN},	// open paren
+  {"\\)", TK_CLOSE_PAREN},// close paren
   {"==", TK_EQ}         // equal
 };
 
