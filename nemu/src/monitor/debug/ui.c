@@ -106,8 +106,15 @@ static int cmd_x(char *args){
   uint32_t nn = vaddr_read(nAddr, len);
   uint8_t *p_nn = (void *)&nn;
   int i;
-  for (i = 0; i < len; i++){
-	printf("%p: 0x%02x\n", &p_nn[i], p_nn[i]);
+  for (i = 0; i < len; i+=4){
+	if (len - i < 4){
+		printf("%p: ", &p_nn[i]);
+		int k;
+		for (k = 0; k < len - i; k++){
+			printf("0x%02x ", p_nn[i+k]);
+		}
+	}
+	printf("%p: 0x%02x 0x%02x 0x%02x 0x%02x\n", &p_nn[i], p_nn[i], p_nn[i+1], p_nn[i+2], p_nn[i+3]);
   }
   
   return 0;
