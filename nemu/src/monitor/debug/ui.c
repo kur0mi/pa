@@ -103,9 +103,16 @@ static int cmd_x(char *args){
   vaddr_t nAddr;
   sscanf(sAddr + 2, "%x", &nAddr);
   
+  int nt;
+  for (nt = 0; nt < 10; nt++){
+  	printf("0x%02x ", pmem[0x100000 + nt]);
+  }
+  printf("\n");
+  return 0;
+
   int i;
   for (i = 0; i < len; i+=4){
-  	uint32_t nn = vaddr_read(nAddr + i, len);
+  	uint32_t nn = vaddr_read(nAddr + i, 4);
   	uint8_t *p_nn = (void *)&nn;
 	if (len - i < 4){
 		printf("%07x: ", nAddr + i);
