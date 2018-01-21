@@ -120,8 +120,14 @@ static bool make_token(char *e) {
 
 // check open_paren & close_paren
 bool check_parentheses(int p, int q){
-	if (tokens[p].type == TK_OPEN_PAREN && tokens[q].type == TK_CLOSE_PAREN)
+	if (tokens[p].type == TK_OPEN_PAREN && tokens[q].type == TK_CLOSE_PAREN){
+		p++;
+		while (p < q){
+			if (tokens[p].type == TK_CLOSE_PAREN)
+				return false;
+		}
 		return true;
+	}
 	else
 		return false;
 }
@@ -140,6 +146,13 @@ int get_dominant(int p, int q){
 	int level;
 	int cur;
 	for (cur = p; cur <= q; cur++){
+		if (tokens[cur].type == TK_OPEN_PAREN){
+			cur++;
+			while (tokens[cur].type != TK_CLOSE_PAREN)
+				cur++;
+			cur++;
+		}
+
 		if (!check_calcu_operate(cur))
 			continue;
 
