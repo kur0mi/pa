@@ -125,6 +125,7 @@ bool check_parentheses(int p, int q){
 		while (p < q){
 			if (tokens[p].type == TK_CLOSE_PAREN)
 				return false;
+			p++;
 		}
 		return true;
 	}
