@@ -103,12 +103,12 @@ static int cmd_x(char *args){
   vaddr_t nAddr;
   sscanf(sAddr + 2, "%x", &nAddr);
   
-  uint32_t nn = vaddr_read(nAddr, len);
+  uint32_t nn = vaddr_read(nAddr, 4);
   uint8_t *p_nn = (void *)&nn;
   int i;
   for (i = 0; i < len; i+=4){
 	if (len - i < 4){
-		printf("%07x: ", host_to_guest(&p_nn[i]));
+		printf("%07x: ", nAddr + i);
 		int k;
 		for (k = 0; k < len - i; k++){
 			printf("0x%02x ", p_nn[i+k]);
@@ -116,7 +116,7 @@ static int cmd_x(char *args){
 		printf("\n");
 	}
 	else{
-		printf("%07x: 0x%02x 0x%02x 0x%02x 0x%02x\n", host_to_guest(&p_nn[i]), p_nn[i], p_nn[i+1], p_nn[i+2], p_nn[i+3]);
+		printf("%07x: 0x%02x 0x%02x 0x%02x 0x%02x\n", nAddr + i, p_nn[i], p_nn[i+1], p_nn[i+2], p_nn[i+3]);
 	}
   }
   
