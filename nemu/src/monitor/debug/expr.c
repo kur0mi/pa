@@ -129,6 +129,7 @@ int get_dominant(int p, int q){
 		if (check_calcu_operate(cur)){
 			return cur;
 		}
+		cur++;
 	}
 
 	return -1;
