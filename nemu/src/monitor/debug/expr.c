@@ -179,13 +179,13 @@ int get_dominant(int p, int q){
 		}
 	}
 
-	Log("hit level %d, %d - %d", min_level, p, q);
+	//Log("hit level %d, %d - %d", min_level, p, q);
 	Assert(domi != -1, "cannot hit dominant");
 	return domi;
 }
 
 uint32_t eval(int p, int q){
-	Log("eval %d - %d", p, q);
+	//Log("eval %d - %d", p, q);
 	if (p > q){
 		panic("Bad expression");
 	}
