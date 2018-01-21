@@ -105,7 +105,7 @@ static int cmd_x(char *args){
   
   int i;
   for (i = 0; i < len; i+=4){
-  	uint32_t nn = vaddr_read(nAddr + i, 4);
+  	uint32_t nn = vaddr_read(nAddr + i, len);
   	uint8_t *p_nn = (void *)&nn;
 	if (len - i < 4){
 		printf("%07x: ", nAddr + i);
