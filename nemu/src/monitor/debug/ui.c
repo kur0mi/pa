@@ -90,12 +90,24 @@ static int cmd_info(char *args){
 
 static int cmd_x(char *args){
   /* TODO: fetch memory */
+  // parse args
   Assert(args != NULL, "too few argument");
-  char *sn = strtok(args, " ");
-  Assert(sn != NULL, "too few argument");
-  char *saddr = strtok(NULL, " ");
-  Assert(saddr != NULL, "too few argument");
+  char *sLen = strtok(args, " ");
+  Assert(sLen != NULL, "too few argument");
+  char *sAddr = strtok(NULL, " ");
+  Assert(sAddr != NULL, "too few argument");
   Assert(strtok(NULL, " ") == NULL, "too many argument");
+  
+  // convert
+  int len = atoi(sLen);
+  vaddr_t *addr = (vaddr_t *)(sAddr + 2);
+  // uint32_t nn = vaddr_read(addr, len);
+  // uint8_t *p_nn = (void *)&nn;
+  int i;
+  for (i = 0; i < len; i++){
+  	printf("0x%s", (char *)addr);
+  }
+  
   return 0;
 }
 
