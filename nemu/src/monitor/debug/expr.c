@@ -98,7 +98,7 @@ static bool make_token(char *e) {
 				tokens[nr_token].type = rules[i].token_type;
 				break;
 		  	case '-':
-				if (nr_token == 0 || check_negtive_prefixx(i-1)){
+				if (nr_token == 0 || check_negtive_prefixx(nr_token-1)){
 					tokens[nr_token].type = TK_NEGTIVE;
 					Log("negtive");
 				}
