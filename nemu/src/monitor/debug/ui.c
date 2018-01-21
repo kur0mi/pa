@@ -89,7 +89,6 @@ static int cmd_info(char *args){
 }
 
 static int cmd_x(char *args){
-  /* TODO: fetch memory */
   // parse args
   Assert(args != NULL, "too few argument");
   char *sLen = strtok(args, " ");
