@@ -185,7 +185,7 @@ int get_dominant(int p, int q){
 }
 
 uint32_t eval(int p, int q){
-	//Log("eval %d - %d", p, q);
+	Log("eval %d - %d", p, q);
 	if (p > q){
 		panic("Bad expression");
 	}
