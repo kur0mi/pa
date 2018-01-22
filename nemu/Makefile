@@ -12,7 +12,16 @@ include Makefile.git
 CC = gcc
 LD = gcc
 INCLUDES  = $(addprefix -I, $(INC_DIR))
-CFLAGS   += -O2 -MMD -Wall -ggdb -D MY_DEBUG $(INCLUDES)
+ifeq ($(debug), y)
+CFLAGS   = -O2 -MMD -Wall -ggdb -D MY_DEBUG $(INCLUDES)
+else ifeq ($(debug), n)
+CFLAGS   = -O2 -MMD -Wall -Werror $(INCLUDES)
+else
+CFLAGS   = -O2 -MMD -Wall -Werror -ggdb $(INCLUDES)
+endif
+
+print:
+	@echo $(CFLAGS)
 
 # Files to be compiled
 SRCS = $(shell find src/ -name "*.c")
@@ -29,7 +38,7 @@ $(OBJ_DIR)/%.o: src/%.c
 
 # Some convinient rules
 
-.PHONY: app run submit clean
+.PHONY: app run commit gdb clean
 app: $(BINARY)
 
 ARGS ?= -l $(BUILD_DIR)/nemu-log.txt
@@ -43,11 +52,12 @@ $(BINARY): $(OBJS)
 	@$(LD) -O2 -o $@ $^ -lSDL2 -lreadline
 
 run: $(BINARY)
-#	$(call git_commit, "run")
 	$(NEMU_EXEC)
 
+commit: $(BINARY)
+	$(call git_commit, "commit")
+
 gdb: $(BINARY)
-	$(call git_commit, "gdb")
 	gdb -s $(BINARY) --args $(NEMU_EXEC)
 
 clean: 
