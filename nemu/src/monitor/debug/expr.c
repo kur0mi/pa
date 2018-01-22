@@ -82,10 +82,11 @@ static bool make_token(char *e) {
       if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
         char *substr_start = e + position;
         int substr_len = pmatch.rm_eo;
-
-        //Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
-        //    i, rules[i].regex, position, substr_len, substr_len, substr_start);
-        position += substr_len;
+	  #ifdef MY_DEBUG
+        Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
+            i, rules[i].regex, position, substr_len, substr_len, substr_start);
+ 	  #endif
+		position += substr_len;
 
         /* TODO: Now a new token is recognized with rules[i]. Add codes
          * to record the token in the array `tokens'. For certain types
@@ -100,11 +101,15 @@ static bool make_token(char *e) {
 		  	case '-':
 				if (nr_token == 0 || check_negtive_prefixx(nr_token-1)){
 					tokens[nr_token].type = TK_NEGTIVE;
+				#ifdef MY_DEBUG
 					Log("negtive");
+				#endif
 				}
 				else{
 					tokens[nr_token].type = rules[i].token_type;
+				#ifdef MY_DEBUG
 					Log("sub");
+				#endif
 				}
 				break;
           	default:
@@ -195,13 +200,17 @@ int get_dominant(int p, int q){
 		}
 	}
 
-	//Log("hit level %d, %d - %d", min_level, p, q);
+#ifdef MY_DEBUG
+	Log("hit level %d, %d - %d", min_level, p, q);
+#endif
 	Assert(domi != -1, "cannot hit dominant");
 	return domi;
 }
 
 uint32_t eval(int p, int q){
+#ifdef MY_DEBUG
 	Log("eval %d - %d", p, q);
+#endif
 	if (p > q){
 		panic("Bad expression");
 	}

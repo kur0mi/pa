@@ -12,7 +12,7 @@ include Makefile.git
 CC = gcc
 LD = gcc
 INCLUDES  = $(addprefix -I, $(INC_DIR))
-CFLAGS   += -O2 -MMD -Wall -Werror -ggdb $(INCLUDES)
+CFLAGS   += -O2 -MMD -Wall -ggdb -D MY_DEBUG $(INCLUDES)
 
 # Files to be compiled
 SRCS = $(shell find src/ -name "*.c")
@@ -43,7 +43,7 @@ $(BINARY): $(OBJS)
 	@$(LD) -O2 -o $@ $^ -lSDL2 -lreadline
 
 run: $(BINARY)
-	$(call git_commit, "run")
+#	$(call git_commit, "run")
 	$(NEMU_EXEC)
 
 gdb: $(BINARY)
