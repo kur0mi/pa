@@ -20,7 +20,7 @@ else
 CFLAGS   = -O2 -MMD -Wall -Werror -ggdb $(INCLUDES)
 endif
 
-print:
+debug:
 	@echo $(CFLAGS)
 
 # Files to be compiled
@@ -55,7 +55,7 @@ run: $(BINARY)
 	$(NEMU_EXEC)
 
 commit: $(BINARY)
-	$(call git_commit, "commit")
+	$(call git_commit, "$(message)")
 
 gdb: $(BINARY)
 	gdb -s $(BINARY) --args $(NEMU_EXEC)
