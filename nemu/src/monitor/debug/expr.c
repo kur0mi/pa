@@ -1,4 +1,5 @@
 #include "nemu.h"
+#include "monitor/expr.h"
 
 /* We use the POSIX regex functions to process regular expressions.
  * Type 'man regex' for more information about POSIX regex functions.
@@ -6,17 +7,20 @@
 #include <sys/types.h>
 #include <regex.h>
 
-bool check_calcu_operate(int t);
 bool check_negtive_prefixx(int t);
+bool check_inner_prefixx(int t);
 
 enum {
-  TK_NOTYPE = 256, TK_EQ, 
+  TK_NOTYPE = 256, TK_EQ, TK_NEQ,
 
   /* TODO: Add more token types */
-  TK_DECIMAL, 
+  TK_DECIMAL, TK_HEXADECIMAL,
+  TK_REGNAME, 
   TK_COMMA, 
   TK_OPEN_PAREN, TK_CLOSE_PAREN, 
-  TK_NEGTIVE
+  TK_LOGIC_AND, TK_LOGIC_OR,
+  TK_LOGIC_NOT, 
+  TK_NEGTIVE, TK_INNER
 };
 
 static struct rule {
@@ -28,16 +32,25 @@ static struct rule {
    * Pay attention to the precedence level of different rules.
    */
 
-  {" +", TK_NOTYPE},    // spaces
-  {"\\+", '+'},         // plus
-  {"-", '-'},         	// sub or neg
-  {"\\*", '*'},         // multi
-  {"/", '/'},         	// div
-  {"[0-9]+", TK_DECIMAL},	// decimal numbers
-  {",", TK_COMMA},		// comma
-  {"\\(", TK_OPEN_PAREN},	// open paren
-  {"\\)", TK_CLOSE_PAREN},// close paren
-  {"==", TK_EQ},         // equal
+  {"^( +)", TK_NOTYPE},    	// spaces
+  {"^(==)", TK_EQ},        	// equal
+  {"^(!=)", TK_NEQ},		// not equal
+  
+  {"^(\\+)", '+'},         // plus
+  {"^(-)", '-'},         	// sub or neg
+  {"^(\\*)", '*'},         // multi or inner
+  {"^(/)", '/'},         	// div
+  
+  {"^(0x[0-9a-fA-F]+)", TK_HEXADECIMAL},	// hexadecimal numbers
+  {"^(0|[1-9][0-9]*)", TK_DECIMAL},		// decimal numbers
+  {"^(\\$e(ax|bx|cx|dx|sp|bp|si|di|ip))", TK_REGNAME}, 		// reg name
+  {"^(,)", TK_COMMA},			// comma
+  {"^(\\()", TK_OPEN_PAREN},	// open paren
+  {"^(\\))", TK_CLOSE_PAREN},	// close paren
+  {"^(&&)", TK_LOGIC_AND}, 	// logic and
+  {"^[|]{2}", TK_LOGIC_OR}, 		//logic or
+  {"^(!)", TK_LOGIC_NOT},		// logic not
+  // C has not (?!pattern), em...
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -79,7 +92,10 @@ static bool make_token(char *e) {
   while (e[position] != '\0') {
     /* Try all rules one by one. */
     for (i = 0; i < NR_REGEX; i ++) {
-      if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
+	  // if match success
+      if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0) {
+		if (nr_token > 31)
+			panic("token too many");
         char *substr_start = e + position;
         int substr_len = pmatch.rm_eo;
 	  #ifdef MY_DEBUG
@@ -95,9 +111,16 @@ static bool make_token(char *e) {
 
         switch (rules[i].token_type) {
 		  	case TK_DECIMAL:
+			case TK_HEXADECIMAL:
+			case TK_REGNAME:
+				if (substr_len > 31)
+					panic("value too long");
 				strncpy(tokens[nr_token].str, substr_start, substr_len);
+				tokens[nr_token].str[substr_len] = '\0';
 				tokens[nr_token].type = rules[i].token_type;
 				break;
+			case TK_NOTYPE:
+				continue;
 		  	case '-':
 				if (nr_token == 0 || check_negtive_prefixx(nr_token-1)){
 					tokens[nr_token].type = TK_NEGTIVE;
@@ -112,6 +135,15 @@ static bool make_token(char *e) {
 				#endif
 				}
 				break;
+			case '*':
+				if (nr_token == 0 || check_inner_prefixx(nr_token-1)){
+					tokens[nr_token].type = TK_INNER;
+					break;
+				}
+				else{
+					tokens[nr_token].type = rules[i].token_type;;
+					break;
+				}
           	default:
 				 tokens[nr_token].type = rules[i].token_type;
        }
@@ -145,16 +177,26 @@ bool check_parentheses(int p, int q){
 		return false;
 }
 
+bool check_inner_prefixx(int t){
+	int type = tokens[t].type;
+	if (type == '+' || type == '-' || type == '*' || type == TK_INNER || type == '/' || type == TK_NEGTIVE || type == TK_OPEN_PAREN || type == TK_COMMA || type == TK_EQ)
+		return true;
+	else
+		return false;
+}
+
 bool check_negtive_prefixx(int t){
-	if (tokens[t].type == '+' || tokens[t].type == '-' || tokens[t].type == '*' || tokens[t].type == '/' || tokens[t].type == TK_OPEN_PAREN || tokens[t].type == TK_COMMA || tokens[t].type == TK_NEGTIVE || tokens[t].type == TK_EQ)
+	int type = tokens[t].type;
+	if (type == '+' || type == '-' || type == '*' || type == TK_INNER || type == '/' || type == TK_NEGTIVE || type == TK_OPEN_PAREN || type == TK_COMMA || type == TK_EQ)
 		 return true;
 	else
 		return false;	
 }
 
-// check add, sub, multi, div, neg
-bool check_calcu_operate(int t){
-	if (tokens[t].type == '+' || tokens[t].type == '-' || tokens[t].type == '*' || tokens[t].type == '/' || tokens[t].type == TK_NEGTIVE)   
+// check possible domi
+bool check_domi_operate(int t){
+	int type = tokens[t].type;
+	if (type == '+' || type == '-' || type == '*' || type == TK_INNER || type == '/' || type == TK_NEGTIVE || type == TK_COMMA || type == TK_EQ || type == TK_NEQ || type == TK_LOGIC_AND || type == TK_LOGIC_OR || type == TK_LOGIC_NOT)
 		return true;
 	else
 		return false;
@@ -166,6 +208,7 @@ int get_dominant(int p, int q){
 	int level;
 	int cur;
 	for (cur = p; cur <= q; cur++){
+		// jump over bracks
 		if (tokens[cur].type == TK_OPEN_PAREN){
 			cur++;
 			while (tokens[cur].type != TK_CLOSE_PAREN)
@@ -175,20 +218,36 @@ int get_dominant(int p, int q){
 				break;
 		}
 
-		if (!check_calcu_operate(cur))
+		// jump non_diminant
+		if (!check_domi_operate(cur))
 			continue;
 
 		switch (tokens[cur].type){
 			case TK_NEGTIVE:
+			case TK_INNER:
+			case TK_LOGIC_NOT:
 				level = 9;
+				break;
+			case '*':
+			case '/':
+				level = 8;
 				break;
 			case '+':
 			case '-':
 				level = 7;
 				break;
-			case '*':
-			case '/':
-				level = 8;
+			case TK_EQ:
+			case TK_NEQ:
+				level = 6;
+				break;
+			case TK_LOGIC_AND:
+				level = 5;
+				break;
+			case TK_LOGIC_OR:
+				level = 4;
+				break;
+			case TK_COMMA:
+				level = 1;
 				break;
 			default:
 				assert(0);
@@ -215,8 +274,35 @@ uint32_t eval(int p, int q){
 		panic("Bad expression");
 	}
 	else if (p == q){
-		uint32_t n;
-		sscanf(tokens[p].str, "%d", &n);
+		uint32_t n = 0;
+		if (tokens[p].type == TK_DECIMAL)
+			sscanf(tokens[p].str, "%d", &n);
+		else if (tokens[p].type == TK_HEXADECIMAL)
+			sscanf(tokens[p].str + 2, "%x", &n);
+		else if (tokens[p].type == TK_REGNAME){
+			if (strcmp(tokens[p].str + 2, "ax") == 0)
+				return cpu.eax;
+			else if (strcmp(tokens[p].str + 2, "bx") == 0)
+				return cpu.ebx;
+			else if (strcmp(tokens[p].str + 2, "cx") == 0)
+				return cpu.ecx;
+			else if (strcmp(tokens[p].str + 2, "dx") == 0)
+				return cpu.edx;
+			else if (strcmp(tokens[p].str + 2, "sp") == 0)
+				return cpu.esp;
+			else if (strcmp(tokens[p].str + 2, "bp") == 0)
+				return cpu.ebp;
+			else if (strcmp(tokens[p].str + 2, "si") == 0)
+				return cpu.esi;
+			else if (strcmp(tokens[p].str + 2, "di") == 0)
+				return cpu.edi;
+			else if (strcmp(tokens[p].str + 2, "ip") == 0)
+				return cpu.eip;	
+			else
+				panic("no such register");	
+		}
+		else
+			assert(0);
 		return n;
 	}
 	else if (check_parentheses(p, q)){
@@ -226,6 +312,10 @@ uint32_t eval(int p, int q){
 		int domi = get_dominant(p, q);
 		if (tokens[domi].type == TK_NEGTIVE)
 			return -1 * eval(domi+1, q);
+		if (tokens[domi].type == TK_INNER)
+			return pmem[eval(domi+1, q)];
+		if (tokens[domi].type == TK_LOGIC_NOT)
+			return !(eval(domi+1, q));
 
 		int val1 = eval(p, domi-1);
 		int val2 = eval(domi+1, q);
@@ -238,6 +328,16 @@ uint32_t eval(int p, int q){
 				return val1 * val2;
 			case '/':
 				return val1 / val2;
+			case TK_EQ:
+				return val1 == val2;
+			case TK_NEQ:
+				return val1 != val2;
+			case TK_LOGIC_AND:
+				return val1 && val2;
+			case TK_LOGIC_OR:
+				return val1 || val2;
+			case TK_COMMA:
+				return val2;
 			default:
 				assert(0);
 		}
@@ -246,8 +346,17 @@ uint32_t eval(int p, int q){
 			
 
 uint32_t expr(char *e, bool *success) {
+  // test expr
+  if (strcmp(e, "test") == 0){
+	Log("/********** expr test **********/");
+  	expr_test();
+	*success = true;
+	return 0;
+  }
+
   if (!make_token(e)) {
     *success = false;
+	panic("make tokens failed");
 	return 0;
   }
 
@@ -256,4 +365,31 @@ uint32_t expr(char *e, bool *success) {
   *success = true;
 
   return res;
+}
+
+void expr_test(){
+	bool success = false;
+#define N 27
+	char es[][N] = 	{	"3+2", "3-2", "3*2", "3/2",			// base test 
+						"3==3", "3==2", "3!=3", "3!=2", 
+						"1&&0", "1&&1", "1||1", "1||0",
+						"!3", "!0", "32", "0", "0x00", "0xff",
+
+						"(3+2)", "(-2*3)", "-(3+4)-(-2*3)", "3+2, 3*4",
+					    "*(0x100000)", "$eip", "*$eip", "*($eip + 1)", "*($eip + 2)", 	
+					};
+	int res[N] 	= 	{	5, 1, 6, 1,
+		   				1, 0, 0, 1,
+						0, 1, 1, 1,
+						0, 1, 32, 0, 0, 255,
+
+						5, -6, -1, 12, 
+						184, 1048576, 184, 52, 18,   
+					};
+	int i;
+	for (i = 0; i < N; i++){
+		Log("test: %s = %d",es[i], res[i]);
+		int nres = expr(es[i], &success);
+		Assert(nres == res[i], "expr result: %d", nres);
+	}
 }

@@ -4,5 +4,6 @@
 #include "common.h"
 
 uint32_t expr(char *, bool *);
+void expr_test();
 
 #endif

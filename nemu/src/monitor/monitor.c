@@ -1,3 +1,4 @@
+#include "monitor/expr.h"
 #include "nemu.h"
 #include <unistd.h>
 
@@ -118,6 +119,7 @@ int init_monitor(int argc, char *argv[]) {
 
   /* Test the implementation of the `CPU_state' structure. */
   reg_test();
+  //expr_test();
 
 #ifdef DIFF_TEST
   /* Fork a child process to perform differential testing. */

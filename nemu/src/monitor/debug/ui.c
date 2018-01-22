@@ -78,7 +78,10 @@ static int cmd_info(char *args){
 	printf("%%edi: 0x%s\n", edi);	
   }
   else if (strcmp(args, "w") == 0){
-	/* TODO: print watch points */
+  	show_wp();
+  #ifdef MY_DEBUG
+	show_free();
+  #endif
   }
   else{
   	cmd_help("info");
@@ -124,10 +127,48 @@ static int cmd_x(char *args){
 static int cmd_p(char *args){
 	bool success = false;
 	int res = expr(args, &success);
+	char hes[10];
+	sprintf(hes, "0x%x", res);
 	if (success)
-		printf("result = %d\n", res);
+		printf("result = %d | %s\n", res, hes);
 	else
 		panic("cmd_p fail");
+
+	return res;
+}
+
+static int cmd_w(char *args){
+	if (args == NULL){
+		cmd_help("w");
+		return 0;
+	}
+
+	char *tok1 = strtok(args, "=");
+	char *tok2 = strtok(NULL, "=");
+
+	bool success;
+	int res;
+	if (tok2 == NULL)
+		res = expr(tok1, &success);
+	else{
+		res = expr(tok2, &success);
+		*(tok2-1) = '\0';
+	}
+	WP *w = new_wp(tok1, res);
+   	printf("[-] set wp [%d], %s: %d\n", w->NO, w->str, w->value);
+
+	return 0;
+}
+
+static int cmd_d(char *args){
+	if (args == NULL){
+		cmd_help("d");
+		return 0;
+	}
+
+	int id = 0;
+	sscanf(args, "%d", &id);
+	free_wp(id);
 
 	return 0;
 }
@@ -146,6 +187,8 @@ static struct {
   { "info", "info r|w, Print infos of register or watchpoint", cmd_info },
   { "x", "   x N EXPR, Print memory by N bytes", cmd_x },
   { "p", "   p EXPR, calcu expression", cmd_p },
+  { "w", "   w EXPR, set watch point", cmd_w },
+  { "d", "   d N, delete num N point", cmd_d}, 
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
