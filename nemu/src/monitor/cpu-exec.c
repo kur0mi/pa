@@ -37,7 +37,6 @@ void cpu_exec(uint64_t n) {
 		printf("[-] wp [%d]:(%s) has changed, its value is %d\n", t->NO, t->str, t->value);
 		t = check_wp(t);
 	}
-	break;
 #endif
 
 #ifdef HAS_IOE
