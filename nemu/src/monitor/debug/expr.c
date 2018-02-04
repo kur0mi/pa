@@ -263,14 +263,14 @@ int get_dominant(int p, int q){
 				assert(0);
 		}
 
-		if (level <= min_level){
+		if (level < min_level){
 			min_level = level;
 			domi = cur;
 		}
 	}
 
 #ifdef MY_DEBUG
-	Log("hit level %d, %d - %d", min_level, p, q);
+	// Log("hit level %d, %d - %d", min_level, p, q);
 #endif
 	Assert(domi != -1, "cannot hit dominant");
 	return domi;
