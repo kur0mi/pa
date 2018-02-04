@@ -165,13 +165,23 @@ static bool make_token(char *e) {
 // check open_paren & close_paren
 bool check_parentheses(int p, int q){
 	if (tokens[p].type == TK_OPEN_PAREN && tokens[q].type == TK_CLOSE_PAREN){
+		int nO = 0;
+		int nC = 0;
 		p++;
 		while (p < q){
-			if (tokens[p].type == TK_CLOSE_PAREN)
-				return false;
+			if (tokens[p].type == TK_OPEN_PAREN)
+				nO++;
+			else if (tokens[p].type == TK_CLOSE_PAREN){
+				nC++;
+				if (nC > nO)
+					return false;
+			}
 			p++;
 		}
-		return true;
+		if (nC == nO)
+			return true;
+		else
+			panic("wrong parentheses.\n");
 	}
 	else
 		return false;
