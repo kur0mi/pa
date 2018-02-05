@@ -38,7 +38,7 @@ $(OBJ_DIR)/%.o: src/%.c
 
 # Some convinient rules
 
-.PHONY: app run commit gdb clean
+.PHONY: app run commit push gdb clean
 app: $(BINARY)
 
 ARGS ?= -l $(BUILD_DIR)/nemu-log.txt
@@ -47,17 +47,26 @@ ARGS ?= -l $(BUILD_DIR)/nemu-log.txt
 NEMU_EXEC := $(BINARY) $(ARGS)
 
 $(BINARY): $(OBJS)
+	$(call git_commit, "compile")
 	@echo + LD $@
 	@$(LD) -O2 -o $@ $^ -lSDL2 -lreadline
 
 run: $(BINARY)
+	$(call git_commit, "run")
 	$(NEMU_EXEC)
 
+m ?= update
 commit: $(BINARY)
-	$(call git_commit, "$(message)")
+	git add .. -A
+	git commit -m "$(m)"
+
+push:
+	git push kur0mi master:master
 
 gdb: $(BINARY)
+	$(call git_commit, "gdb")
 	gdb -s $(BINARY) --args $(NEMU_EXEC)
 
 clean: 
+	$(call git_commit, "clean")
 	rm -rf $(BUILD_DIR)
