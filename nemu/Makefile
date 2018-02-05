@@ -13,6 +13,7 @@ CC = gcc
 LD = gcc
 INCLUDES  = $(addprefix -I, $(INC_DIR))
 ifeq ($(debug), y)
+$(call clean)
 CFLAGS   = -O2 -MMD -Wall -ggdb -D MY_DEBUG $(INCLUDES)
 else ifeq ($(debug), n)
 CFLAGS   = -O2 -MMD -Wall -Werror $(INCLUDES)
@@ -55,10 +56,10 @@ run: $(BINARY)
 	$(call git_commit, "run")
 	$(NEMU_EXEC)
 
-m ?= update
+message ?= update
 commit: $(BINARY)
 	git add .. -A
-	git commit -m "$(m)"
+	git commit -m "$(message)"
 
 push:
 	git push kur0mi master:master
