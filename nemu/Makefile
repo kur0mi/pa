@@ -12,8 +12,8 @@ include Makefile.git
 CC = gcc
 LD = gcc
 INCLUDES  = $(addprefix -I, $(INC_DIR))
+
 ifeq ($(debug), y)
-$(call clean)
 CFLAGS   = -O2 -MMD -Wall -ggdb -D MY_DEBUG $(INCLUDES)
 else ifeq ($(debug), n)
 CFLAGS   = -O2 -MMD -Wall -Werror $(INCLUDES)
