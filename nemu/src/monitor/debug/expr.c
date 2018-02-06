@@ -355,30 +355,26 @@ uint32_t eval(int p, int q){
 			
 void expr_test();
 
-uint32_t expr(char *e, bool *success) {
+uint32_t expr(char *e) {
   // test expr
   if (strcmp(e, "test") == 0){
 	Log("/********** expr test **********/");
   	expr_test();
-	*success = true;
 	return 0;
   }
 
   if (!make_token(e)) {
-    *success = false;
 	panic("make tokens failed");
 	return 0;
   }
 
   /* TODO: Insert codes to evaluate the expression. */
   int res = eval(0, nr_token-1);
-  *success = true;
 
   return res;
 }
 
 void expr_test(){
-	bool success = false;
 #define N 22
 	char es[][N] = 	{	"3+2", "3-2", "3*2", "3/2",			// base test 
 						"3==3", "3==2", "3!=3", "3!=2", 
@@ -397,7 +393,7 @@ void expr_test(){
 	int i;
 	for (i = 0; i < N; i++){
 		Log("test: %s = %d",es[i], res[i]);
-		int nres = expr(es[i], &success);
+		int nres = expr(es[i]);
 		Assert(nres == res[i], "expr result: %d", nres);
 	}
 }
