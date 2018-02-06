@@ -111,13 +111,13 @@ static int cmd_x(char *args){
 	int loop = len - i < 4 ? len - i : 4;
 	uint32_t data = vaddr_read(nAddr + i, loop);
 #ifdef MY_DEBUG
-	Log("read data: %08x\n", data);
+	Log("read %d bytes: 0x%08x", loop, data);
 #endif
 	printf("0x%08x: ", nAddr + i);
 	int j;
 	for (j = 0; j < loop; j++){
 		printf("0x%02x ", data & 0xff);
-		data >>= 2;
+		data >>= 2 << 3;
 	}
 	printf("\n");
 	/*
