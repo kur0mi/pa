@@ -102,8 +102,7 @@ static int cmd_x(char *args){
   
   // convert
   int len = atoi(sLen);
-  bool success;
-  vaddr_t nAddr = expr(sAddr, &success);
+  vaddr_t nAddr = expr(sAddr);
   
   // print
   int i;
@@ -126,14 +125,10 @@ static int cmd_x(char *args){
 }
 
 static int cmd_p(char *args){
-	bool success = false;
-	int res = expr(args, &success);
+	int res = expr(args);
 	char hes[11];
 	sprintf(hes, "0x%x", res);
-	if (success)
-		printf("result = %d | %s\n", res, hes);
-	else
-		panic("cmd_p fail");
+	printf("result = %d | %s\n", res, hes);
 
 	return 0;
 }
@@ -147,12 +142,11 @@ static int cmd_w(char *args){
 	char *tok1 = strtok(args, "=");
 	char *tok2 = strtok(NULL, "=");
 
-	bool success;
 	int res;
 	if (tok2 == NULL)
-		res = expr(tok1, &success);
+		res = expr(tok1);
 	else{
-		res = expr(tok2, &success);
+		res = expr(tok2);
 		*(tok2-1) = '\0';
 	}
 	WP *w = new_wp(tok1, res);

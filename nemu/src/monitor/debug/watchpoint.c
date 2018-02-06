@@ -102,8 +102,7 @@ WP * check_wp(WP *w){
 	}
 	
 	while (w != NULL){
-		bool success;
-		int res = expr(w->str, &success);
+		int res = expr(w->str);
 		if (res != w->value){
 			w->value = res;
 			return w;
