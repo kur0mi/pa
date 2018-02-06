@@ -357,11 +357,13 @@ void expr_test();
 
 uint32_t expr(char *e) {
   // test expr
+  /*
   if (strcmp(e, "test") == 0){
-	Log("/********** expr test **********/");
+	Log("********** expr test **********");
   	expr_test();
 	return 0;
   }
+*/
 
   if (!make_token(e)) {
 	panic("make tokens failed");
