@@ -110,12 +110,16 @@ static int cmd_x(char *args){
   for (i = 0; i < len; i+=4){
 	int loop = len - i < 4 ? len - i : 4;
 	uint32_t data = vaddr_read(nAddr + i, loop);
+#ifdef MY_DEBUG
+	Log("read data: %08x\n", data);
+#endif
 	printf("0x%08x: ", nAddr + i);
 	int j;
 	for (j = 0; j < loop; j++){
 		printf("0x%02x ", data & 0xff);
 		data >>= 2;
 	}
+	printf("\n");
 	/*
 	if (len - i < 4){
 		uint32_t data = vaddr_read(nAddr+i, len-i);
