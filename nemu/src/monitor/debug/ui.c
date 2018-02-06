@@ -104,21 +104,22 @@ static int cmd_x(char *args){
   int len = atoi(sLen);
   bool success;
   vaddr_t nAddr = expr(sAddr, &success);
-  //sscanf(sAddr + 2, "%x", &nAddr);
   
   // print
   int i;
   for (i = 0; i < len; i+=4){
 	if (len - i < 4){
-		printf("0x%07x: ", nAddr + i);
+		uint32_t data = vaddr_read(nAddr+i, len-i);
+		printf("0x%08x: ", nAddr + i);
 		int k;
 		for (k = 0; k < len - i; k++){
-			printf("0x%02x ", pmem[nAddr+i+k]);
+			printf("0x%02x ", data & 0xff << (k-1));
 		}
 		printf("\n");
 	}
 	else{
-		printf("0x%07x: 0x%02x 0x%02x 0x%02x 0x%02x\n", nAddr + i, pmem[nAddr+i], pmem[nAddr+i+1], pmem[nAddr+i+2], pmem[nAddr+i+3]);
+		uint32_t data = vaddr_read(nAddr+i, 4);
+		printf("0x%08x: 0x%02x 0x%02x 0x%02x 0x%02x\n", nAddr + i, data & 0xff, data & 0xff00, data & 0xff0000, data & 0xff000000);
 	}
   }
   
