@@ -13,7 +13,7 @@ static inline uint32_t instr_fetch(vaddr_t *eip, int len) {
 #ifdef MY_DEBUG
   printf("instr_fetch debug: \n");
   printf("    *eip: %08x, len: %d\n", *eip, len);
-  printf("    return: %d\n", instr);
+  printf("    return: 0x%x\n", instr);
 #endif
 #ifdef DEBUG
   uint8_t *p_instr = (void *)&instr;
