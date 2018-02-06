@@ -353,6 +353,7 @@ uint32_t eval(int p, int q){
 	}
 }
 			
+void expr_test();
 
 uint32_t expr(char *e, bool *success) {
   // test expr
