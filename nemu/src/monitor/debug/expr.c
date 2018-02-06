@@ -394,6 +394,8 @@ void expr_test(){
 	for (i = 0; i < N; i++){
 		// Log("test: %s = %d",es[i], res[i]);
 		int nres = expr(es[i]);
+		nres++;
+		res[i]++;
 		// Log("nres:   %d", nres);
 		// Log("res[i]: %d", res[i]);
 		// Assert(nres == res[i], "expr result: %d", nres);
