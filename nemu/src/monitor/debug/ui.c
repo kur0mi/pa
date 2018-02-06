@@ -180,16 +180,16 @@ static struct {
   int (*handler) (char *);
 } cmd_table [] = {
   { "help", "Display informations about all supported commands", cmd_help },
-  { "c", "   Continue the execution of the program", cmd_c },
-  { "q", "   Exit NEMU", cmd_q },
+  { "c", "   c,         // Continue the execution of the program", cmd_c },
+  { "q", "   q,         // Exit NEMU", cmd_q },
 
   /* TODO: Add more commands */ 
-  { "si", "  si [N], Exec next N instr, default to 1", cmd_si },
-  { "info", "info r|w, Print infos of register or watchpoint", cmd_info },
-  { "x", "   x N EXPR, Print memory by N bytes", cmd_x },
-  { "p", "   p EXPR, calcu expression", cmd_p },
-  { "w", "   w EXPR, set watch point", cmd_w },
-  { "d", "   d N, delete num N point", cmd_d}, 
+  { "si", "  si [N],    // Exec next N instr, default to 1", cmd_si },
+  { "info", "info r|w,  // Print infos of register or watchpoint", cmd_info },
+  { "x", "   x N EXPR,  // Print memory by N bytes", cmd_x },
+  { "p", "   p EXPR,    // Calcu expression", cmd_p },
+  { "w", "   w EXPR,    // Set watch point", cmd_w },
+  { "d", "   d N,       // Delete num N point", cmd_d}, 
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
