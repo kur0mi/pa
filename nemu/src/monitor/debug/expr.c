@@ -378,7 +378,7 @@ uint32_t expr(char *e) {
 
 void expr_test(){
 #define N 22
-	char es[][N] = 	{	"3+2", "3-2", "3*2", "3/2",	
+	/*char es[][N] = 	{	"3+2", "3-2", "3*2", "3/2",	
 						"3==3", "3==2", "3!=3", "3!=2", 
 						"1&&0", "1&&1", "1||1", "1||0", 
 						"!3", "!0", "32", "0", "0x00", "0xff", 
@@ -400,4 +400,5 @@ void expr_test(){
 		// Log("res[i]: %d", res[i]);
 		// Assert(nres == res[i], "expr result: %d", nres);
 	}
+	*/
 }
