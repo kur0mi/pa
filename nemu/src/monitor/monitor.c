@@ -107,6 +107,8 @@ static inline void parse_args(int argc, char *argv[]) {
   }
 }
 
+void expr_test();
+
 int init_monitor(int argc, char *argv[]) {
   /* Perform some global initialization. */
 
@@ -118,7 +120,7 @@ int init_monitor(int argc, char *argv[]) {
 
   /* Test the implementation of the `CPU_state' structure. */
   reg_test();
-  //expr_test();
+  expr_test();
 
 #ifdef DIFF_TEST
   /* Fork a child process to perform differential testing. */
