@@ -102,8 +102,9 @@ static int cmd_x(char *args){
   
   // convert
   int len = atoi(sLen);
-  vaddr_t nAddr;
-  sscanf(sAddr + 2, "%x", &nAddr);
+  bool success;
+  vaddr_t nAddr = expr(sAddr, &success);
+  //sscanf(sAddr + 2, "%x", &nAddr);
   
   // print
   int i;
