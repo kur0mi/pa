@@ -357,13 +357,11 @@ void expr_test();
 
 uint32_t expr(char *e) {
   // test expr
-  /*
   if (strcmp(e, "test") == 0){
 	Log("********** expr test **********");
   	expr_test();
 	return 0;
   }
-*/
 
   if (!make_token(e)) {
 	panic("make tokens failed");
@@ -378,26 +376,21 @@ uint32_t expr(char *e) {
 
 void expr_test(){
 #define N 22
-	char es[][N] = 	{	"3+2", "3-2", "3*2", "3/2",	};
-					/*	"3==3", "3==2", "3!=3", "3!=2", 
+	char es[][N] = 	{	"3+2", "3-2", "3*2", "3/2",	
+						"3==3", "3==2", "3!=3", "3!=2", 
 						"1&&0", "1&&1", "1||1", "1||0", 
 						"!3", "!0", "32", "0", "0x00", "0xff", 
 						"(3+2)", "(-2*3)", "-(3+4)-(-2*3)", "3+2, 3*4", 
-					};*/
-	int res[N] 	= 	{	5, 1, 6, 1, };
-		   			/*	1, 0, 0, 1, 
+					};
+	int res[N] 	= 	{	5, 1, 6, 1, 
+		   				1, 0, 0, 1, 
 						0, 1, 1, 1, 
 						0, 1, 32, 0, 0, 255, 
 						5, -6, -1, 12, 
-					};*/
+					};
 	int i;
 	for (i = 0; i < N; i++){
-		// Log("test: %s = %d",es[i], res[i]);
-		int nres = expr(es[i]);
-		nres++;
-		res[i]++;
-		// Log("nres:   %d", nres);
-		// Log("res[i]: %d", res[i]);
-		// Assert(nres == res[i], "expr result: %d", nres);
+		Log("test: %s = %d",es[i], res[i]);
+		Assert(res[i] == expr(es[i]), "expr_test fail.");
 	}
 }
