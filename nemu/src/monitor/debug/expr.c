@@ -323,7 +323,7 @@ uint32_t eval(int p, int q){
 		if (tokens[domi].type == TK_NEGTIVE)
 			return -1 * eval(domi+1, q);
 		if (tokens[domi].type == TK_INNER)
-			return pmem[eval(domi+1, q)];
+			return vaddr_read(eval(domi+1, q), 4);
 		if (tokens[domi].type == TK_LOGIC_NOT)
 			return !(eval(domi+1, q));
 
