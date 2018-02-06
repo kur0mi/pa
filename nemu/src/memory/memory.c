@@ -15,7 +15,7 @@ uint32_t paddr_read(paddr_t addr, int len) {
 #ifdef MY_DEBUG
 	printf("paddr_read debug:\n");
 	printf("    addr: %08x, len: %d\n", addr, len);
-	printf("    pmem_rw(addr, uint32_t): %d\n", pmem_rw(addr, uint32_t));
+	printf("    pmem_rw(addr, uint32_t): 0x%x\n", pmem_rw(addr, uint32_t));
 	printf("    & 0x%x\n", (~0u >> ((4 - len) << 3)));
 #endif
   return pmem_rw(addr, uint32_t) & (~0u >> ((4 - len) << 3));
