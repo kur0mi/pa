@@ -114,7 +114,7 @@ static int cmd_x(char *args){
 	int j;
 	for (j = 0; j < loop; j++){
 		printf("0x%02x ", data & 0xff);
-		data >> 2;
+		data >>= 2;
 	}
 	/*
 	if (len - i < 4){
