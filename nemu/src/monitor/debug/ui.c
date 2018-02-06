@@ -117,7 +117,7 @@ static int cmd_x(char *args){
 	int j;
 	for (j = 0; j < loop; j++){
 		printf("0x%02x ", data & 0xff);
-		data >>= 2 << 3;
+		data = data >> 3;
 	}
 	printf("\n");
 	/*
