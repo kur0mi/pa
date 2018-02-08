@@ -213,6 +213,10 @@ static make_EHelper(2byte_esc) {
 }
 
 make_EHelper(real) {
+#ifdef MY_DEBUG
+	printf("eip: 0x%08x\n", eip);
+	printf("*eip: 0x%08x\n", *eip);
+#endif
   uint32_t opcode = instr_fetch(eip, 1);
   decoding.opcode = opcode;
   set_width(opcode_table[opcode].width);
@@ -229,6 +233,10 @@ void exec_wrapper(bool print_flag) {
   decoding.p += sprintf(decoding.p, "%8x:   ", cpu.eip);
 #endif
 
+#ifdef MY_DEBUG
+  printf("[-debug] exec_wrapper(): \n");
+  printf("cpu.eip: 0x%08x\n", cpu.eip);
+#endif
   decoding.seq_eip = cpu.eip;
   exec_real(&decoding.seq_eip);
 
