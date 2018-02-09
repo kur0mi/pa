@@ -33,6 +33,7 @@ static inline void welcome() {
 
 static inline int load_default_img() {
   const uint8_t img []  = {
+	0xb0, 0x10, 
     0xb8, 0x34, 0x12, 0x00, 0x00,        // 100000:  movl  $0x1234,%eax
     0xb9, 0x27, 0x00, 0x10, 0x00,        // 100005:  movl  $0x100027,%ecx
     0x89, 0x01,                          // 10000a:  movl  %eax,(%ecx)
