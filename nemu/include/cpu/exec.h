@@ -3,11 +3,17 @@
 
 #include "nemu.h"
 
+/*
+    返回函数 exec_name(vaddr_t *eip)
+*/
 #define make_EHelper(name) void concat(exec_, name) (vaddr_t *eip)
 typedef void (*EHelper) (vaddr_t *);
 
 #include "cpu/decode.h"
 
+/*
+    返回 该地址处 长 len 个字节的值
+*/
 static inline uint32_t instr_fetch(vaddr_t *eip, int len) {
   uint32_t instr = vaddr_read(*eip, len);
 #ifdef EXT_DEBUG
