@@ -46,7 +46,7 @@ static inline int load_default_img() {
     
 	// 89 /r
     0x89, 0b00000001,                          // 10000a:  movl  %eax,(%ecx)
-	0x89, 0b00100011,	// movl  %eax, %ecx
+	0x89, 0b00000011,	// movl  %eax, (%edx)
     
 	// 66
     // c7
