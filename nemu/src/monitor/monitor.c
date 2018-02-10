@@ -33,15 +33,24 @@ static inline void welcome() {
 
 static inline int load_default_img() {
   const uint8_t img []  = {
+	// 88 /r
+	0x88, 0b11111010, 	// movb  %bh, %dl
+	//0x88, 0b00000001,	// movb  %al, (%cl) 
+	// 89 /r
+	0x89, 0b11000001,	// movl  %eax, %ecx
+    0x89, 0b00000001,                          // 10000a:  movl  %eax,(%ecx)
+	0x89, 0b00000010,	// movl  %eax, (%edx)
+    
+
+/*
 	// b0 + rb
     // b8 + rw/rd
-    0xb0, 0x10,
-	0xb3, 0x10,
-	0xb7, 0x10,
+   0xb0, 0x10,		// movb  $0x10, %al
+	0xb3, 0x10, 	// movb  $0x10, %dl
+	0xb7, 0x10, 	// movb  $0x10, %dh
     0xb8, 0x34, 0x12, 0x00, 0x00,        // 100000:  movl  $0x1234,%eax
     0xb9, 0x27, 0x01, 0x10, 0x00,        // 100005:  movl  $0x100127,%ecx
-    // 89 /r
-    0x89, 0x01,                          // 10000a:  movl  %eax,(%ecx)
+*/  
     // 66
     // c7
     0x66, 0xc7, 0x41, 0x04, 0x01, 0x00,  // 10000c:  movw  $0x1,0x4(%ecx)
@@ -50,7 +59,8 @@ static inline int load_default_img() {
     0x66, 0xc7, 0x84, 0x99, 0x00, 0xe0,  // 100017:  movw  $0x1,-0x2000(%ecx,%ebx,4)
     0xff, 0xff, 0x01, 0x00,
     0xb8, 0x00, 0x00, 0x00, 0x00,        // 100021:  movl  $0x0,%eax
-    // d6
+    
+	// d6
     0xd6,                                // 100026:  nemu_trap
   };
 
