@@ -19,6 +19,7 @@ enum { OP_TYPE_REG, OP_TYPE_MEM, OP_TYPE_IMM };
     val <- reg
 
     type = OP_TYPE_MEM
+    addr
 */
 typedef struct {
   uint32_t type;
@@ -50,7 +51,8 @@ typedef struct {
 
 /***************  ModR_M  ************
  *  value
- *  R_M  reg/opcode  mod
+ *  0b xx      xxx      xxx
+ *     mod  reg/opcode  R_M
  */
 typedef union {
   struct {
