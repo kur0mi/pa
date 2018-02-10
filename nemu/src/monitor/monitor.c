@@ -35,7 +35,7 @@ static inline int load_default_img() {
   const uint8_t img []  = {
 	// 88 /r
 	
-
+/*
 	// b0 + rb
     // b8 + rw/rd
     0xb0, 0x10,		// movb  $0x10, %al
@@ -43,8 +43,9 @@ static inline int load_default_img() {
 	0xb7, 0x10, 	// movb  $0x10, %dh
     0xb8, 0x34, 0x12, 0x00, 0x00,        // 100000:  movl  $0x1234,%eax
     0xb9, 0x27, 0x01, 0x10, 0x00,        // 100005:  movl  $0x100127,%ecx
-    
+*/  
 	// 89 /r
+	0x89, 0b11000001,	// movl  %eax, %ecx
     0x89, 0b00000001,                          // 10000a:  movl  %eax,(%ecx)
 	0x89, 0b00000010,	// movl  %eax, (%edx)
     
