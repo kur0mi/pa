@@ -66,6 +66,9 @@ static inline void rtl_lm(rtlreg_t *dest, const rtlreg_t* addr, int len) {
 }
 
 // src1 --> memory
+// *src1 = 0x34
+// *addr = 0x100fff
+// 在地址 0x100fff 处写入值 0x34
 static inline void rtl_sm(rtlreg_t* addr, int len, const rtlreg_t* src1) {
 #ifdef EXT_DEBUG	
 	printf("0x%08x, 0x%08x\n", *src1, *addr);
