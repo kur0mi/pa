@@ -67,7 +67,8 @@ static inline void rtl_lm(rtlreg_t *dest, const rtlreg_t* addr, int len) {
 
 // src1 --> memory
 static inline void rtl_sm(rtlreg_t* addr, int len, const rtlreg_t* src1) {
-  vaddr_write(*addr, len, *src1);
+	printf("0x%08x, 0x%08x\n", *src1, *addr);
+	vaddr_write(*addr, len, *src1);
 }
 
 static inline void rtl_lr_b(rtlreg_t* dest, int r) {
