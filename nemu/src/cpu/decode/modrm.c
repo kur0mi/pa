@@ -23,15 +23,23 @@ void load_addr(vaddr_t *eip, ModR_M *m, Operand *rm) {
   }
 
   if (m->mod == 0) {
-    if (base_reg == R_EBP) { base_reg = -1; }
-    else { disp_size = 0; }
+    if (base_reg == R_EBP) {
+		base_reg = -1; 
+	}
+    else { 
+		disp_size = 0; 
+	}
   }
-  else if (m->mod == 1) { disp_size = 1; }
+  else if (m->mod == 1) { 
+	disp_size = 1; 
+  }
 
   if (disp_size != 0) {
     /* has disp */
     disp = instr_fetch(eip, disp_size);
-    if (disp_size == 1) { disp = (int8_t)disp; }
+    if (disp_size == 1) { 
+		disp = (int8_t)disp; 
+	}
 
     rtl_addi(&rm->addr, &rm->addr, disp);
   }
