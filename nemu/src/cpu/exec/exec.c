@@ -2,8 +2,8 @@
 #include "all-instr.h"
 
 typedef struct {
-  DHelper decode;
-  EHelper execute;
+  DHelper decode;   // void decode(vaddr_t *);
+  EHelper execute;  // void execute(vaddr_t *);
   int width;
 } opcode_entry;
 

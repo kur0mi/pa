@@ -9,6 +9,17 @@ enum { OP_TYPE_REG, OP_TYPE_MEM, OP_TYPE_IMM };
 
 #define OP_STR_SIZE 40
 
+/*
+    type = OP_TYPE_IMM
+    imm
+    val <- imm
+
+    type = OP_TYPE_REG
+    reg
+    val <- reg
+
+    type = OP_TYPE_MEM
+*/
 typedef struct {
   uint32_t type;
   int width;
@@ -37,6 +48,10 @@ typedef struct {
 #endif
 } DecodeInfo;
 
+/***************  ModR_M  ************
+ *  value
+ *  R_M  reg/opcode  mod
+ */
 typedef union {
   struct {
     uint8_t R_M		:3;
@@ -71,7 +86,13 @@ extern DecodeInfo decoding;
 #define id_src2 (&decoding.src2)
 #define id_dest (&decoding.dest)
 
+/*
+    void decode_name(vaddr_t *eip)
+*/
 #define make_DHelper(name) void concat(decode_, name) (vaddr_t *eip)
+/*
+    DHelper 是一种函数类型， 返回值为 void， 参数为 vaddr_t *.
+*/
 typedef void (*DHelper) (vaddr_t *);
 
 make_DHelper(I2E);

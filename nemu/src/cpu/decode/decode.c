@@ -6,6 +6,9 @@ DecodeInfo decoding;
 rtlreg_t t0, t1, t2, t3;
 const rtlreg_t tzero = 0;
 
+/*
+    void decode_op_name(vaddr_t *eip, Operand *op, bool load_val)
+*/
 #define make_DopHelper(name) void concat(decode_op_, name) (vaddr_t *eip, Operand *op, bool load_val)
 
 /* Refer to Appendix A in i386 manual for the explanations of these abbreviations */
@@ -170,6 +173,7 @@ make_DHelper(I2r) {
 }
 
 make_DHelper(mov_I2r) {
+  // void decode_op_name(vaddr_t *eip, Operand *op, bool load_val)
   decode_op_r(eip, id_dest, false);
   decode_op_I(eip, id_src, true);
 }
