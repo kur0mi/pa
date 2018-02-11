@@ -29,8 +29,6 @@ void load_addr(vaddr_t *eip, ModR_M *m, Operand *rm) {
   else if (m->mod == 1) { 
 	disp_size = 1; 
   }
-  else
-	assert(0);
 
   if (disp_size != 0) {
     /* has disp */
