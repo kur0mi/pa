@@ -1,6 +1,9 @@
 #include "cpu/exec.h"
 
 make_EHelper(mov) {
+	printf("[exec_mov]: \n");
+	printf("    mov: 0x%08x \n", id_src->val);
+	printf("    to : 0x%08x \n", id_dest);
   operand_write(id_dest, &id_src->val);
   print_asm_template2(mov);
 }
