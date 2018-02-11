@@ -1,14 +1,16 @@
 #include "cpu/exec.h"
 
 make_EHelper(mov) {
+#ifdef EXT_DEBUG
 	printf("[exec_mov]: \n");
 	printf("    mov: 0x%08x \n", id_src->val);
 	if (id_dest->type == OP_TYPE_REG)
 		printf("    to reg: %d \n", id_dest->reg);
 	else if (id_dest->type == OP_TYPE_MEM)
-		printf("    to mem: 0x%08x \n", id_dest->addr);
+		printf("    to mem: 0x%08x \n\n", id_dest->addr);
 	else
-		panic("0");
+		panic("exec_mov error. ");
+#endif
   operand_write(id_dest, &id_src->val);
   print_asm_template2(mov);
 }

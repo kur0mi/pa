@@ -14,9 +14,9 @@ LD = gcc
 INCLUDES  = $(addprefix -I, $(INC_DIR))
 
 ifeq ($(debug), y)
-CFLAGS   = -g -O2 -MMD -Wall -ggdb -D MY_DEBUG $(INCLUDES)
+CFLAGS   = -g -MMD -Wall -DEXT_DEBUG $(INCLUDES)
 else ifeq ($(debug), n)
-CFLAGS   = -g -O2 -MMD -Wall -Werror $(INCLUDES)
+CFLAGS   = -g -MMD -Wall -Werror $(INCLUDES)
 else
 CFLAGS   = -O2 -MMD -Wall -Werror -ggdb $(INCLUDES)
 endif
