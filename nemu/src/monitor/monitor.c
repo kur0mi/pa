@@ -37,10 +37,10 @@ static inline int load_default_img() {
 	//0x88, 0b11111010, 	// movb  %bh, %dl
 	//0x88, 0b00000001,	// movb  %al, (%cl) 
 	// 89 /r
-	0x89, 0b11000001,	// movl  %eax, %ecx
-    0xb9, 0xff, 0x00, 0x00, 0x00,        // 100005:  movl  $0xff,%ecx
-    0x89, 0b00000001,                          // 10000a:  movl  %eax,(%ecx)
-	0x89, 0b00000010,	// movl  %eax, (%edx)
+	0x89, 0b11000001,						// movl  %eax, %ecx
+    0xb9, 0xff, 0x00, 0x00, 0x00,        	// movl  $0xff, %ecx
+    0x89, 0b00000001,                       // movl  %eax, (%ecx)
+	0x89, 0b01000001, 0x04, 				// movl  %eax, 0x4(%ecx)
     
 
 /*
