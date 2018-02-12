@@ -37,6 +37,7 @@ static inline void welcome()
 static inline int load_default_img()
 {
 	const uint8_t img[] = {
+<<<<<<< HEAD
 #ifdef EXT_DEBUG
 		// 88 /r
 		0x88, 0 b11000001,	// movb  %al, %cl
@@ -67,6 +68,8 @@ static inline int load_default_img()
 		0x66, 0xc7, 0 b10000100, 0 b10011001, 0x00, 0xe0,	// 100017:  movw  $0x1,-0x2000(%ecx,%ebx,4)
 		0xff, 0xff, 0x01, 0x00,
 #endif
+=======
+
 
 		// d6
 		0xd6,		// 100026:  nemu_trap

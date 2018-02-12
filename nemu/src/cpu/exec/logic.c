@@ -31,7 +31,10 @@ make_EHelper(or)
 make_EHelper(sar)
 {
 	TODO();
+<<<<<<< HEAD
 	// unnecessary to update CF and OF in NEMU
+=======
+>>>>>>> temp
 
 	print_asm_template2(sar);
 }
@@ -39,7 +42,11 @@ make_EHelper(sar)
 make_EHelper(shl)
 {
 	TODO();
+<<<<<<< HEAD
 	// unnecessary to update CF and OF in NEMU
+=======
+// unnecessary to update CF and OF in NEMU
+>>>>>>> temp
 
 	print_asm_template2(shl);
 }
@@ -47,7 +54,11 @@ make_EHelper(shl)
 make_EHelper(shr)
 {
 	TODO();
+<<<<<<< HEAD
 	// unnecessary to update CF and OF in NEMU
+=======
+// unnecessary to update CF and OF in NEMU
+>>>>>>> temp
 
 	print_asm_template2(shr);
 }

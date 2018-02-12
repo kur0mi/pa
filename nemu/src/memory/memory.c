@@ -13,7 +13,10 @@ uint8_t pmem[PMEM_SIZE];
 
 uint32_t paddr_read(paddr_t addr, int len)
 {
+<<<<<<< HEAD
 #ifdef MY_DEBUG
+=======
+>>>>>>> temp
 	printf("paddr_read debug:\n");
 	printf("    pmem: 0x%x\n", pmem);
 	printf("    addr: %08x, len: %d\n", addr, len);

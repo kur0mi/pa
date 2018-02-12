@@ -2,6 +2,7 @@
 
 make_EHelper(mov)
 {
+<<<<<<< HEAD
 #ifdef EXT_DEBUG
 	printf("[exec_mov]: \n");
 	printf("    mov: 0x%08x \n", id_src->val);
@@ -12,13 +13,18 @@ make_EHelper(mov)
 	else
 		panic("exec_mov error. ");
 #endif
+=======
+>>>>>>> temp
 	operand_write(id_dest, &id_src->val);
 	print_asm_template2(mov);
 }
 
 make_EHelper(push)
 {
+<<<<<<< HEAD
 	rtl_push(&id_src->addr);
+=======
+>>>>>>> temp
 	print_asm_template1(push);
 }
 

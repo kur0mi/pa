@@ -7,6 +7,9 @@
     返回函数 exec_name(vaddr_t *eip)
 */
 #define make_EHelper(name) void concat(exec_, name) (vaddr_t *eip)
+/*
+    DHelper 是一种函数类型， 返回值为 void， 参数为 vaddr_t *.
+*/
 typedef void (*EHelper) (vaddr_t *);
 
 #include "cpu/decode.h"
@@ -17,7 +20,10 @@ typedef void (*EHelper) (vaddr_t *);
 static inline uint32_t instr_fetch(vaddr_t * eip, int len)
 {
 	uint32_t instr = vaddr_read(*eip, len);
+<<<<<<< HEAD
 #ifdef MY_DEBUG
+=======
+>>>>>>> temp
 	printf("instr_fetch debug: \n");
 	printf("    *eip: %08x, len: %d\n", *eip, len);
 	printf("    return: 0x%x\n", instr);
