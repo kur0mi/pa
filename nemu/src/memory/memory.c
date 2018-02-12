@@ -13,21 +13,17 @@ uint8_t pmem[PMEM_SIZE];
 
 uint32_t paddr_read(paddr_t addr, int len)
 {
-<<<<<<< HEAD
-#ifdef MY_DEBUG
-=======
->>>>>>> temp
-	printf("paddr_read debug:\n");
-	printf("    pmem: 0x%x\n", pmem);
-	printf("    addr: %08x, len: %d\n", addr, len);
-	printf("    pmem_rw(addr, uint32_t): 0x%x\n", pmem_rw(addr, uint32_t));
-	printf("    & 0x%x\n", (~0u >> ((4 - len) << 3)));
-#endif
+/*	读内存
+ *	从 addr 处读取 len 个字节
+ */
 	return pmem_rw(addr, uint32_t) & (~0u >> ((4 - len) << 3));
 }
 
 void paddr_write(paddr_t addr, int len, uint32_t data)
 {
+/*	写内存
+ *	将数据 data 写入地址 addr
+ */
 	memcpy(guest_to_host(addr), &data, len);
 }
 

@@ -14,10 +14,7 @@ const rtlreg_t tzero = 0;
 /* Refer to Appendix A in i386 manual for the explanations of these abbreviations */
 
 /* Ib, Iv */
-<<<<<<< HEAD
 // 读取一个立即数
-=======
->>>>>>> temp
 static inline make_DopHelper(I)
 {
 	/* eip here is pointing to the immediate */
@@ -107,10 +104,7 @@ static inline void decode_op_rm(vaddr_t * eip, Operand * rm, bool load_rm_val, O
 }
 
 /* Ob, Ov */
-<<<<<<< HEAD
 // 读取一个 32 位地址
-=======
->>>>>>> temp
 static inline make_DopHelper(O)
 {
 	op->type = OP_TYPE_MEM;
@@ -126,10 +120,7 @@ static inline make_DopHelper(O)
 /* Eb <- Gb
  * Ev <- Gv
  */
-<<<<<<< HEAD
 /*********************    *****************************/
-=======
->>>>>>> temp
 make_DHelper(G2E)
 {
 	decode_op_rm(eip, id_dest, true, id_src, true);
@@ -143,10 +134,7 @@ make_DHelper(mov_G2E)
 /* Gb <- Eb
  * Gv <- Ev
  */
-<<<<<<< HEAD
 /*********************    *****************************/
-=======
->>>>>>> temp
 make_DHelper(E2G)
 {
 	decode_op_rm(eip, id_src, true, id_dest, true);
@@ -165,10 +153,7 @@ make_DHelper(lea_M2G)
 /* AL <- Ib
  * eAX <- Iv
  */
-<<<<<<< HEAD
 /*********************  读取 imme, 装载 R_EAX  ****************************/
-=======
->>>>>>> temp
 make_DHelper(I2a)
 {
 	decode_op_a(eip, id_dest, true);
@@ -187,10 +172,7 @@ make_DHelper(I_E2G)
 /* Eb <- Ib
  * Ev <- Iv
  */
-<<<<<<< HEAD
 /*********************  解析 rm, 读取 imme  *****************************/
-=======
->>>>>>> temp
 make_DHelper(I2E)
 {
 	decode_op_rm(eip, id_dest, true, NULL, false);
@@ -206,10 +188,7 @@ make_DHelper(mov_I2E)
 /* XX <- Ib
  * eXX <- Iv
  */
-<<<<<<< HEAD
 /*********************  解析 寄存器, 读取 立即数  *************************/
-=======
->>>>>>> temp
 make_DHelper(I2r)
 {
 	decode_op_r(eip, id_dest, true);
@@ -218,10 +197,7 @@ make_DHelper(I2r)
 
 make_DHelper(mov_I2r)
 {
-<<<<<<< HEAD
-=======
 	// void decode_op_name(vaddr_t *eip, Operand *op, bool load_val)
->>>>>>> temp
 	decode_op_r(eip, id_dest, false);
 	decode_op_I(eip, id_src, true);
 }
@@ -375,15 +351,12 @@ make_DHelper(out_a2dx)
 #endif
 }
 
-<<<<<<< HEAD
 /*************************** my function *****************/
 make_DHelper(push_o)
 {
 	//decode_op_o(eip, id_src, true);
 }
 
-=======
->>>>>>> temp
 void operand_write(Operand * op, rtlreg_t * src)
 {
 	if (op->type == OP_TYPE_REG) {

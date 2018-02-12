@@ -20,10 +20,7 @@ typedef void (*EHelper) (vaddr_t *);
 static inline uint32_t instr_fetch(vaddr_t * eip, int len)
 {
 	uint32_t instr = vaddr_read(*eip, len);
-<<<<<<< HEAD
 #ifdef MY_DEBUG
-=======
->>>>>>> temp
 	printf("instr_fetch debug: \n");
 	printf("    *eip: %08x, len: %d\n", *eip, len);
 	printf("    return: 0x%x\n", instr);
