@@ -5,7 +5,7 @@
 #include <assert.h>
 
 #ifdef DEBUG
-extern FILE* log_fp;
+extern FILE *log_fp;
 #	define Log_write(format, ...) \
   do { \
     if (log_fp != NULL) { \
