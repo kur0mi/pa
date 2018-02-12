@@ -16,8 +16,7 @@ make_EHelper(mov) {
 }
 
 make_EHelper(push) {
-  TODO();
-
+  rtl_push(id_src->addr);
   print_asm_template1(push);
 }
 
@@ -84,4 +83,4 @@ make_EHelper(lea) {
   rtl_li(&t2, id_src->addr);
   operand_write(id_dest, &t2);
   print_asm_template2(lea);
-}
+

@@ -14,6 +14,7 @@ const rtlreg_t tzero = 0;
 /* Refer to Appendix A in i386 manual for the explanations of these abbreviations */
 
 /* Ib, Iv */
+// 读取一个立即数
 static inline make_DopHelper(I) {
   /* eip here is pointing to the immediate */
   op->type = OP_TYPE_IMM;
@@ -53,6 +54,7 @@ static inline make_DopHelper(SI) {
 /* I386 manual does not contain this abbreviation.
  * It is convenient to merge them into a single helper function.
  */
+/*******************  读取 R_EAX 的值  ******************/
 /* AL/eAX */
 static inline make_DopHelper(a) {
   op->type = OP_TYPE_REG;
@@ -66,6 +68,7 @@ static inline make_DopHelper(a) {
 #endif
 }
 
+/****************  从 opcode 低三位 读取 寄存器 的值  *************/
 /* This helper function is use to decode register encoded in the opcode. */
 /* XX: AL, AH, BL, BH, CL, CH, DL, DH
  * eXX: eAX, eCX, eDX, eBX, eSP, eBP, eSI, eDI
@@ -84,6 +87,7 @@ static inline make_DopHelper(r) {
 
 /* I386 manual does not contain this abbreviation.
  * We decode everything of modR/M byte by one time.
+ **********************  解码 ModR_M 字节  ******************
  */
 /* Eb, Ew, Ev
  * Gb, Gv
@@ -97,6 +101,7 @@ static inline void decode_op_rm(vaddr_t *eip, Operand *rm, bool load_rm_val, Ope
 }
 
 /* Ob, Ov */
+// 读取一个 32 位地址
 static inline make_DopHelper(O) {
   op->type = OP_TYPE_MEM;
   op->addr = instr_fetch(eip, 4);
@@ -112,6 +117,7 @@ static inline make_DopHelper(O) {
 /* Eb <- Gb
  * Ev <- Gv
  */
+/*********************    *****************************/
 make_DHelper(G2E) {
   decode_op_rm(eip, id_dest, true, id_src, true);
 }
@@ -123,6 +129,7 @@ make_DHelper(mov_G2E) {
 /* Gb <- Eb
  * Gv <- Ev
  */
+/*********************    *****************************/
 make_DHelper(E2G) {
   decode_op_rm(eip, id_src, true, id_dest, true);
 }
@@ -138,6 +145,7 @@ make_DHelper(lea_M2G) {
 /* AL <- Ib
  * eAX <- Iv
  */
+/*********************  读取 imme, 装载 R_EAX  ****************************/
 make_DHelper(I2a) {
   decode_op_a(eip, id_dest, true);
   decode_op_I(eip, id_src, true);
@@ -154,6 +162,7 @@ make_DHelper(I_E2G) {
 /* Eb <- Ib
  * Ev <- Iv
  */
+/*********************  解析 rm, 读取 imme  *****************************/
 make_DHelper(I2E) {
   decode_op_rm(eip, id_dest, true, NULL, false);
   decode_op_I(eip, id_src, true);
@@ -167,13 +176,13 @@ make_DHelper(mov_I2E) {
 /* XX <- Ib
  * eXX <- Iv
  */
+/*********************  解析 寄存器, 读取 立即数  *************************/
 make_DHelper(I2r) {
   decode_op_r(eip, id_dest, true);
   decode_op_I(eip, id_src, true);
 }
 
 make_DHelper(mov_I2r) {
-  // void decode_op_name(vaddr_t *eip, Operand *op, bool load_val)
   decode_op_r(eip, id_dest, false);
   decode_op_I(eip, id_src, true);
 }
@@ -306,6 +315,11 @@ make_DHelper(out_a2dx) {
 #ifdef DEBUG
   sprintf(id_dest->str, "(%%dx)");
 #endif
+}
+
+/*************************** my function *****************/
+make_DHelper(push_o){
+	decode_op_o(eip, id_src, true);
 }
 
 void operand_write(Operand *op, rtlreg_t* src) {
