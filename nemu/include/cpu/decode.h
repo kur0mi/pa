@@ -9,10 +9,12 @@ enum { OP_TYPE_REG, OP_TYPE_MEM, OP_TYPE_IMM };
 
 #define OP_STR_SIZE 40
 
-/*
+/****************  操作数(Operand) 类型  ***************
+
     type = OP_TYPE_IMM
     imm
     val <- imm
+    val <- simm
 
     type = OP_TYPE_REG
     reg
@@ -34,6 +36,8 @@ typedef struct {
 	char str[OP_STR_SIZE];
 } Operand;
 
+/*****************  译码(DecodeInfo) 类型  ****************
+*/
 typedef struct {
 	uint32_t opcode;
 	vaddr_t seq_eip;	// sequential eip
@@ -49,11 +53,11 @@ typedef struct {
 #endif
 } DecodeInfo;
 
-/***************  ModR_M  ************
+/***************  ModR_M 字节  ************
  *  value
  *  0b xx      xxx      xxx
  *     mod  reg/opcode  R_M
- */
+*/
 typedef union {
 	struct {
 		uint8_t R_M:3;
@@ -67,6 +71,11 @@ typedef union {
 	uint8_t val;
 } ModR_M;
 
+/*******************  SIB 字节  *****************
+ *  value
+ *  0b xx xxx xxx
+ *     S   I   B
+*/
 typedef union {
 	struct {
 		uint8_t base:3;
@@ -88,12 +97,13 @@ extern DecodeInfo decoding;
 #define id_src2 (&decoding.src2)
 #define id_dest (&decoding.dest)
 
-/*
-    void decode_name(vaddr_t *eip)
+/****************************************
+ *  void decode_name(vaddr_t *eip)
 */
 #define make_DHelper(name) void concat(decode_, name) (vaddr_t *eip)
-/*
-    DHelper 是一种函数类型， 返回值为 void， 参数为 vaddr_t *.
+
+/*****************************************
+ *  DHelper 是一种函数类型， 返回值为 void， 参数为 vaddr_t *
 */
 typedef void (*DHelper) (vaddr_t *);
 
