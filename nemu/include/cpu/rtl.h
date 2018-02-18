@@ -183,10 +183,11 @@ static inline void rtl_sext(rtlreg_t * dest, const rtlreg_t * src1, int width)
 
 static inline void rtl_push(const rtlreg_t * src1, int width)
 {
+#ifdef EXT_DEBUG
     printf("[*src1]: 0x%08x\n", *src1);
     printf("[width]: %d\n", width);
     printf("[esp]: 0x%08x\n", cpu.esp);
-
+#endif
 
 
 	// esp <- esp - 4
