@@ -37,20 +37,21 @@ static inline void welcome()
 static inline int load_default_img()
 {
 	const uint8_t img[] = {
+		0xff, 0b00110101, 0xff, 0xff, 0xff, 0xff, 
 #ifdef EXT_DEBUG
 		// 88 /r
-		0x88, 0 b11000001,	// movb  %al, %cl
+		0x88, 0b11000001,	// movb  %al, %cl
 		0xb1, 0xff,	// movb  $0xff, %cl
 		0xb9, 0xff, 0x00, 0x00, 0x00,	// movl  $0xff, %ecx
-		0x88, 0 b00000001,	// movb  %al, (%cl)
+		0x88, 0b00000001,	// movb  %al, (%cl)
 		// 89 /r
-		0x89, 0 b11000001,	// movl  %eax, %ecx
+		0x89, 0b11000001,	// movl  %eax, %ecx
 		0xb9, 0xff, 0x00, 0x00, 0x00,	// movl  $0xff, %ecx
-		0x89, 0 b00000001,	// movl  %eax, (%ecx)
-		0x89, 0 b00000100, 0 b10001001,	// movl  %eax, (%ecx, %ecx, 4)
-		0x89, 0 b00000101, 0x01, 0x01, 0x01, 0x01,	// movl  %eax, 0x01010101
-		0x89, 0 b01000001, 0x04,	// movl  %eax, 0x4(%ecx)
-		0x89, 0 b01000100, 0 b10001001, 0x04,	// movl  %eax, 0x4(%ecx, %ecx, 4)
+		0x89, 0b00000001,	// movl  %eax, (%ecx)
+		0x89, 0b00000100, 0 b10001001,	// movl  %eax, (%ecx, %ecx, 4)
+		0x89, 0b00000101, 0x01, 0x01, 0x01, 0x01,	// movl  %eax, 0x01010101
+		0x89, 0b01000001, 0x04,	// movl  %eax, 0x4(%ecx)
+		0x89, 0b01000100, 0 b10001001, 0x04,	// movl  %eax, 0x4(%ecx, %ecx, 4)
 
 		// b0 + rb
 		// b8 + rw/rd
