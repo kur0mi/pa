@@ -33,7 +33,7 @@ void load_addr(vaddr_t * eip, ModR_M * m, Operand * rm)
 		base_reg = m->R_M;
 	}
 
-	
+
 	// mod == 0:
 	//    breg = EBP: 4 (-1, x, x)
 	//                0 ( x, x, x)

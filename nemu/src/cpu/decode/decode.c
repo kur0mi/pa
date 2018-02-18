@@ -375,10 +375,12 @@ make_DHelper(out_a2dx)
 }
 
 /*************************** my function *****************/
+/*
 make_DHelper(push_o)
 {
 	//decode_op_o(eip, id_src, true);
 }
+*/
 
 void operand_write(Operand * op, rtlreg_t * src)
 {

@@ -146,6 +146,6 @@ make_DHelper(out_a2I);
 make_DHelper(out_a2dx);
 
 /************************* my function **************/
-make_DHelper(push_o);
+//make_DHelper(push_o);
 
 #endif
