@@ -37,7 +37,7 @@ static inline void welcome()
 static inline int load_default_img()
 {
 	const uint8_t img[] = {
-		0xff, 0b00110101, 0xff, 0xff, 0xff, 0xff, 
+		0xff, 0b00110101, 0x00, 0x00, 0x10, 0x00, 
 #ifdef EXT_DEBUG
 		// 88 /r
 		0x88, 0b11000001,	// movb  %al, %cl
