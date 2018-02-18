@@ -181,22 +181,16 @@ static inline void rtl_sext(rtlreg_t * dest, const rtlreg_t * src1, int width)
 	TODO();
 }
 
-static inline void rtl_push(const rtlreg_t * src1)
+static inline void rtl_push(const rtlreg_t * src1, int width)
 {
     printf("[src1]: 0x%08x\n", src1);
     printf("[src1]: 0x%08x\n", *src1);
+
 	// esp <- esp - 4
 	// M[esp] <- src1
 	// TODO();
-/*
-	if (decoding.is_operand_size_16) {
-		cpu.esp -= 2;
-		rtl_sm(cpu.esp, 2, src1);
-	} else {
-		cpu.esp -= 4;
-		rtl_sm(&cpu.esp, 4, src1);
-	}
-*/
+	cpu.esp -= 2;
+	rtl_sm(&cpu.esp, width, src1);
 }
 
 static inline void rtl_pop(rtlreg_t * dest)

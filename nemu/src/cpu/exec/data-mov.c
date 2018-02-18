@@ -18,7 +18,7 @@ make_EHelper(mov)
 
 make_EHelper(push)
 {
-	rtl_push(&id_dest->addr);
+	rtl_push(&id_dest->addr, id_dest->width);
 	print_asm_template1(push);
 }
 
