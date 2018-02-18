@@ -16,7 +16,7 @@ INCLUDES  = $(addprefix -I, $(INC_DIR))
 ifeq ($(debug), y)
 CFLAGS   ?= -g -MMD -Wall -ggdb -D MY_DEBUG $(INCLUDES)
 else ifeq ($(debug), n)
-CFLAGS   ?= -g -O2 -MMD -Wall -Werror $(INCLUDES)
+CFLAGS   ?= -g -O2 -MMD -Wall $(INCLUDES)
 else
 CFLAGS   ?= -O2 -MMD -Wall -Werror -ggdb $(INCLUDES)
 endif
