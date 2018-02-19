@@ -33,7 +33,6 @@ void load_addr(vaddr_t * eip, ModR_M * m, Operand * rm)
 		base_reg = m->R_M;
 	}
 
-
 	// mod == 0:
 	//    breg = EBP: 4 (-1, x, x)
 	//                0 ( x, x, x)
@@ -116,7 +115,6 @@ void read_ModR_M(vaddr_t * eip, Operand * rm, bool load_rm_val, Operand * reg, b
 		snprintf(reg->str, OP_STR_SIZE, "%%%s", reg_name(reg->reg, reg->width));
 #endif
 	}
-
 	// 解析 mod & R_M
 	// register
 	if (m.mod == 3) {
@@ -128,7 +126,7 @@ void read_ModR_M(vaddr_t * eip, Operand * rm, bool load_rm_val, Operand * reg, b
 #ifdef DEBUG
 		sprintf(rm->str, "%%%s", reg_name(m.R_M, rm->width));
 #endif
-}
+	}
 	// memory
 	else {
 		load_addr(eip, &m, rm);
