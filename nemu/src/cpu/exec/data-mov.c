@@ -33,8 +33,6 @@ make_EHelper(push)
 	print_asm_template1(push);
 }
 
-//make_EHelper(pusha){}
-
 make_EHelper(pop)
 {
     uint32_t * addr;
@@ -43,11 +41,7 @@ make_EHelper(pop)
 		addr = id_dest->addr;
 	else
 		panic("unknown type");
-#ifdef EXT_DEBUG
-	printf("[addr]: 0x%08x\n", addr);
-	printf("[width]: %d\n", width);
-	printf("[esp]: 0x%08x\n", cpu.esp);
-#endif
+	
 	rtl_pop(addr, width);
 	print_asm_template1(pop);
 }
