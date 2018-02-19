@@ -18,7 +18,11 @@ make_EHelper(mov)
 
 make_EHelper(push)
 {
-	rtl_push(&id_dest->addr);
+	uint32_t data;
+	if (id_dest->type == OP_TYPE_MEM){
+		data = vaddr_read(id_dest->addr, id_dest->width);
+	}
+	rtl_push(id_dest);
 	print_asm_template1(push);
 }
 

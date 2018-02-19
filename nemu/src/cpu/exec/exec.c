@@ -60,10 +60,10 @@ make_group(gp1, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY)
     make_group(gp4, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY)
 
     /* 0xff */
-    make_group(gp5, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY)
+    make_group(gp5, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EX(push), EMPTY)
 
     /* 0x0f 0x01 */
-    make_group(gp7, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EXW(1), EX())
+    make_group(gp7, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY)
 
 /* TODO: Add more instructions!!! */
 opcode_entry opcode_table[512] = {
