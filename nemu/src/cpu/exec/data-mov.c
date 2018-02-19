@@ -45,6 +45,7 @@ make_EHelper(pop)
 		panic("unknown type");
 #ifdef EXT_DEBUG
 	printf("[addr]: 0x%08x\n", addr);
+	printf("[*addr]: 0x%08x\n", *addr);
 	printf("[width]: %d\n", width);
 	printf("[esp]: 0x%08x\n", cpu.esp);
 #endif
