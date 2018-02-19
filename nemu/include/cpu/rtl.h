@@ -2,10 +2,10 @@
 #define __RTL_H__
 
 #include "nemu.h"
-#include "decode.h"
 
 extern rtlreg_t t0, t1, t2, t3;
 extern const rtlreg_t tzero;
+struct Operand;
 
 /* RTL basic instructions */
 
