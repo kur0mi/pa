@@ -33,10 +33,22 @@ make_EHelper(push)
 	print_asm_template1(push);
 }
 
+//make_EHelper(pusha){}
+
 make_EHelper(pop)
 {
-	TODO();
-
+    uint32_t * addr;
+	int width = id_dest->width;
+	if (id_dest->type == OP_TYPE_MEM)// || OP_TYPE_REG || OP_TYPE_IMM)
+		addr = id_dest->addr;
+	else
+		panic("unknown type");
+#ifdef EXT_DEBUG
+	printf("[addr]: 0x%08x\n", addr);
+	printf("[width]: %d\n", width);
+	printf("[esp]: 0x%08x\n", cpu.esp);
+#endif
+	rtl_pop(addr, width);
 	print_asm_template1(pop);
 }
 

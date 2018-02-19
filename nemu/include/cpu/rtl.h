@@ -189,11 +189,12 @@ static inline void rtl_push(rtlreg_t data, int width)
 	rtl_sm(&cpu.esp, width, &data);
 }
 
-static inline void rtl_pop(rtlreg_t * dest)
+static inline void rtl_pop(rtlreg_t * dest, int width)
 {
 	// dest <- M[esp]
 	// esp <- esp + 4
-	TODO();
+    rtl_lm(dest, &cpu.esp, width);
+	cpu.esp += width;
 }
 
 static inline void rtl_eq0(rtlreg_t * dest, const rtlreg_t * src1)
