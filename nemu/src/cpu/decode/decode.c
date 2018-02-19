@@ -37,6 +37,7 @@ const rtlreg_t tzero = 0;
  * p    32-bit 或 48-bit 的指针
  * s    6 字节的伪描述符
  * a    两个字 或 两个双字(取决于 operand_size)
+******************/
 
 /* Ib, Iv */
 // 读取一个立即数（b, w, d）
