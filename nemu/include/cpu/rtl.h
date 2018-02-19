@@ -197,7 +197,7 @@ static inline void rtl_pop(rtlreg_t * dest, int width)
 #endif
 	// dest <- M[esp]
 	// esp <- esp + 4
-    rtl_lm(dest, &cpu.esp, width);
+    rtl_sm(dest, width, cpu.esp);
 	cpu.esp += width;
 }
 
