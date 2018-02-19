@@ -42,7 +42,7 @@ static inline int load_default_img()
 		//0x50,		// pushl  %eax
 		//0x53,		// pushl  %ebx
 
-		0x8f, 0b00100101, 0xff, 0xff, 0x00, 0x00, 	// popl  $0x00
+		0x8f, 0b00100101, 0xff, 0x00, 0x00, 0x00, 	// popl  $0x00
 #ifdef EXT_DEBUG
 		// 88 /r
 		0x88, 0b11000001,	// movb  %al, %cl
