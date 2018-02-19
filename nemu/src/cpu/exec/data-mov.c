@@ -18,7 +18,16 @@ make_EHelper(mov)
 
 make_EHelper(push)
 {
-	rtl_push(id_dest);
+	uint32_t data;
+	int width = id_dest->width;
+	if (id_dest->type == OP_TYPE_MEM)
+		data = vaddr_read(id_dest->addr, width);
+#ifdef EXT_DEBUG
+	printf("[data]: 0x%08x\n", data);
+	printf("[width]: %d\n", width);
+	printf("[esp]: 0x%08x\n", cpu.esp);
+#endif
+	rtl_push(data, width);
 	print_asm_template1(push);
 }
 
