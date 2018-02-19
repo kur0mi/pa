@@ -20,9 +20,7 @@ make_EHelper(push)
 {
 	uint32_t data;
 	int width = id_dest->width;
-	if (id_dest->type == OP_TYPE_MEM)
-		data = vaddr_read(id_dest->addr, width);
-	else if (id_dest->type == OP_TYPE_REG)
+	if (id_dest->type == OP_TYPE_MEM || OP_TYPE_REG || OP_TYPE_IMM)
 		data = id_dest->val;
 	else
 		panic("unknown type");
