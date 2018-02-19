@@ -22,6 +22,10 @@ make_EHelper(push)
 	int width = id_dest->width;
 	if (id_dest->type == OP_TYPE_MEM)
 		data = vaddr_read(id_dest->addr, width);
+	else if (id_dest->type == OP_TYPE_REG)
+		data = id_dest->val;
+	else
+		panic("unknown type");
 #ifdef EXT_DEBUG
 	printf("[data]: 0x%08x\n", data);
 	printf("[width]: %d\n", width);
