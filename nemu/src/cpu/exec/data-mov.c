@@ -1,4 +1,5 @@
 #include "cpu/exec.h"
+	printf("[addr]: 0x%08x\n", addr);
 
 make_EHelper(mov)
 {
@@ -37,7 +38,6 @@ make_EHelper(push)
 
 make_EHelper(pop)
 {
-	printf("[id_dest->addr]: 0x%08x\n", id_dest->addr);
     uint32_t * addr;
 	int width = id_dest->width;
 	if (id_dest->type == OP_TYPE_MEM)// || OP_TYPE_REG || OP_TYPE_IMM)
@@ -45,8 +45,7 @@ make_EHelper(pop)
 	else
 		panic("unknown type");
 #ifdef EXT_DEBUG
-	printf("[addr]: 0x%08x\n", addr);
-	printf("[*addr]: 0x%08x\n", *addr);
+	//printf("[addr]: 0x%08x\n", addr);
 	printf("[width]: %d\n", width);
 	printf("[esp]: 0x%08x\n", cpu.esp);
 #endif
