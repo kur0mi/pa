@@ -2,6 +2,7 @@
 #define __RTL_H__
 
 #include "nemu.h"
+#include "decode.h"
 
 extern rtlreg_t t0, t1, t2, t3;
 extern const rtlreg_t tzero;
@@ -181,19 +182,21 @@ static inline void rtl_sext(rtlreg_t * dest, const rtlreg_t * src1, int width)
 	TODO();
 }
 
-static inline void rtl_push(const rtlreg_t * src1, int width)
+static inline void rtl_push(Operand * op)
 {
-#ifdef EXT_DEBUG
-	printf("[*src1]: 0x%08x\n", *src1);
-	printf("[width]: %d\n", width);
-	printf("[esp]: 0x%08x\n", cpu.esp);
-#endif
-
 	// esp <- esp - 4
 	// M[esp] <- src1
-	// TODO();
-	cpu.esp -= 2;
-	rtl_sm(&cpu.esp, width, src1);
+    uint32_t data;
+    int len = op->width;
+    if (op->type == OP_TYPE_MEM)
+        data = vaddr_read(op->addr, len);
+	cpu.esp -= len;
+#ifdef EXT_DEBUG
+    printf("[data]: 0x%08x\n", data);
+    printf("[width]: %d\n", width);
+    printf("[esp]: 0x%08x\n", cpu.esp);
+#endif
+	rtl_sm(&cpu.esp, width, &data);
 }
 
 static inline void rtl_pop(rtlreg_t * dest)

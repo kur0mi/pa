@@ -49,10 +49,17 @@ static inline int load_default_img()
 		0x89, 0b11000001,	// movl  %eax, %ecx
 		0xb9, 0xff, 0x00, 0x00, 0x00,	// movl  $0xff, %ecx
 		0x89, 0b00000001,	// movl  %eax, (%ecx)
+<<<<<<< HEAD
 		0x89, 0b00000100, 0b10001001,	// movl  %eax, (%ecx, %ecx, 4)
 		0x89, 0b00000101, 0x01, 0x01, 0x01, 0x01,	// movl  %eax, 0x01010101
 		0x89, 0b01000001, 0x04,	// movl  %eax, 0x4(%ecx)
 		0x89, 0b01000100, 0b10001001, 0x04,	// movl  %eax, 0x4(%ecx, %ecx, 4)
+=======
+		0x89, 0b00000100, 0 b10001001,	// movl  %eax, (%ecx, %ecx, 4)
+		0x89, 0b00000101, 0x01, 0x01, 0x01, 0x01,	// movl  %eax, 0x01010101
+		0x89, 0b01000001, 0x04,	// movl  %eax, 0x4(%ecx)
+		0x89, 0b01000100, 0 b10001001, 0x04,	// movl  %eax, 0x4(%ecx, %ecx, 4)
+>>>>>>> kur0mi/master
 
 		// b0 + rb
 		// b8 + rw/rd
