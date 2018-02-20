@@ -190,6 +190,8 @@ static inline void rtl_push(rtlreg_t data, int width)
 	rtl_sm(&cpu.esp, width, &data);
 }
 
+void operand_write(Operand *, rtlreg_t *);
+
 static inline void rtl_pop(Operand * op)
 {
 #ifdef EXT_DEBUG
