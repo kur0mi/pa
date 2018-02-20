@@ -38,6 +38,7 @@ static inline int load_default_img()
 {
 	const uint8_t img[] = {
 		0xbc, 0xff, 0x00, 0x00, 0x00,	// movl  $0xff, %esp
+/*
 		0xff, 0b00110101, 0x00, 0x00, 0x10, 0x00,	// pushl  0x100000
 		0x50,		// pushl  %eax
 		0x53,		// pushl  %ebx
@@ -45,6 +46,9 @@ static inline int load_default_img()
 		0x5b, 		// popl  %ebx
 		0x58, 		// popl  %eax
 		0x8f, 0b00100101, 0x77, 0x00, 0x00, 0x00, 	// popl  $0x00
+*/
+		0x60, 		// pusha
+		0x61, 		// popa
 #ifdef EXT_DEBUG
 		// 88 /r
 		0x88, 0b11000001,	// movb  %al, %cl
