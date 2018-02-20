@@ -56,7 +56,14 @@ make_EHelper(pusha)
 
 make_EHelper(popa)
 {
-	TODO();
+	Operand temp;
+	temp.type = OP_TYPE_REG;
+	temp.width = id_dest->width;
+	int i;
+	for (i = 0; i < 8; i++){
+		temp.reg = i;
+		rtl_pop(&temp);
+	}
 
 	print_asm("popa");
 }
