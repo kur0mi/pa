@@ -200,6 +200,7 @@ static inline void rtl_pop(Operand * op)
 	if (op->type == OP_TYPE_REG)
 		printf("[reg]: %d\n", op->reg);
 	printf("[width]: %d\n", op->width);
+	printf("[to]: 0x%08x\n", cpu.esp);
 #endif
 	// dest <- M[esp]
 	// esp <- esp + 4
