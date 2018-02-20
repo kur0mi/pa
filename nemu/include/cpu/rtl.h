@@ -198,13 +198,18 @@ static inline void rtl_pop(Operand * op)
 #ifdef EXT_DEBUG
 	printf("[[pop]]\n");
 	if (op->type == OP_TYPE_REG)
-		printf("[reg]: %d\n", op->reg);
+		printf("[to reg]: %d\n", op->reg);
+	else if (op->type == OP_TYPE_MEM)
+		printf("[to mem]: 0x%08x", op->addr);
+	else
+		printf("[not define yet]");
 	printf("[width]: %d\n", op->width);
 	printf("[to]: 0x%08x\n", cpu.esp);
 #endif
 	// dest <- M[esp]
 	// esp <- esp + 4
-	operand_write(op, guest_to_host(cpu.esp));
+	if (!(op->type == OP_TYPE_REG && op->reg == 4))
+		operand_write(op, guest_to_host(cpu.esp));
 	cpu.esp += op->width;
 }
 
