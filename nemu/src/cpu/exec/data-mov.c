@@ -35,19 +35,8 @@ make_EHelper(push)
 
 make_EHelper(pop)
 {
-/*
-    uint32_t addr;
-	int width = id_dest->width;
-	if (id_dest->type == OP_TYPE_MEM) // OP_TYPE_REG || OP_TYPE_IMM)
-		addr = id_dest->addr;
-	else if (id_dest->type == OP_TYPE_REG)
-		addr = 
-	else
-		panic("unknown type");
-*/
-	operand_write(id_dest, guest_to_host(cpu.esp));	
-	cpu.esp += id_dest->width;
-	//rtl_pop(&addr, width);
+	rtl_pop(id_dest);
+
 	print_asm_template1(pop);
 }
 

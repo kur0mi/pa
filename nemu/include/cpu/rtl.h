@@ -190,18 +190,16 @@ static inline void rtl_push(rtlreg_t data, int width)
 	rtl_sm(&cpu.esp, width, &data);
 }
 
-//struct Operand;
-Operand * op;
-static inline void rtl_pop(rtlreg_t * dest, int width)
+static inline void rtl_pop(Operand * op)
 {
 #ifdef EXT_DEBUG
-	printf("[pop to]: 0x%08x\n", *dest);
+	printf("[[pop]]\n");
 	printf("[width]: %d\n", width);
 #endif
 	// dest <- M[esp]
 	// esp <- esp + 4
-    rtl_sm(dest, width, guest_to_host(cpu.esp));
-	cpu.esp += width;
+	operand_write(op, guest_to_host(cpu.esp));
+	cpu.esp += op->width;
 }
 
 static inline void rtl_eq0(rtlreg_t * dest, const rtlreg_t * src1)
