@@ -201,7 +201,7 @@ static inline void rtl_pop(Operand * op)
 #endif
 	// dest <- M[esp]
 	// esp <- esp + 4
-	operand_write(op, (rtlreg_t *)guest_to_host(cpu.esp));
+	operand_write(op, guest_to_host(cpu.esp));
 	cpu.esp += op->width;
 }
 
