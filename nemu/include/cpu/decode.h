@@ -3,7 +3,6 @@
 
 #include "common.h"
 
-
 enum { OP_TYPE_REG, OP_TYPE_MEM, OP_TYPE_IMM };
 
 #define OP_STR_SIZE 40
