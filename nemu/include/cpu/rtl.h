@@ -4,6 +4,8 @@
 #include "nemu.h"
 #include "cpu/decode.h"
 
+void operand_write(Operand *, rtlreg_t *);
+
 extern rtlreg_t t0, t1, t2, t3;
 extern const rtlreg_t tzero;
 
@@ -190,7 +192,6 @@ static inline void rtl_push(rtlreg_t data, int width)
 	rtl_sm(&cpu.esp, width, &data);
 }
 
-void operand_write(Operand *, rtlreg_t *);
 
 static inline void rtl_pop(Operand * op)
 {
