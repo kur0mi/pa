@@ -197,7 +197,9 @@ static inline void rtl_pop(Operand * op)
 {
 #ifdef EXT_DEBUG
 	printf("[[pop]]\n");
-	printf("[width]: %d\n", width);
+	if (op->type == OP_TYPE_REG)
+		printf("reg: %02d", op->reg);
+	printf("[width]: %d\n", op->width);
 #endif
 	// dest <- M[esp]
 	// esp <- esp + 4
