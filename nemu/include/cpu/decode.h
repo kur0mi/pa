@@ -3,7 +3,6 @@
 
 #include "common.h"
 
-#include "rtl.h"
 
 enum { OP_TYPE_REG, OP_TYPE_MEM, OP_TYPE_IMM };
 
@@ -84,6 +83,8 @@ typedef union {
 	};
 	uint8_t val;
 } SIB;
+
+#include "rtl.h"
 
 void load_addr(vaddr_t *, ModR_M *, Operand *);
 void read_ModR_M(vaddr_t *, Operand *, bool, Operand *, bool);

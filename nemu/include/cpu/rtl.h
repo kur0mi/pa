@@ -2,6 +2,7 @@
 #define __RTL_H__
 
 #include "nemu.h"
+#include "cpu/decode.h"
 
 extern rtlreg_t t0, t1, t2, t3;
 extern const rtlreg_t tzero;
@@ -189,6 +190,8 @@ static inline void rtl_push(rtlreg_t data, int width)
 	rtl_sm(&cpu.esp, width, &data);
 }
 
+//struct Operand;
+Operand * op;
 static inline void rtl_pop(rtlreg_t * dest, int width)
 {
 #ifdef EXT_DEBUG
