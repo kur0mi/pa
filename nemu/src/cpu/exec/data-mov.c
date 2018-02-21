@@ -54,7 +54,7 @@ make_EHelper(popa)
 	temp.width = id_dest->width;
 	int i;
 	for (i = 0; i < 8; i++){
-		temp.reg = i;
+		temp.reg = 7 - i;
 		rtl_pop(&temp);
 	}
 
