@@ -79,8 +79,11 @@ static inline void rtl_lm(rtlreg_t * dest, const rtlreg_t * addr, int len)
 // 在地址 0x100fff 处写入值 0x34
 static inline void rtl_sm(rtlreg_t * addr, int len, const rtlreg_t * src1)
 {
-#ifdef EXT_DEBUG
-	printf("0x%08x, 0x%08x\n", *src1, *addr);
+#ifdef FUNC_DEBUG
+	printf("******* [[ rtl_sm ]] *******\n");
+	printf("[write value]: 0x%08x\n", *src1);
+	printf("[to addr]: 0x%08x\n", *addr);
+	printf("\n");
 #endif
 	vaddr_write(*addr, len, *src1);
 }
@@ -203,13 +206,13 @@ static inline void rtl_pop(Operand * op)
 {
 #ifdef EXT_DEBUG
 	printf("******* [[ pop ]] *******\n");
+	printf("[from esp]: 0x%08x\n", cpu.esp);
 	if (op->type == OP_TYPE_REG)
 		printf("[to reg]: %d\n", op->reg);
 	else if (op->type == OP_TYPE_MEM)
 		printf("[to mem]: 0x%08x", op->addr);
 	else
 		printf("[not define yet]");
-	printf("[from esp]: 0x%08x\n", cpu.esp);
 	printf("\n");
 #endif
 	// dest <- M[esp]
