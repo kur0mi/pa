@@ -39,7 +39,7 @@ make_EHelper(pusha)
 	rtl_push(cpu.ecx, id_dest->width);
 	rtl_push(cpu.edx, id_dest->width);
 	rtl_push(cpu.ebx, id_dest->width);
-	rtl_push(cpu.esp, id_dest->width);
+	rtl_push(0, id_dest->width);
 	rtl_push(cpu.ebp, id_dest->width);
 	rtl_push(cpu.esi, id_dest->width);
 	rtl_push(cpu.edi, id_dest->width);
