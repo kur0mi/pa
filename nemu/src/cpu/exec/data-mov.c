@@ -18,17 +18,9 @@ make_EHelper(mov)
 
 make_EHelper(push)
 {
-	uint32_t data;
 	int width = id_dest->width;
-	if (id_dest->type == OP_TYPE_MEM || OP_TYPE_REG || OP_TYPE_IMM)
-		data = id_dest->val;
-	else
-		panic("unknown type");
-#ifdef EXT_DEBUG
-	printf("[data]: 0x%08x\n", data);
-	printf("[width]: %d\n", width);
-	printf("[esp]: 0x%08x\n", cpu.esp);
-#endif
+	rtlreg_t data = id_dest->val;
+	
 	rtl_push(data, width);
 	print_asm_template1(push);
 }

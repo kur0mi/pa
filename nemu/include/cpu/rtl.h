@@ -186,6 +186,12 @@ static inline void rtl_sext(rtlreg_t * dest, const rtlreg_t * src1, int width)
 
 static inline void rtl_push(rtlreg_t data, int width)
 {
+#ifdef EXT_DEBUG
+	printf("******* [[ push ]] *******\n");
+	printf("[push data]: 0x%08x\n", data);
+	printf("[to esp]: 0x%08x\n", cpu.esp);
+	printf("\n");
+#endif
 	// esp <- esp - 4
 	// M[esp] <- src1
 	cpu.esp -= width;
@@ -196,15 +202,15 @@ static inline void rtl_push(rtlreg_t data, int width)
 static inline void rtl_pop(Operand * op)
 {
 #ifdef EXT_DEBUG
-	printf("[[pop]]\n");
+	printf("******* [[ pop ]] *******\n");
 	if (op->type == OP_TYPE_REG)
 		printf("[to reg]: %d\n", op->reg);
 	else if (op->type == OP_TYPE_MEM)
 		printf("[to mem]: 0x%08x", op->addr);
 	else
 		printf("[not define yet]");
-	printf("[width]: %d\n", op->width);
-	printf("[to]: 0x%08x\n", cpu.esp);
+	printf("[from esp]: 0x%08x\n", cpu.esp);
+	printf("\n");
 #endif
 	// dest <- M[esp]
 	// esp <- esp + 4
