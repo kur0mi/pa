@@ -70,6 +70,13 @@ static inline void rtl_idiv(rtlreg_t * q, rtlreg_t * r, const rtlreg_t * src1_hi
 // memory --> dest
 static inline void rtl_lm(rtlreg_t * dest, const rtlreg_t * addr, int len)
 {
+#ifdef FUNC_DEBUG
+	printf("******* [[ rtl_lm ]] *******\n");
+	printf("[write from]: 0x%08x\n", *addr);
+	printf("[to]: 0x%08x\n", dest);
+	printf("\n");
+#endif
+
 	*dest = vaddr_read(*addr, len);
 }
 
