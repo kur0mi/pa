@@ -39,11 +39,11 @@ static inline void rtl_li(rtlreg_t * dest, uint32_t imm)
 #define c_sltu(a, b) ((a) < (b))	// 小于(无符号比较)
 
 /*****
-static inline void rtl_name (rtlreg_t* dest, const rtlreg_t* src1, const rtlreg_t* src2) {
-    *dest = c_name(*src1, *src2);
+static inline void rtl_add (rtlreg_t* dest, const rtlreg_t* src1, const rtlreg_t* src2) {
+    *dest = c_add(*src1, *src2);
 }
-static inline void rtl_name+i (rtlreg_t* dest, const rtlreg_t* src1, int imm) {
-    *dest = c_name(*src1, imm);
+static inline void rtl_addi (rtlreg_t* dest, const rtlreg_t* src1, int imm) {
+    *dest = c_add(*src1, imm);
 }
 */
 #define make_rtl_arith_logic(name) \
@@ -234,18 +234,18 @@ static inline void rtl_sext(rtlreg_t * dest, const rtlreg_t * src1, int width)
 	}
 }
 
-static inline void rtl_push(rtlreg_t data, int width)
+static inline void rtl_push(rtlreg_t * dest, int width)
 {
 #ifdef EXT_DEBUG
 	printf("******* [[ push ]] *******\n");
-	printf("[push data]: 0x%08x\n", data);
+	printf("[push data]: 0x%08x\n", *dest);
 	printf("[to esp]: 0x%08x\n", cpu.esp);
 	printf("\n");
 #endif
 	// esp <- esp - 4
 	// M[esp] <- src1
 	cpu.esp -= width;
-	rtl_sm(&cpu.esp, width, &data);
+	rtl_sm(&cpu.esp, width, dest);
 }
 
 
