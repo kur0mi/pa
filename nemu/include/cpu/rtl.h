@@ -28,6 +28,14 @@ static inline void rtl_li(rtlreg_t * dest, uint32_t imm)
 #define c_slt(a, b) ((int32_t)(a) < (int32_t)(b))
 #define c_sltu(a, b) ((a) < (b))
 
+/*****
+static inline void rtl_name (rtlreg_t* dest, const rtlreg_t* src1, const rtlreg_t* src2) {
+    *dest = c_name(*src1, *src2);
+}
+static inline void rtl_name+i (rtlreg_t* dest, const rtlreg_t* src1, int imm) {
+    *dest = c_name(*src1, imm);
+}
+*/
 #define make_rtl_arith_logic(name) \
   static inline void concat(rtl_, name) (rtlreg_t* dest, const rtlreg_t* src1, const rtlreg_t* src2) { \
     *dest = concat(c_, name) (*src1, *src2); \
@@ -37,15 +45,15 @@ static inline void rtl_li(rtlreg_t * dest, uint32_t imm)
   }
 
 make_rtl_arith_logic(add)
-    make_rtl_arith_logic(sub)
-    make_rtl_arith_logic(and)
-    make_rtl_arith_logic(or)
-    make_rtl_arith_logic(xor)
-    make_rtl_arith_logic(shl)
-    make_rtl_arith_logic(shr)
-    make_rtl_arith_logic(sar)
-    make_rtl_arith_logic(slt)
-    make_rtl_arith_logic(sltu)
+make_rtl_arith_logic(sub)
+make_rtl_arith_logic(and)
+make_rtl_arith_logic(or)
+make_rtl_arith_logic(xor)
+make_rtl_arith_logic(shl)
+make_rtl_arith_logic(shr)
+make_rtl_arith_logic(sar)
+make_rtl_arith_logic(slt)
+make_rtl_arith_logic(sltu)
 
 static inline void rtl_mul(rtlreg_t * dest_hi, rtlreg_t * dest_lo, const rtlreg_t * src1, const rtlreg_t * src2)
 {
@@ -163,6 +171,14 @@ static inline void rtl_sr(int r, int width, const rtlreg_t * src1)
 	}
 }
 
+/**************
+static inline void rtl_set_f(const rtlreg_t* src) { 
+    TODO();
+}
+static inline void rtl_get_f(rtlreg_t* dest) {
+    TODO();
+}
+*/
 #define make_rtl_setget_eflags(f) \
   static inline void concat(rtl_set_, f) (const rtlreg_t* src) { \
     TODO(); \
@@ -172,20 +188,20 @@ static inline void rtl_sr(int r, int width, const rtlreg_t * src1)
   }
 
 make_rtl_setget_eflags(CF)
-    make_rtl_setget_eflags(OF)
-    make_rtl_setget_eflags(ZF)
-    make_rtl_setget_eflags(SF)
+make_rtl_setget_eflags(OF)
+make_rtl_setget_eflags(ZF)
+make_rtl_setget_eflags(SF)
 
 static inline void rtl_mv(rtlreg_t * dest, const rtlreg_t * src1)
 {
 	// dest <- src1
-	TODO();
+	*dest = *src1;
 }
 
 static inline void rtl_not(rtlreg_t * dest)
 {
 	// dest <- ~dest
-	TODO();
+	*dest = ~(*dest); 
 }
 
 static inline void rtl_sext(rtlreg_t * dest, const rtlreg_t * src1, int width)
