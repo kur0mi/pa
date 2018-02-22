@@ -19,10 +19,8 @@ make_EHelper(mov)
 
 make_EHelper(push)
 {
-	int width = id_dest->width;
-	rtlreg_t data = id_dest->val;
+	rtl_push(&id_dest->val, id_dest->width);
 	
-	rtl_push(data, width);
 	print_asm_template1(push);
 }
 
@@ -35,14 +33,14 @@ make_EHelper(pop)
 
 make_EHelper(pusha)
 {
-	rtl_push(cpu.eax, id_dest->width);
-	rtl_push(cpu.ecx, id_dest->width);
-	rtl_push(cpu.edx, id_dest->width);
-	rtl_push(cpu.ebx, id_dest->width);
-	rtl_push(0, id_dest->width);
-	rtl_push(cpu.ebp, id_dest->width);
-	rtl_push(cpu.esi, id_dest->width);
-	rtl_push(cpu.edi, id_dest->width);
+	rtl_push(&cpu.eax, id_dest->width);
+	rtl_push(&cpu.ecx, id_dest->width);
+	rtl_push(&cpu.edx, id_dest->width);
+	rtl_push(&cpu.ebx, id_dest->width);
+	rtl_push(&tzero, id_dest->width);
+	rtl_push(&cpu.ebp, id_dest->width);
+	rtl_push(&cpu.esi, id_dest->width);
+	rtl_push(&cpu.edi, id_dest->width);
 
 	print_asm("pusha");
 }
