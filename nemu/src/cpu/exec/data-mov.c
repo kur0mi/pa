@@ -1,5 +1,8 @@
 #include "cpu/exec.h"
 
+/*	数据传送指令
+ */
+
 make_EHelper(mov)
 {
 #ifdef EXT_DEBUG
@@ -109,3 +112,4 @@ make_EHelper(lea)
 	operand_write(id_dest, &t2);
 	print_asm_template2(lea);
 }
+

@@ -58,7 +58,7 @@ static inline make_DopHelper(I)
  * function to decode it.
  */
 /* sign immediate */
-//
+/* Ib, Id */
 static inline make_DopHelper(SI)
 {
 	assert(op->width == 1 || op->width == 4);
@@ -376,12 +376,13 @@ make_DHelper(out_a2dx)
 }
 
 /*************************** my function *****************/
-/*
-make_DHelper(push_o)
+
+make_DHelper(call_I)
 {
-	//decode_op_o(eip, id_src, true);
+	decode_op_I(eip, id_src, true);
 }
-*/
+
+/******************************************/
 
 void operand_write(Operand * op, rtlreg_t * src)
 {

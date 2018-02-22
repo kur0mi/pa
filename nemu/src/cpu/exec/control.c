@@ -1,5 +1,8 @@
 #include "cpu/exec.h"
 
+/*	控制跳跃指令
+ */
+
 make_EHelper(jmp)
 {
 	// the target address is calculated at the decode stage
@@ -29,7 +32,9 @@ make_EHelper(jmp_rm)
 make_EHelper(call)
 {
 	// the target address is calculated at the decode stage
-	TODO();
+	rtl_push(&cpu.eip, id_src->width);	
+	decoding.jmp_eip = cpu.eip + id_src->val;
+	decoding.is_jmp = 1;
 
 	print_asm("call %x", decoding.jmp_eip);
 }
