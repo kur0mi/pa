@@ -12,8 +12,8 @@
 void operand_write(Operand *, rtlreg_t *);
 
 // extern 关键字 表明 该变量 在其他文件中声明
-extern rtlreg_t t0, t1, t2, t3;	// 变量
-extern const rtlreg_t tzero;	// 常变量 0
+extern rtlreg_t t0, t1, t2, t3;	// 临时寄存器
+extern const rtlreg_t tzero;	// 0 寄存器
 
 /* RTL basic instructions */
 
@@ -150,6 +150,10 @@ static inline void rtl_sr_l(int r, const rtlreg_t * src1)
 }
 
 /* RTL psuedo instructions */
+/*
+ * 	RTL 伪指令
+ *	进一步封装
+ */
 
 // register --> dest
 static inline void rtl_lr(rtlreg_t * dest, int r, int width)

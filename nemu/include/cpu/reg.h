@@ -29,6 +29,16 @@ typedef union {
 	struct {
 		rtlreg_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
 		vaddr_t eip;
+		struct {
+			uint8_t CF:1;		// CF: 0
+			uint8_t pass1:5;
+			uint8_t ZF:1;		// ZF: 6
+			uint8_t SF:1;		// SF: 7
+			uint8_t pass2:1;
+			uint8_t IF:1;		// IF: 9
+			uint8_t pass3:1;
+			uint8_t OF:1;		// OF: 11
+		} eflags;
 	};
 
 } CPU_state;
