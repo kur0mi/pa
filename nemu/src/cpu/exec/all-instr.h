@@ -5,6 +5,7 @@ make_EHelper(push);
 make_EHelper(pop);
 make_EHelper(pusha);
 make_EHelper(popa);
+make_EHelper(call);
 
 make_EHelper(operand_size);
 
