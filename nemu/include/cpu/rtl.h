@@ -1,32 +1,42 @@
 #ifndef __RTL_H__
 #define __RTL_H__
 
+/*	RTL (Register Transfer Language)
+ *
+ *	这里实现寄存器级别的封装
+ */
+
 #include "nemu.h"
 #include "cpu/decode.h"
 
 void operand_write(Operand *, rtlreg_t *);
 
-extern rtlreg_t t0, t1, t2, t3;
-extern const rtlreg_t tzero;
+// extern 关键字 表明 该变量 在其他文件中声明
+extern rtlreg_t t0, t1, t2, t3;	// 变量
+extern const rtlreg_t tzero;	// 常变量 0
 
 /* RTL basic instructions */
 
-// imm --> dest
+/*	imm --> dest
+ *
+ *	dest 写入的地址
+ *	imm  写入的值
+ */
 static inline void rtl_li(rtlreg_t * dest, uint32_t imm)
 {
 	*dest = imm;
 }
 
-#define c_add(a, b) ((a) + (b))
-#define c_sub(a, b) ((a) - (b))
-#define c_and(a, b) ((a) & (b))
-#define c_or(a, b)  ((a) | (b))
-#define c_xor(a, b) ((a) ^ (b))
-#define c_shl(a, b) ((a) << (b))
-#define c_shr(a, b) ((a) >> (b))
-#define c_sar(a, b) ((int32_t)(a) >> (b))
-#define c_slt(a, b) ((int32_t)(a) < (int32_t)(b))
-#define c_sltu(a, b) ((a) < (b))
+#define c_add(a, b) ((a) + (b))		// 加
+#define c_sub(a, b) ((a) - (b))		// 减
+#define c_and(a, b) ((a) & (b))		// 按位与
+#define c_or(a, b)  ((a) | (b))		// 按位或
+#define c_xor(a, b) ((a) ^ (b))		// 按位异或
+#define c_shl(a, b) ((a) << (b))	// 逻辑左移
+#define c_shr(a, b) ((a) >> (b))	// 逻辑右移
+#define c_sar(a, b) ((int32_t)(a) >> (b))			// 算术右移
+#define c_slt(a, b) ((int32_t)(a) < (int32_t)(b))	// 小于
+#define c_sltu(a, b) ((a) < (b))	// 小于(无符号比较)
 
 /*****
 static inline void rtl_name (rtlreg_t* dest, const rtlreg_t* src1, const rtlreg_t* src2) {
@@ -44,7 +54,8 @@ static inline void rtl_name+i (rtlreg_t* dest, const rtlreg_t* src1, int imm) {
     *dest = concat(c_, name) (*src1, imm); \
   }
 
-make_rtl_arith_logic(add)
+make_rtl_arith_logic(add)	// rtl_add(dest, src1, src2)
+							// rtl_addi(dest, src1, imm)
 make_rtl_arith_logic(sub)
 make_rtl_arith_logic(and)
 make_rtl_arith_logic(or)
@@ -55,6 +66,11 @@ make_rtl_arith_logic(sar)
 make_rtl_arith_logic(slt)
 make_rtl_arith_logic(sltu)
 
+/*	rtl_mul		无符号数乘法
+ *	rtl_imul	有符号数乘法
+ *	rtl_div		无符号数除法
+ *	rtl_idiv	有符号数除法
+ */
 static inline void rtl_mul(rtlreg_t * dest_hi, rtlreg_t * dest_lo, const rtlreg_t * src1, const rtlreg_t * src2)
 {
 	asm volatile ("mul %3":"=d" (*dest_hi), "=a"(*dest_lo):"a"(*src1), "r"(*src2));
@@ -75,7 +91,7 @@ static inline void rtl_idiv(rtlreg_t * q, rtlreg_t * r, const rtlreg_t * src1_hi
 	asm volatile ("idiv %4":"=a" (*q), "=d"(*r):"d"(*src1_hi), "a"(*src1_lo), "r"(*src2));
 }
 
-// memory --> dest
+// addr --> dest
 static inline void rtl_lm(rtlreg_t * dest, const rtlreg_t * addr, int len)
 {
 #ifdef FUNC_DEBUG
@@ -88,7 +104,7 @@ static inline void rtl_lm(rtlreg_t * dest, const rtlreg_t * addr, int len)
 	*dest = vaddr_read(*addr, len);
 }
 
-// src1 --> memory
+// src1 --> addr
 // *src1 = 0x34
 // *addr = 0x100fff
 // 在地址 0x100fff 处写入值 0x34
@@ -172,10 +188,10 @@ static inline void rtl_sr(int r, int width, const rtlreg_t * src1)
 }
 
 /**************
-static inline void rtl_set_f(const rtlreg_t* src) { 
+static inline void rtl_set_CF(const rtlreg_t* src) { 
     TODO();
 }
-static inline void rtl_get_f(rtlreg_t* dest) {
+static inline void rtl_get_CF(rtlreg_t* dest) {
     TODO();
 }
 */
@@ -207,7 +223,11 @@ static inline void rtl_not(rtlreg_t * dest)
 static inline void rtl_sext(rtlreg_t * dest, const rtlreg_t * src1, int width)
 {
 	// dest <- signext(src1[(width * 8 - 1) .. 0])
-	TODO();
+	int len = width * 8;
+	int i;
+	for (i = 0; i < len; i++){
+		((char *)dest)[i] = ((char *)src1)[len - 1 - i];
+	}
 }
 
 static inline void rtl_push(rtlreg_t data, int width)
@@ -245,42 +265,49 @@ static inline void rtl_pop(Operand * op)
 	cpu.esp += op->width;
 }
 
+// RTL 指令 - 等于 0
 static inline void rtl_eq0(rtlreg_t * dest, const rtlreg_t * src1)
 {
 	// dest <- (src1 == 0 ? 1 : 0)
-	TODO();
+	*dest = (*src1 == 0);
 }
 
+// RTL 指令 - 等于 imm
 static inline void rtl_eqi(rtlreg_t * dest, const rtlreg_t * src1, int imm)
 {
 	// dest <- (src1 == imm ? 1 : 0)
-	TODO();
+	*dest = (*src1 == imm);
 }
 
+// RTL 指令 - 不等于 0
 static inline void rtl_neq0(rtlreg_t * dest, const rtlreg_t * src1)
 {
 	// dest <- (src1 != 0 ? 1 : 0)
-	TODO();
+	*dest = (*src1 != 0);
 }
 
+// RTL 指令 - 最高有效位
 static inline void rtl_msb(rtlreg_t * dest, const rtlreg_t * src1, int width)
 {
 	// dest <- src1[width * 8 - 1]
-	TODO();
+	*dest = ((char *)src1)[width * 8 - 1];
 }
 
+// RTL 指令 - 更新 标志位 ZF
 static inline void rtl_update_ZF(const rtlreg_t * result, int width)
 {
 	// eflags.ZF <- is_zero(result[width * 8 - 1 .. 0])
-	TODO();
+	
 }
 
+// RTL 指令 - 更新 标志位 SF
 static inline void rtl_update_SF(const rtlreg_t * result, int width)
 {
 	// eflags.SF <- is_sign(result[width * 8 - 1 .. 0])
 	TODO();
 }
 
+// RTL 指令 - 更新标志位 ZF & SF
 static inline void rtl_update_ZFSF(const rtlreg_t * result, int width)
 {
 	rtl_update_ZF(result, width);
