@@ -9,6 +9,11 @@ make_EHelper(add)
 
 make_EHelper(sub)
 {
+#ifdef FUNC_DEBUG 
+	printf("[[ sub ]]\n");
+	printf("addr: 0x%08x\n", id_dest->addr);
+	pritnf("value: 0x%08x - 0x%08x\n", id_dest->val, id_src->val);
+#endif
 	rtl_sub(guest_to_host(id_dest->addr), &id_dest->val, &id_src->val);
 
 	print_asm_template2(sub);
