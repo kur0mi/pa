@@ -51,7 +51,8 @@ make_EHelper(pusha)
 */
 	int i;
 	for (i = 0; i < 8; i++){
-		rtl_push(reg_val(i, id_dest->width), id_dest->width, true);
+		if (i != 4)
+			rtl_push(reg_val(i, id_dest->width), id_dest->width, true);
 	}
 
 	print_asm("pusha");
@@ -66,7 +67,8 @@ make_EHelper(popa)
 	for (i = 7; i >= 0; i--){
 		//temp.reg = 7 - i;
 		//rtl_pop(&temp);
-		rtl_pop(reg_addr(i, id_dest->width), id_dest->width, true);
+		if (i != 4)
+			rtl_pop(reg_addr(i, id_dest->width), id_dest->width, true);
 	}
 
 	print_asm("popa");
