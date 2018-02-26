@@ -207,11 +207,13 @@ static inline void rtl_get_CF(rtlreg_t* dest) {
     *dest = cpu.eflags.f; \
   }
 
+// 设置标志位
 make_rtl_setget_eflags(CF)
 make_rtl_setget_eflags(OF)
 make_rtl_setget_eflags(ZF)
 make_rtl_setget_eflags(SF)
 
+// 数据传送
 static inline void rtl_mv(rtlreg_t * dest, const rtlreg_t * src1)
 {
 	// dest <- src1
@@ -231,39 +233,35 @@ static inline void rtl_sext(rtlreg_t * dest, const rtlreg_t * src1, int width)
 	*dest = c_sar(c_shl(*src1, 4 - width), 4 - width);
 }
 
-static inline void rtl_push(const rtlreg_t * dest, int width)
+static inline void rtl_push(const rtlreg_t * data, int width, bool is_change)
 {
 #ifdef EXT_DEBUG
 	printf("******* [[ push ]] *******\n");
-	printf("[push data]: 0x%08x\n", *dest);
+	printf("[push data]: 0x%08x\n", *data);
 	printf("[to esp]: 0x%08x\n", cpu.esp);
 	printf("\n");
 #endif
 	// esp <- esp - 4
 	// M[esp] <- src1
 	cpu.esp -= width;
-	rtl_sm(&cpu.esp, width, dest);
+	if (is_change)
+		rtl_sm(&cpu.esp, width, data);
 }
 
 
-static inline void rtl_pop(Operand * op)
+static inline void rtl_pop(rtlreg_t * addr, int width, bool is_change)
 {
 #ifdef EXT_DEBUG
 	printf("******* [[ pop ]] *******\n");
 	printf("[from esp]: 0x%08x\n", cpu.esp);
-	if (op->type == OP_TYPE_REG)
-		printf("[to reg]: %d\n", op->reg);
-	else if (op->type == OP_TYPE_MEM)
-		printf("[to mem]: 0x%08x", op->addr);
-	else
-		printf("[not define yet]");
+	printf("[to mem]: 0x%08x", *addr);
 	printf("\n");
 #endif
 	// dest <- M[esp]
 	// esp <- esp + 4
-	if (!(op->type == OP_TYPE_REG && op->reg == 4))
-		operand_write(op, guest_to_host(cpu.esp));
-	cpu.esp += op->width;
+	if (is_change)
+		rtl_sm(addr, width, guest_to_host(cpu.esp));
+	cpu.esp += width;
 }
 
 // RTL 指令 - 等于 0
