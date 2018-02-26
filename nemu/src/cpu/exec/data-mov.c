@@ -70,8 +70,10 @@ make_EHelper(popa)
 	for (i = 7; i >= 0; i--) {
 		//temp.reg = 7 - i;
 		//rtl_pop(&temp);
-		if (i != 4)
-			rtl_pop(reg_addr(i, id_dest->width), id_dest->width);
+		if (i != 4) {
+			rtlreg_t addr = reg_addr(i, id_dest->width);
+			rtl_pop(&addr, id_dest->width);
+		}
 		else {
 			rtlreg_t temp;
 			rtl_pop(&temp, id_dest->width);
