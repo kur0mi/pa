@@ -16,7 +16,20 @@ make_EHelper(and)
 
 make_EHelper(xor)
 {
-	TODO();
+#ifdef FUNC_DEBUG
+	printf("[[ xor ]]\n");
+	if (id_dest->type == OP_TYPE_MEM)
+		printf("mem: 0x%08x\n", id_dest->addr);
+	else if (id_dest->type == OP_TYPE_REG)
+		printf("reg: %%%s\n", reg_name(id_dest->reg, id_dest->width));
+	printf("\n");
+#endif
+	// 按位异或
+	if (id_dest->type == OP_TYPE_MEM)
+		rtl_xor(guest_to_host(id_dest->addr), &id_dest->val, &id_dest->val);
+	else if (id_dest->type == OP_TYPE_REG)
+		rtl_xor(reg_addr(id_dest->reg, id_dest->width), &id_dest->val, &id_dest->val);
+
 
 	print_asm_template2(xor);
 }
