@@ -31,8 +31,10 @@ make_EHelper(pop)
 {
 	if (id_dest->type == OP_TYPE_MEM)
 		rtl_pop(guest_to_host(id_dest->addr), id_dest->width);
-	else if (id_dest->type == OP_TYPE_REG)
-		rtl_pop(reg_addr(id_dest->reg, id_dest->width), id_dest->width);
+	else if (id_dest->type == OP_TYPE_REG) {
+		rtlreg_t addr = reg_addr(id_dest->reg, id_dest->width);
+		rtl_pop(&addr, id_dest->width);
+	}
 
 	print_asm_template1(pop);
 }
