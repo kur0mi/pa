@@ -233,7 +233,7 @@ static inline void rtl_sext(rtlreg_t * dest, const rtlreg_t * src1, int width)
 	*dest = c_sar(c_shl(*src1, 4 - width), 4 - width);
 }
 
-static inline void rtl_push(const rtlreg_t * data, int width, bool is_change)
+static inline void rtl_push(const rtlreg_t * data, int width)
 {
 #ifdef EXT_DEBUG
 	printf("******* [[ push ]] *******\n");
@@ -244,12 +244,11 @@ static inline void rtl_push(const rtlreg_t * data, int width, bool is_change)
 	// esp <- esp - 4
 	// M[esp] <- src1
 	cpu.esp -= width;
-	if (is_change)
-		rtl_sm(&cpu.esp, width, data);
+	rtl_sm(&cpu.esp, width, data);
 }
 
 
-static inline void rtl_pop(rtlreg_t * addr, int width, bool is_change)
+static inline void rtl_pop(rtlreg_t * addr, int width)
 {
 #ifdef EXT_DEBUG
 	printf("******* [[ pop ]] *******\n");
@@ -259,8 +258,7 @@ static inline void rtl_pop(rtlreg_t * addr, int width, bool is_change)
 #endif
 	// dest <- M[esp]
 	// esp <- esp + 4
-	if (is_change)
-		rtl_sm(addr, width, guest_to_host(cpu.esp));
+	rtl_sm(addr, width, guest_to_host(cpu.esp));
 	cpu.esp += width;
 }
 

@@ -22,7 +22,7 @@ make_EHelper(mov)
 
 make_EHelper(push)
 {
-	rtl_push(&id_dest->val, id_dest->width, true);
+	rtl_push(&id_dest->val, id_dest->width);
 	
 	print_asm_template1(push);
 }
@@ -30,9 +30,9 @@ make_EHelper(push)
 make_EHelper(pop)
 {
 	if (id_dest->type == OP_TYPE_MEM)
-		rtl_pop(guest_to_host(id_dest->addr), id_dest->width, true);
+		rtl_pop(guest_to_host(id_dest->addr), id_dest->width);
 	else if (id_dest->type == OP_TYPE_REG)
-		rtl_pop(reg_addr(id_dest->reg, id_dest->width), id_dest->width, true);
+		rtl_pop(reg_addr(id_dest->reg, id_dest->width), id_dest->width);
 
 	print_asm_template1(pop);
 }
@@ -50,11 +50,12 @@ make_EHelper(pusha)
 	rtl_push(&cpu.edi, id_dest->width);
 */
 	int i;
-	for (i = 0; i < 8; i++){
+	for (i = 0; i < 8; i++) {
 		if (i != 4)
-			rtl_push(reg_addr(i, id_dest->width), id_dest->width, true);
-		else
-			rtl_push(reg_addr(i, id_dest->width), id_dest->width, false);
+			rtl_push(reg_addr(i, id_dest->width), id_dest->width);
+		else {
+			rtl_push(&tzero, id_dest->width);
+		}
 	}
 
 	print_asm("pusha");
@@ -66,13 +67,15 @@ make_EHelper(popa)
 	//temp.type = OP_TYPE_REG;
 	//temp.width = id_dest->width;
 	int i;
-	for (i = 7; i >= 0; i--){
+	for (i = 7; i >= 0; i--) {
 		//temp.reg = 7 - i;
 		//rtl_pop(&temp);
 		if (i != 4)
-			rtl_pop(reg_addr(i, id_dest->width), id_dest->width, true);
-		else
-			rtl_pop(reg_addr(i, id_dest->width), id_dest->width, false);
+			rtl_pop(reg_addr(i, id_dest->width), id_dest->width);
+		else {
+			rtlreg_t temp;
+			rtl_pop(&temp, id_dest->width);
+		}
 	}
 
 	print_asm("popa");
