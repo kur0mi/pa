@@ -224,14 +224,11 @@ static inline void rtl_not(rtlreg_t * dest)
 	*dest = ~(*dest); 
 }
 
+// 符号拓展
 static inline void rtl_sext(rtlreg_t * dest, const rtlreg_t * src1, int width)
 {
 	// dest <- signext(src1[(width * 8 - 1) .. 0])
-	int len = width * 8;
-	int i;
-	for (i = 0; i < len; i++){
-		((char *)dest)[i] = ((char *)src1)[len - 1 - i];
-	}
+	*dest = c_sar(c_shl(*src1, 4 - width), 4 - width);
 }
 
 static inline void rtl_push(const rtlreg_t * dest, int width)
@@ -294,21 +291,23 @@ static inline void rtl_neq0(rtlreg_t * dest, const rtlreg_t * src1)
 static inline void rtl_msb(rtlreg_t * dest, const rtlreg_t * src1, int width)
 {
 	// dest <- src1[width * 8 - 1]
-	*dest = ((char *)src1)[width * 8 - 1];
+	*dest = (*src1) >> (width - 1);
 }
 
 // RTL 指令 - 更新 标志位 ZF
 static inline void rtl_update_ZF(const rtlreg_t * result, int width)
 {
 	// eflags.ZF <- is_zero(result[width * 8 - 1 .. 0])
-	
+	rtlreg_t temp = ((*result) == 0);
+	rtl_set_ZF(&temp);	
 }
 
 // RTL 指令 - 更新 标志位 SF
 static inline void rtl_update_SF(const rtlreg_t * result, int width)
 {
 	// eflags.SF <- is_sign(result[width * 8 - 1 .. 0])
-	TODO();
+	rtlreg_t temp = (*result) >> (width - 1);
+	rtl_set_SF(&temp);
 }
 
 // RTL 指令 - 更新标志位 ZF & SF
