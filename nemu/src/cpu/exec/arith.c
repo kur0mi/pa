@@ -21,7 +21,7 @@ make_EHelper(sub)
 	if (id_dest->type == OP_TYPE_MEM)
 		rtl_sub(guest_to_host(id_dest->addr), &id_dest->val, &id_src->val);
 	else if (id_dest->type == OP_TYPE_REG)
-		rtl_sub(guest_to_host(&reg_l(id_dest->reg)), &id_dest->val, &id_src->val);
+		rtl_sub(guest_to_host(&cpu.esp), &id_dest->val, &id_src->val);
 
 	print_asm_template2(sub);
 }
