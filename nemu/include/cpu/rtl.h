@@ -248,19 +248,22 @@ static inline void rtl_push(const rtlreg_t * data, int width)
 }
 
 
-static inline void rtl_pop(rtlreg_t * addr, int width)
+static inline void rtl_pop(bool is_reg, rtlreg_t * tt, int width)
 {
 #ifdef EXT_DEBUG
 	printf("******* [[ pop ]] *******\n");
 	printf("[from esp]: 0x%08x\n", cpu.esp);
-	printf("[to mem]: 0x%08x", *addr);
+	//printf("[to mem]: 0x%08x", addr);
 	printf("\n");
 #endif
 	// dest <- M[esp]
 	// esp <- esp + 4
-	rtl_sm(addr, width, guest_to_host(cpu.esp));
+	if (is_reg)
+		rtl_sr(*tt, width, guest_to_host(cpu.esp));
+	else
+		rtl_sm(tt, width, guest_to_host(cpu.esp));
 	cpu.esp += width;
-}
+
 
 // RTL 指令 - 等于 0
 static inline void rtl_eq0(rtlreg_t * dest, const rtlreg_t * src1)

@@ -30,11 +30,9 @@ make_EHelper(push)
 make_EHelper(pop)
 {
 	if (id_dest->type == OP_TYPE_MEM)
-		rtl_pop(guest_to_host(id_dest->addr), id_dest->width);
-	else if (id_dest->type == OP_TYPE_REG) {
-		rtlreg_t addr = reg_addr(id_dest->reg, id_dest->width);
-		rtl_pop(&addr, id_dest->width);
-	}
+		rtl_pop(false, guest_to_host(id_dest->addr), id_dest->width);
+	else if (id_dest->type == OP_TYPE_REG)
+		rtl_pop(true, &id_dest->reg, id_dest->width);
 
 	print_asm_template1(pop);
 }
@@ -72,10 +70,8 @@ make_EHelper(popa)
 	for (i = 7; i >= 0; i--) {
 		//temp.reg = 7 - i;
 		//rtl_pop(&temp);
-		if (i != 4) {
-			rtlreg_t addr = reg_addr(i, id_dest->width);
-			rtl_pop(&addr, id_dest->width);
-		}
+		if (i != 4)
+			rtl_pop(true, &i, id_dest->width);
 		else {
 			rtlreg_t temp;
 			rtl_pop(&temp, id_dest->width);
