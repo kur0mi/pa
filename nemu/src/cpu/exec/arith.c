@@ -11,10 +11,17 @@ make_EHelper(sub)
 {
 #ifdef FUNC_DEBUG 
 	printf("[[ sub ]]\n");
-	printf("addr: 0x%08x\n", id_dest->addr);
+	if (id_dest->type == OP_TYPE_MEM)
+		printf("addr: 0x%08x\n", id_dest->addr);
+	else if (id_dest->type == OP_TYPE_REG)
+		printf("reg: %d\n", id_dest->reg);
 	printf("value: 0x%08x - 0x%08x\n", id_dest->val, id_src->val);
+	printf("\n");
 #endif
-	rtl_sub(guest_to_host(id_dest->addr), &id_dest->val, &id_src->val);
+	if (id_dest->type == OP_TYPE_MEM)
+		rtl_sub(guest_to_host(id_dest->addr), &id_dest->val, &id_src->val);
+	else if (id_dest->type == OP_TYPE_REG)
+		rtl_sub(guest_to_host(reg_name(id_dest->reg, id_dest->width)), &id_dest->val, &id_src->val);
 
 	print_asm_template2(sub);
 }
