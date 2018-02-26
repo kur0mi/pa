@@ -59,6 +59,36 @@ extern const char *regsl[];
 extern const char *regsw[];
 extern const char *regsb[];
 
+static inline rtlreg_t reg_val(int index, int width)
+{
+	assert(index >= 0 && index < 8);
+	switch (width) {
+	case 4:
+		return reg_l(index);
+	case 1:
+		return reg_b(index);
+	case 2:
+		return reg_w(index);
+	default:
+		assert(0);
+	}
+}
+
+static inline void *reg_addr(int index, int width)
+{
+	assert(index >= 0 && index < 8);
+	switch (width) {
+	case 4:
+		return &reg_l(index);
+	case 1:
+		return &reg_b(index);
+	case 2:
+		return &reg_w(index);
+	default:
+		assert(0);
+	}
+}
+
 static inline const char *reg_name(int index, int width)
 {
 	assert(index >= 0 && index < 8);

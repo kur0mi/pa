@@ -18,10 +18,14 @@ make_EHelper(sub)
 	printf("value: 0x%08x - 0x%08x\n", id_dest->val, id_src->val);
 	printf("\n");
 #endif
+	// 符号位扩展
+	if (id_src->width == 1)
+		rtl_sext(&id_src->val, &id_src->val, id_src->width);
+
 	if (id_dest->type == OP_TYPE_MEM)
 		rtl_sub(guest_to_host(id_dest->addr), &id_dest->val, &id_src->val);
 	else if (id_dest->type == OP_TYPE_REG)
-		rtl_sub(&reg_l(id_dest->reg), &id_dest->val, &id_src->val);
+		rtl_sub(reg_addr(id_dest->reg, id_dest->width), &id_dest->val, &id_src->val);
 
 	print_asm_template2(sub);
 }
