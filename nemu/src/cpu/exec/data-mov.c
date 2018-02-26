@@ -52,7 +52,7 @@ make_EHelper(pusha)
 	int i;
 	for (i = 0; i < 8; i++){
 		if (i != 4)
-			rtl_push(&reg_val(i, id_dest->width), id_dest->width, true);
+			rtl_push(reg_val(i, id_dest->width), id_dest->width, true);
 	}
 
 	print_asm("pusha");
