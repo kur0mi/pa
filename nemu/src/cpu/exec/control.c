@@ -41,7 +41,8 @@ make_EHelper(call)
 
 make_EHelper(ret)
 {
-	rtl_pop(&cpu.eip, id_src->width);
+	rtlreg_t temp;
+	rtl_pop(false, &temp, id_src->width);
 
 	print_asm("ret");
 }
