@@ -44,6 +44,7 @@ make_EHelper(ret)
 	rtlreg_t temp = cpu.eax;
 	rtlreg_t id = 0;
 	rtl_pop(true, &id, id_src->width);
+	cpu.eip = cpu.eax;
 	cpu.eax = temp;
 
 	print_asm("ret");
