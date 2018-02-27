@@ -176,6 +176,13 @@ static inline void rtl_lr(rtlreg_t * dest, int r, int width)
 // src1 --> register
 static inline void rtl_sr(int r, int width, const rtlreg_t * src1)
 {
+#ifdef FUNC_DEBUG
+	printf("******* [[ rtl_sr ]] *******\n");
+	printf("[write reg]: %%%s\n", reg_name(r, width));
+	printf("[with value]: 0x%08x\n", *src1);
+	printf("\n");
+#endif
+
 	switch (width) {
 	case 4:
 		rtl_sr_l(r, src1);
