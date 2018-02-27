@@ -74,12 +74,9 @@ static inline rtlreg_t reg_val(int index, int width)
 	}
 }
 
-/*
 static inline rtlreg_t reg_addr(int index, int width)
 {
 	assert(index >= 0 && index < 8);
-	rtlreg_t temp = concat(&cpu., reg_name(index, 4));
-	return temp;
 	switch (width) {
 	case 4:
 		return &reg_l(index);
@@ -91,7 +88,6 @@ static inline rtlreg_t reg_addr(int index, int width)
 		assert(0);
 	}
 }
-*/
 
 static inline const char *reg_name(int index, int width)
 {
