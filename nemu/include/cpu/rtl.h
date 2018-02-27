@@ -223,7 +223,7 @@ static inline void rtl_mv(rtlreg_t * dest, const rtlreg_t * src1)
 static inline void rtl_not(rtlreg_t * dest)
 {
 	// dest <- ~dest
-	*dest = ~(*dest); 
+	*dest = ~(*dest);
 }
 
 // 符号位扩展
@@ -263,7 +263,7 @@ static inline void rtl_pop(bool is_reg, rtlreg_t * tt, int width)
 	else
 		rtl_sm(tt, width, guest_to_host(cpu.esp));
 	cpu.esp += width;
-
+}
 
 // RTL 指令 - 等于 0
 static inline void rtl_eq0(rtlreg_t * dest, const rtlreg_t * src1)

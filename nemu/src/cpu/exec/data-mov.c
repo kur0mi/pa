@@ -74,7 +74,7 @@ make_EHelper(popa)
 			rtl_pop(true, &i, id_dest->width);
 		else {
 			rtlreg_t temp;
-			rtl_pop(&temp, id_dest->width);
+			rtl_pop(false, &temp, id_dest->width);
 		}
 	}
 
