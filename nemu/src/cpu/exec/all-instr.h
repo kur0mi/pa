@@ -9,6 +9,7 @@ make_EHelper(popa);
 
 // control
 make_EHelper(call);
+make_EHelper(ret);
 
 // arith
 make_EHelper(add);
