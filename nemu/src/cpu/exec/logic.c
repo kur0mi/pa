@@ -27,9 +27,11 @@ make_EHelper(xor)
 	// 按位异或
 	if (id_dest->type == OP_TYPE_MEM)
 		rtl_xor(guest_to_host(id_dest->addr), &id_dest->val, &id_dest->val);
-	else if (id_dest->type == OP_TYPE_REG)
-		rtl_xor(reg_addr(id_dest->reg, id_dest->width), &id_dest->val, &id_dest->val);
-
+	else if (id_dest->type == OP_TYPE_REG) {
+		rtlreg_t temp;
+		rtl_xor(&temp, &id_dest->val, &id_dest->val);
+		rtl_sr(id_dest->reg, id_dest->width, &temp);
+	}
 
 	print_asm_template2(xor);
 }

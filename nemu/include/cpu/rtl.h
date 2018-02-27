@@ -96,8 +96,8 @@ static inline void rtl_lm(rtlreg_t * dest, const rtlreg_t * addr, int len)
 {
 #ifdef FUNC_DEBUG
 	printf("******* [[ rtl_lm ]] *******\n");
-	printf("[write from]: 0x%08x\n", *addr);
-	printf("[to]: 0x%p\n", dest);
+	printf("[read mem]: 0x%08x\n", *addr);
+	printf("[to addr]: 0x%08x\n", host_to_guest(dest));
 	printf("\n");
 #endif
 
@@ -112,8 +112,8 @@ static inline void rtl_sm(rtlreg_t * addr, int len, const rtlreg_t * src1)
 {
 #ifdef FUNC_DEBUG
 	printf("******* [[ rtl_sm ]] *******\n");
-	printf("[write value]: 0x%08x\n", *src1);
-	printf("[to addr]: 0x%08x\n", *addr);
+	printf("[write mem]: 0x%08x\n", *addr);
+	printf("[value]: 0x%08x\n", *src1);
 	printf("\n");
 #endif
 	vaddr_write(*addr, len, *src1);
@@ -158,6 +158,13 @@ static inline void rtl_sr_l(int r, const rtlreg_t * src1)
 // register --> dest
 static inline void rtl_lr(rtlreg_t * dest, int r, int width)
 {
+#ifdef FUNC_DEBUG
+	printf("******* [[ rtl_lr ]] *******\n");
+	printf("[read reg]: %%%s\n", reg_name(r, width));
+	printf("[to addr]: 0x%08x\n", *dest);
+	printf("\n");
+#endif
+
 	switch (width) {
 	case 4:
 		rtl_lr_l(dest, r);
@@ -179,7 +186,7 @@ static inline void rtl_sr(int r, int width, const rtlreg_t * src1)
 #ifdef FUNC_DEBUG
 	printf("******* [[ rtl_sr ]] *******\n");
 	printf("[write reg]: %%%s\n", reg_name(r, width));
-	printf("[with value]: 0x%08x\n", *src1);
+	printf("[value]: 0x%08x\n", *src1);
 	printf("\n");
 #endif
 

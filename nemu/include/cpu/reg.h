@@ -74,6 +74,7 @@ static inline rtlreg_t reg_val(int index, int width)
 	}
 }
 
+/*
 static inline rtlreg_t reg_addr(int index, int width)
 {
 	assert(index >= 0 && index < 8);
@@ -88,6 +89,7 @@ static inline rtlreg_t reg_addr(int index, int width)
 		assert(0);
 	}
 }
+*/
 
 static inline const char *reg_name(int index, int width)
 {

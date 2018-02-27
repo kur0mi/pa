@@ -39,7 +39,6 @@ make_EHelper(pop)
 
 make_EHelper(pusha)
 {
-/*
 	rtl_push(&cpu.eax, id_dest->width);
 	rtl_push(&cpu.ecx, id_dest->width);
 	rtl_push(&cpu.edx, id_dest->width);
@@ -48,33 +47,21 @@ make_EHelper(pusha)
 	rtl_push(&cpu.ebp, id_dest->width);
 	rtl_push(&cpu.esi, id_dest->width);
 	rtl_push(&cpu.edi, id_dest->width);
-*/
-	int i;
-	for (i = 0; i < 8; i++) {
-		if (i != 4)
-			rtl_push(reg_addr(i, id_dest->width), id_dest->width);
-		else {
-			rtl_push(&tzero, id_dest->width);
-		}
-	}
 
 	print_asm("pusha");
 }
 
 make_EHelper(popa)
 {
-	//Operand temp;
-	//temp.type = OP_TYPE_REG;
-	//temp.width = id_dest->width;
-	int i;
+	rtlreg_t i;
 	for (i = 7; i >= 0; i--) {
-		//temp.reg = 7 - i;
-		//rtl_pop(&temp);
 		if (i != 4)
 			rtl_pop(true, &i, id_dest->width);
 		else {
-			rtlreg_t temp;
-			rtl_pop(false, &temp, id_dest->width);
+			rtlreg_t temp = cpu.eax;
+			rtlreg_t id = 0;
+			rtl_pop(true, &id, id_dest->width);
+			cpu.eax = temp;
 		}
 	}
 

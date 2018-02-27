@@ -24,9 +24,11 @@ make_EHelper(sub)
 
 	if (id_dest->type == OP_TYPE_MEM)
 		rtl_sub(guest_to_host(id_dest->addr), &id_dest->val, &id_src->val);
-	else if (id_dest->type == OP_TYPE_REG)
-		rtl_sub(reg_addr(id_dest->reg, id_dest->width), &id_dest->val, &id_src->val);
-
+	else if (id_dest->type == OP_TYPE_REG) {
+		rtlreg_t temp;
+		rtl_sub(&temp, &id_dest->val, &id_src->val);
+		rtl_sr(id_dest->reg, id_dest->width, &temp);	
+	}
 	print_asm_template2(sub);
 }
 
