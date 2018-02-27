@@ -253,7 +253,10 @@ static inline void rtl_pop(bool is_reg, rtlreg_t * tt, int width)
 #ifdef EXT_DEBUG
 	printf("******* [[ pop ]] *******\n");
 	printf("[from esp]: 0x%08x\n", cpu.esp);
-	//printf("[to mem]: 0x%08x", addr);
+	if (is_reg)
+		pritnf("reg: %%%s\n", reg_name(*tt, width));
+	else
+		printf("mem: 0x%08x", *tt);
 	printf("\n");
 #endif
 	// dest <- M[esp]
