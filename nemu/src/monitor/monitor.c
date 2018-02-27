@@ -2,7 +2,7 @@
 #include <unistd.h>
  
 #define ENTRY_START 0x100000
-
+ 
 void init_difftest();
 void init_regex();
 void init_wp_pool();
