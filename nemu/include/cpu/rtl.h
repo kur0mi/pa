@@ -254,7 +254,7 @@ static inline void rtl_pop(bool is_reg, rtlreg_t * tt, int width)
 	printf("******* [[ pop ]] *******\n");
 	printf("[from esp]: 0x%08x\n", cpu.esp);
 	if (is_reg)
-		pritnf("reg: %%%s\n", reg_name(*tt, width));
+		printf("reg: %%%s\n", reg_name(*tt, width));
 	else
 		printf("mem: 0x%08x", *tt);
 	printf("\n");
