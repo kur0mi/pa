@@ -44,7 +44,7 @@ make_EHelper(ret)
 	rtlreg_t temp = cpu.eax;
 	rtlreg_t id = 0;
 	rtl_pop(true, &id, id_src->width);
-	decoding.jmp_eip = cpu.eip + 1 + cpu.eax;
+	decoding.jmp_eip = cpu.eax;
 	decoding.is_jmp = 1;
 	cpu.eax = temp;
 
