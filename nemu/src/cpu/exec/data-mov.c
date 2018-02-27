@@ -30,7 +30,7 @@ make_EHelper(push)
 make_EHelper(pop)
 {
 	if (id_dest->type == OP_TYPE_MEM)
-		rtl_pop(false, guest_to_host(id_dest->addr), id_dest->width);
+		rtl_pop(false, &id_dest->addr, id_dest->width);
 	else if (id_dest->type == OP_TYPE_REG)
 		rtl_pop(true, &id_dest->reg, id_dest->width);
 
