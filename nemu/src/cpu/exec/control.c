@@ -36,6 +36,12 @@ make_EHelper(call)
 	decoding.jmp_eip = decoding.seq_eip + id_src->val;
 	decoding.is_jmp = 1;
 
+#ifdef EXT_DEBUG
+	printf("[[ call ]]\n");
+	printf("jmp to: 0x%08x\n", decoding.jmp_eip);
+	printf("\n");
+#endif
+	
 	print_asm("call %x", decoding.jmp_eip);
 }
 
@@ -48,6 +54,13 @@ make_EHelper(ret)
 	decoding.is_jmp = 1;
 	cpu.eax = temp;
 
+#ifdef EXT_DEBUG
+	printf("[[ ret ]]\n");
+	printf("pop %%esp\n");
+	printf("jmp to: 0x%08x\n", decoding.jmp_eip);
+	printf("\n");
+#endif
+	
 	print_asm("ret");
 }
 
