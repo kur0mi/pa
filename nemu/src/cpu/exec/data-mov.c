@@ -78,7 +78,7 @@ make_EHelper(pusha)
 make_EHelper(popa)
 {
 	rtlreg_t i;
-	for (i = 7; i >= 0; i--) {
+	for (i = 7; (int32_t)i >= 0; i--) {
 		if (i != 4)
 			rtl_pop(true, &i, id_dest->width);
 		else {
