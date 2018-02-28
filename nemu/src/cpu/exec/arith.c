@@ -23,8 +23,8 @@ make_EHelper(sub)
 	printf("value: 0x%08x - 0x%08x\n", id_dest->val, id_src->val);
 	printf("\n");
 #endif
-	// 符号位扩展
-	if (id_src->width == 1)
+
+	if (id_src->width == 1 && id_dest->width != 1)
 		rtl_sext(&id_src->val, &id_src->val, id_src->width);
 
 	if (id_dest->type == OP_TYPE_MEM)
@@ -39,7 +39,15 @@ make_EHelper(sub)
 
 make_EHelper(cmp)
 {
-	TODO();
+	if (id_src->width == 1 && id_dest->width != 1)
+		rtl_sext(&id_src->val, &id_src->val, id_src->width);
+
+	if (id_dest->type == OP_TYPE_MEM)
+		rtl_sub(&t3, &id_dest->val, &id_src->val);
+	else if (id_dest->type == OP_TYPE_REG) {
+		rtl_sub(&t0, &id_dest->val, &id_src->val);
+		rtl_sm(&t3, id_dest->width, &t0);	
+	}
 
 	print_asm_template2(cmp);
 }

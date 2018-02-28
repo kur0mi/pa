@@ -48,7 +48,7 @@ static make_EHelper(name) { \
     }
 */
 /* 0x80, 0x81, 0x83 */
-make_group(gp1, EX(add), EMPTY, EMPTY, EMPTY, EX(and), EX(sub), EMPTY, EMPTY)
+make_group(gp1, EX(add), EX(or), EX(adc), EX(sbb), EX(and), EX(sub), EX(xor), EX(cmp))
 
     /* 0xc0, 0xc1, 0xd0, 0xd1, 0xd2, 0xd3 */
     make_group(gp2, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY)
@@ -69,20 +69,20 @@ make_group(gp1, EX(add), EMPTY, EMPTY, EMPTY, EX(and), EX(sub), EMPTY, EMPTY)
 opcode_entry opcode_table[512] = {
 	/* 0x00 */ IDEXW(G2E, add, 1), IDEX(G2E, add), IDEXW(E2G, add, 1), IDEX(E2G, add),
 	/* 0x04 */ IDEXW(I2a, add, 1), IDEX(I2a, add), EMPTY, EMPTY,
-	/* 0x08 */ EMPTY, EMPTY, EMPTY, EMPTY,
-	/* 0x0c */ EMPTY, EMPTY, EMPTY, EX(2byte_esc),
-	/* 0x10 */ EMPTY, EMPTY, EMPTY, EMPTY,
-	/* 0x14 */ EMPTY, EMPTY, EMPTY, EMPTY,
-	/* 0x18 */ EMPTY, EMPTY, EMPTY, EMPTY,
-	/* 0x1c */ EMPTY, EMPTY, EMPTY, EMPTY,
-	/* 0x20 */ EMPTY, EMPTY, EMPTY, EMPTY,
-	/* 0x24 */ EMPTY, EMPTY, EMPTY, EMPTY,
+	/* 0x08 */ IDEXW(G2E, or, 1), IDEX(G2E, or), IDEXW(E2G, or, 1), IDEX(E2G, or),
+	/* 0x0c */ IDEXW(I2a, or, 1), IDEX(I2a, or), EMPTY, EMPTY,
+	/* 0x10 */ IDEXW(G2E, adc, 1), IDEX(G2E, adc), IDEXW(E2G, adc, 1), IDEX(E2G, adc),
+	/* 0x14 */ IDEXW(I2a, adc, 1), IDEX(I2a, adc), EMPTY, EMPTY,
+	/* 0x18 */ IDEXW(G2E, sbb, 1), IDEX(G2E, sbb), IDEXW(E2G, sbb, 1), IDEX(E2G, sbb),
+	/* 0x1c */ IDEXW(I2a, sbb, 1), IDEX(I2a, sbb), EMPTY, EMPTY,
+	/* 0x20 */ IDEXW(G2E, and, 1), IDEX(G2E, and), IDEXW(E2G, and, 1), IDEX(E2G, and),
+	/* 0x24 */ IDEXW(I2a, and, 1), IDEX(I2a, and), EMPTY, EMPTY,
 	/* 0x28 */ IDEXW(G2E, sub, 1), IDEX(G2E, sub), IDEXW(E2G, sub, 1), IDEX(E2G, sub),
 	/* 0x2c */ IDEXW(I2a, sub, 1), IDEX(I2a, sub), EMPTY, EMPTY,
-	/* 0x30 */ IDEXW(G2E, xor, 1), IDEX(G2E, xor), EMPTY, EMPTY,
-	/* 0x34 */ EMPTY, EMPTY, EMPTY, EMPTY,
-	/* 0x38 */ EMPTY, EMPTY, EMPTY, EMPTY,
-	/* 0x3c */ EMPTY, EMPTY, EMPTY, EMPTY,
+	/* 0x30 */ IDEXW(G2E, xor, 1), IDEX(G2E, xor), IDEXW(E2G, xor, 1), IDEX(E2G, xor),
+	/* 0x34 */ IDEXW(I2a, xor, 1), IDEX(I2a, xor), EMPTY, EMPTY,
+	/* 0x38 */ IDEXW(G2E, cmp, 1), IDEX(G2E, cmp), IDEXW(E2G, cmp, 1), IDEX(E2G, cmp),
+	/* 0x3c */ IDEXW(I2a, cmp, 1), IDEX(I2a, cmp), EMPTY, EMPTY,
 	/* 0x40 */ EMPTY, EMPTY, EMPTY, EMPTY,
 	/* 0x44 */ EMPTY, EMPTY, EMPTY, EMPTY,
 	/* 0x48 */ EMPTY, EMPTY, EMPTY, EMPTY,
