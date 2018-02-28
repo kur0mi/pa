@@ -94,7 +94,7 @@ static inline void rtl_idiv(rtlreg_t * q, rtlreg_t * r, const rtlreg_t * src1_hi
 // addr --> dest
 static inline void rtl_lm(rtlreg_t * dest, const rtlreg_t * addr, int len)
 {
-#ifdef FUNC_DEBUG
+#ifdef RTL_DEBUG
 	printf("******* [[ rtl_lm ]] *******\n");
 	printf("[read mem]: 0x%08x\n", *addr);
 	printf("[to addr]: 0x%08x\n", host_to_guest(dest));
@@ -110,12 +110,13 @@ static inline void rtl_lm(rtlreg_t * dest, const rtlreg_t * addr, int len)
 // 在地址 0x100fff 处写入值 0x34
 static inline void rtl_sm(rtlreg_t * addr, int len, const rtlreg_t * src1)
 {
-#ifdef FUNC_DEBUG
+#ifdef RTL_DEBUG
 	printf("******* [[ rtl_sm ]] *******\n");
 	printf("[write mem]: 0x%08x\n", *addr);
 	printf("[value]: 0x%08x\n", *src1);
 	printf("\n");
 #endif
+
 	vaddr_write(*addr, len, *src1);
 }
 
@@ -158,7 +159,7 @@ static inline void rtl_sr_l(int r, const rtlreg_t * src1)
 // register --> dest
 static inline void rtl_lr(rtlreg_t * dest, int r, int width)
 {
-#ifdef FUNC_DEBUG
+#ifdef RTL_DEBUG
 	printf("******* [[ rtl_lr ]] *******\n");
 	printf("[read reg]: %%%s\n", reg_name(r, width));
 	printf("[to addr]: 0x%08x\n", *dest);
@@ -183,7 +184,7 @@ static inline void rtl_lr(rtlreg_t * dest, int r, int width)
 // src1 --> register
 static inline void rtl_sr(int r, int width, const rtlreg_t * src1)
 {
-#ifdef FUNC_DEBUG
+#ifdef RTL_DEBUG
 	printf("******* [[ rtl_sr ]] *******\n");
 	printf("[write reg]: %%%s\n", reg_name(r, width));
 	printf("[value]: 0x%08x\n", *src1);
@@ -252,7 +253,8 @@ static inline void rtl_push(const rtlreg_t * data, int width)
 #ifdef EXT_DEBUG
 	printf("******* [[ push ]] *******\n");
 	printf("[push data]: 0x%08x\n", *data);
-	printf("[to esp]: 0x%08x\n", cpu.esp);
+	//printf("[width]: %d\n", width);
+	printf("[to esp]: 0x%08x\n", cpu.esp - width);
 	printf("\n");
 #endif
 	// esp <- esp - 4
@@ -268,9 +270,9 @@ static inline void rtl_pop(bool is_reg, rtlreg_t * tt, int width)
 	printf("******* [[ pop ]] *******\n");
 	printf("[from esp]: 0x%08x\n", cpu.esp);
 	if (is_reg)
-		printf("reg: %%%s\n", reg_name(*tt, width));
+		printf("[to reg]: %%%s\n", reg_name(*tt, width));
 	else
-		printf("mem: 0x%08x", *tt);
+		printf("[to mem]: 0x%08x", *tt);
 	printf("\n");
 #endif
 	// dest <- M[esp]

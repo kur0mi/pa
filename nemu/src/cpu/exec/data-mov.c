@@ -9,26 +9,50 @@ make_EHelper(mov)
 	printf("******* [[ mov ]] *******\n");
 	printf("[mov data]: 0x%08x\n", id_src->val);
 	if (id_dest->type == OP_TYPE_REG)
-		printf("[to reg]: %d\n", id_dest->reg);
+		printf("\t[to reg]: %d\n", id_dest->reg);
 	else if (id_dest->type == OP_TYPE_MEM)
-		printf("[to mem]: 0x%08x\n", id_dest->addr);
+		printf("\t[to mem]: 0x%08x\n", id_dest->addr);
 	else
-		panic("exec_mov error. ");
+		panic("exec error. ");
 	printf("\n");
 #endif
+
 	operand_write(id_dest, &id_src->val);
 	print_asm_template2(mov);
 }
 
 make_EHelper(push)
 {
+#ifdef EXT_DEBUG
+	printf("******* [[ push ]] *******\n");
+	printf("[push data]: 0x%08x\n", id_dest->val);
+	if (id_dest->type == OP_TYPE_REG)
+		printf("\t[from reg]: %%%s\n", reg_name(id_dest->reg, id_dest->width));
+	else if (id_dest->type == OP_TYPE_MEM)
+		printf("\t[from mem]: 0x%08x\n", id_dest->addr);
+	else
+		panic("exec error. ");
+	printf("\n");
+#endif
+
 	rtl_push(&id_dest->val, id_dest->width);
-	
 	print_asm_template1(push);
 }
 
 make_EHelper(pop)
 {
+#ifdef EXT_DEBUG
+	printf("******* [[ pop ]] *******\n");
+	printf("[pop data]: 0x%08x\n", vaddr_read(cpu.esp, id_dest->width));
+	if (id_dest->type == OP_TYPE_REG)
+		printf("\t[to reg]: %%%s\n", reg_name(id_dest->reg, id_dest->width));
+	else if (id_dest->type == OP_TYPE_MEM)
+		printf("\t[to mem]: 0x%08x\n", id_dest->addr);
+	else
+		panic("exec error. ");
+	printf("\n");
+#endif
+
 	if (id_dest->type == OP_TYPE_MEM)
 		rtl_pop(false, &id_dest->addr, id_dest->width);
 	else if (id_dest->type == OP_TYPE_REG)
