@@ -9,7 +9,7 @@ make_EHelper(test)
 
 make_EHelper(and)
 {
-	TODO();
+	rtl_and(&id_dest->addr, &id_dest->val, &id_src->val);
 
 	print_asm_template2(and);
 }

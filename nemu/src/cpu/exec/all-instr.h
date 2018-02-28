@@ -17,6 +17,7 @@ make_EHelper(add);
 make_EHelper(sub);
 
 // logic
+make_EHelper(and);
 make_EHelper(xor);
 
 make_EHelper(operand_size);
