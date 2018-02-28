@@ -2,7 +2,12 @@
 
 make_EHelper(add)
 {
-	TODO();
+	if (id_dest->type == OP_TYPE_MEM)
+		rtl_add(guest_to_host(id_dest->addr), &id_dest->val, &id_src->val);
+	else if (id_dest->type == OP_TYPE_REG) {
+		rtl_add(&t0, &id_dest->val, &id_src->val);
+		rtl_sr(id_dest->reg, id_dest->width, &t0);	
+	}
 
 	print_asm_template2(add);
 }
@@ -25,10 +30,10 @@ make_EHelper(sub)
 	if (id_dest->type == OP_TYPE_MEM)
 		rtl_sub(guest_to_host(id_dest->addr), &id_dest->val, &id_src->val);
 	else if (id_dest->type == OP_TYPE_REG) {
-		rtlreg_t temp;
-		rtl_sub(&temp, &id_dest->val, &id_src->val);
-		rtl_sr(id_dest->reg, id_dest->width, &temp);	
+		rtl_sub(&t0, &id_dest->val, &id_src->val);
+		rtl_sr(id_dest->reg, id_dest->width, &t0);	
 	}
+
 	print_asm_template2(sub);
 }
 
