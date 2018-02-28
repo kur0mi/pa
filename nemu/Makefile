@@ -14,7 +14,7 @@ LD = gcc
 INCLUDES  = $(addprefix -I, $(INC_DIR))
 
 ifeq ($(debug), y)
-CFLAGS   ?= -g -MMD -Wall -D EXT_DEBUG -D FUNC_DEBUG $(INCLUDES)
+CFLAGS   ?= -g -MMD -Wall -Werror -D EXT_DEBUG $(INCLUDES)
 else ifeq ($(debug), n)
 CFLAGS   ?= -g -MMD -Wall $(INCLUDES)
 else
