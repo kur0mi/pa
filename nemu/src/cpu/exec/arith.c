@@ -80,12 +80,23 @@ make_EHelper(adc)
 	rtl_get_CF(&t1);
 	rtl_add(&t2, &t2, &t1);
 	operand_write(id_dest, &t2);
+	/*	t2 = dest + src
+	 *	t3 = t2 < dest
+	 *	t1 = CF
+	 *	t2 += t1
+	 *	dest = t2
+	 */
 
 	rtl_update_ZFSF(&t2, id_dest->width);
+	/*	ZF, CF = t2
+	 */
 
 	rtl_sltu(&t0, &t2, &id_dest->val);
 	rtl_or(&t0, &t3, &t0);
 	rtl_set_CF(&t0);
+	/*	t0 = t2 < dest
+	 *	t0 = t0 | t3
+	 */
 
 	rtl_xor(&t0, &id_dest->val, &id_src->val);
 	rtl_not(&t0);
