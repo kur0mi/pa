@@ -370,12 +370,14 @@ void expr_test();
 
 uint32_t expr(char *e)
 {
+#ifdef DEBUG
 	// test expr
 	if (strcmp(e, "test") == 0) {
 		Log("********** expr test **********");
 		expr_test();
 		return 0;
 	}
+#endif
 
 	if (!make_token(e)) {
 		panic("make tokens failed");
@@ -384,7 +386,6 @@ uint32_t expr(char *e)
 
 	/* TODO: Insert codes to evaluate the expression. */
 	int res = eval(0, nr_token - 1);
-
 	return res;
 }
 

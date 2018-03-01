@@ -32,7 +32,7 @@ WP *new_wp(char *str, int value)
 			panic("expression too long");
 
 		strcpy(t->str, str);
-		t->value = value;
+		t->value = expr(str);
 
 		if (head == NULL) {
 			head = t;

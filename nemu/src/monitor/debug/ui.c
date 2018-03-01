@@ -147,17 +147,18 @@ static int cmd_w(char *args)
 		return 0;
 	}
 
-	char *tok1 = strtok(args, "=");
-	char *tok2 = strtok(NULL, "=");
+	//char *tok1 = strtok(args, "=");
+	//char *tok2 = strtok(NULL, "=");
 
-	int res;
-	if (tok2 == NULL)
+	/*
+    if (tok2 == NULL)
 		res = expr(tok1);
 	else {
 		res = expr(tok2);
 		*(tok2 - 1) = '\0';
 	}
-	WP *w = new_wp(tok1, res);
+    */
+	WP *w = new_wp(args, 0);
 	printf("[-] set wp [%d], %s: %d\n", w->NO, w->str, w->value);
 
 	return 0;
