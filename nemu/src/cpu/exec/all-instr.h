@@ -31,6 +31,7 @@ make_EHelper(div);
 make_EHelper(idiv);
 
 // logic
+make_EHelper(test);
 make_EHelper(and);
 make_EHelper(xor);
 make_EHelper(or);

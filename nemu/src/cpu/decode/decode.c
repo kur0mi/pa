@@ -256,12 +256,6 @@ make_DHelper(gp7_E)
 	decode_op_rm(eip, id_dest, false, NULL, false);
 }
 
-/* used by test in group3 */
-make_DHelper(test_I)
-{
-	decode_op_I(eip, id_src, true);
-}
-
 make_DHelper(SI2E)
 {
 	assert(id_dest->width == 2 || id_dest->width == 4);

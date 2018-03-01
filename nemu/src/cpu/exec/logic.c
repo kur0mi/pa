@@ -2,7 +2,10 @@
 
 make_EHelper(test)
 {
-	TODO();
+	rtl_set_OF(&tzero);
+	rtl_set_CF(&tzero);
+	rtl_and(&t0, &id_src->val, &id_dest->val);
+	rtl_update_ZFSF(&t0, id_src->width);
 
 	print_asm_template2(test);
 }
