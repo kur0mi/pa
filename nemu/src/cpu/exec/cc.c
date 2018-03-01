@@ -17,24 +17,30 @@ void rtl_setcc(rtlreg_t * dest, uint8_t subcode)
 	switch (subcode & 0xe) {
 	case CC_O:					// overflow
 		rtl_get_OF(dest);
+		break;
 	case CC_B:					// below (unsigned)
 		rtl_get_CF(dest);
+		break;
 	case CC_E:					// equal
 		rtl_get_ZF(dest);
+		break;
 	case CC_BE:					// below or equal
 		rtl_get_CF(&t0);
 		rtl_get_ZF(&t1);
 		rtl_or(&t0, &t0, &t1);
 		rtl_andi(&t0, &t0, 0x1);
 		rtl_mv(dest, &t0);
+		break;
 	case CC_S:					// sign
 		rtl_get_SF(dest);
+		break;
 	case CC_L:					// less
 		rtl_get_SF(&t0);
 		rtl_get_OF(&t1);
 		rtl_xor(&t0, &t0, &t1);
 		rtl_andi(&t0, &t0, 0x1);
 		rtl_mv(dest, &t0);
+		break;
 	case CC_LE:					// less equal
 		rtl_get_SF(&t0);
 		rtl_get_OF(&t1);
@@ -43,11 +49,13 @@ void rtl_setcc(rtlreg_t * dest, uint8_t subcode)
 		rtl_or(&t0, &t0, &t1);
 		rtl_andi(&t0, &t0, 0x1);
 		rtl_mv(dest, &t0);
-	default:
-		panic("should not reach here");
+		break;
 	case CC_P:					// parity
 		panic("n86 does not have PF");
-	}
+		break;
+	default:
+		panic("should not reach here");
+}
 
 	if (invert) {
 		rtl_xori(dest, dest, 0x1);
