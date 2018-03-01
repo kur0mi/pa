@@ -1,6 +1,8 @@
 #include "cpu/exec.h"
 
 /*	数据传送指令
+ *
+ *	不影响标志位
  */
 
 make_EHelper(mov)
@@ -53,11 +55,14 @@ make_EHelper(pop)
 	printf("\n");
 #endif
 
+	operand_write(id_dest, guest_to_host(cpu.esp));
+	rtl_addi(&cpu.esp, &cpu.esp, id_dest->width);
+/*
 	if (id_dest->type == OP_TYPE_MEM)
 		rtl_pop(false, &id_dest->addr, id_dest->width);
 	else if (id_dest->type == OP_TYPE_REG)
 		rtl_pop(true, &id_dest->reg, id_dest->width);
-
+*/
 	print_asm_template1(pop);
 }
 
