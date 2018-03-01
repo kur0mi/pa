@@ -50,7 +50,7 @@ static struct rule {
 	{
 	"^(0|[1-9][0-9]*)", TK_DECIMAL},	// decimal numbers
 	{
-	"^(\\$e(ax|bx|cx|dx|sp|bp|si|di|ip))", TK_REGNAME},	// reg name
+	"^([$%]e(ax|bx|cx|dx|sp|bp|si|di|ip))", TK_REGNAME},	// reg name
 	{
 	"^(,)", TK_COMMA},	// comma
 	{
