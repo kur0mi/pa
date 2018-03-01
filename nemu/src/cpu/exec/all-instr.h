@@ -14,6 +14,8 @@ make_EHelper(movzx);
 make_EHelper(lea);
 
 // control
+make_EHelper(jump);
+make_EHelper(jcc);
 make_EHelper(call);
 make_EHelper(ret);
 
