@@ -3,14 +3,17 @@
 /*	控制跳跃指令
  */
 
+// 相对跳转
 make_EHelper(jmp)
 {
 	// the target address is calculated at the decode stage
+	decoding.jmp_eip = decoding.seq_eip + id_dest->val;
 	decoding.is_jmp = 1;
 
 	print_asm("jmp %x", decoding.jmp_eip);
 }
 
+// 相对条件跳转
 make_EHelper(jcc)
 {
 	// the target address is calculated at the decode stage
@@ -22,6 +25,7 @@ make_EHelper(jcc)
 	print_asm("j%s %x", get_cc_name(subcode), decoding.jmp_eip);
 }
 
+// 绝对跳转
 make_EHelper(jmp_rm)
 {
 	decoding.jmp_eip = id_dest->val;
@@ -33,8 +37,8 @@ make_EHelper(jmp_rm)
 make_EHelper(call)
 {
 	// the target address is calculated at the decode stage
-	rtl_push(&decoding.seq_eip, id_src->width);	
-	decoding.jmp_eip = decoding.seq_eip + id_src->val;
+	rtl_push(&decoding.seq_eip, id_dest->width);	
+	decoding.jmp_eip = decoding.seq_eip + id_dest->val;
 	decoding.is_jmp = 1;
 
 #ifdef EXT_DEBUG
