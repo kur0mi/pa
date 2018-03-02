@@ -26,4 +26,11 @@ typedef uint16_t ioaddr_t;
 #define false 0
 #define true 1
 
+char *strlwr(char *str){
+	char *orign=str;
+	for (; *str!='\0 '; str++)
+	*str = tolowwer(*str);
+	return orign;
+}
+
 #endif
