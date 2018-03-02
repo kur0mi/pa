@@ -29,7 +29,7 @@ typedef uint16_t ioaddr_t;
 char *strlwr(char *str){
 	char *orign=str;
 	for (; *str!='\0'; str++)
-	*str = tolower(*str);
+	*str = (char)((int)(*str) + 32);
 	return orign;
 }
 
