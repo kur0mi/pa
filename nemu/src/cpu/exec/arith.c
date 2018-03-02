@@ -3,7 +3,7 @@
 make_EHelper(add)
 {
 	// t0 为运算结果
-	rtl_add(&t0, &id_dest->val, &id_src->val);
+	rtl_sub(&t0, &id_dest->val, &id_src->val);
 
 	rtl_sltu(&t1, &t0, &id_dest->val);
 	rtl_set_CF(&t1);
