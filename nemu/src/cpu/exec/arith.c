@@ -88,6 +88,7 @@ make_EHelper(cmp)
 
 make_EHelper(inc)
 {
+/*
 	// t0 为运算结果
 	rtl_addi(&t0, &id_dest->val, 1);
 
@@ -110,7 +111,7 @@ make_EHelper(inc)
 	printf("%u + %u = %u\n", id_dest->val, 1, t0);
 	rtl_check_eflags();
 #endif
-
+*/
 	print_asm_template1(inc);
 }
 
