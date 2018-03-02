@@ -318,19 +318,19 @@ uint32_t eval(int p, int q)
 
 			if (strstr(tokens[p].str, "a") != NULL)
 				id = 0;
-			else if (strcmp(tokens[p].str + 2, "b") == 0)
+			else if (strstr(tokens[p].str + 2, "b") != NULL)
 				id = 2;
-			else if (strcmp(tokens[p].str + 2, "c") == 0)
+			else if (strstr(tokens[p].str + 2, "c") != NULL)
 				id = 3;
-			else if (strcmp(tokens[p].str + 2, "d") == 0)
+			else if (strstr(tokens[p].str + 2, "d") != NULL)
 				id = 1;
-			else if (strcmp(tokens[p].str + 2, "sp") == 0)
+			else if (strstr(tokens[p].str + 2, "sp") != NULL)
 				id = 4;
-			else if (strcmp(tokens[p].str + 2, "bp") == 0)
+			else if (strstr(tokens[p].str + 2, "bp") != NULL)
 				id = 5;
-			else if (strcmp(tokens[p].str + 2, "si") == 0)
+			else if (strstr(tokens[p].str + 2, "si") != NULL)
 				id = 6;
-			else if (strcmp(tokens[p].str + 2, "di") == 0)
+			else if (strstr(tokens[p].str + 2, "di") != NULL)
 				id = 7;
 
             if (strstr(tokens[p].str, "h") != NULL)
@@ -339,18 +339,18 @@ uint32_t eval(int p, int q)
             if (id != -1)
                 return reg_val(id, width);
 
-			if (strstr(tokens[p].str, "ip") == 0)
+			if (strstr(tokens[p].str, "ip") != NULL)
 				return vaddr_read(host_to_guest(&cpu.eip), width);
 
-            if (strstr(tokens[p].str, "OF") == 0)
+            if (strstr(tokens[p].str, "OF") != NULL)
 				return cpu.eflags.OF;
-            else if (strstr(tokens[p].str, "SF") == 0)
+            else if (strstr(tokens[p].str, "SF") != NULL)
 				return cpu.eflags.SF;
-            else if (strstr(tokens[p].str, "ZF") == 0)
+            else if (strstr(tokens[p].str, "ZF") != NULL)
 				return cpu.eflags.ZF;
-            else if (strstr(tokens[p].str, "CF") == 0)
+            else if (strstr(tokens[p].str, "CF") != NULL)
 				return cpu.eflags.CF;
-            else if (strstr(tokens[p].str, "IF") == 0)
+            else if (strstr(tokens[p].str, "IF") != NULL)
 				return cpu.eflags.IF;
 
 			panic("no such register");
