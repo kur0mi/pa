@@ -109,11 +109,11 @@ static bool make_token(char *e)
 		for (i = 0; i < NR_REGEX; i++) {
 			// if match success
 			if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0) {
-				if (nr_token > 31)
+				if (nr_token >= 31)
 					panic("token too many");
 				char *substr_start = e + position;
 				int substr_len = pmatch.rm_eo;
-#ifdef MY_DEBUG
+#ifdef DEBUG
 				Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
 #endif
 				position += substr_len;
@@ -122,13 +122,12 @@ static bool make_token(char *e)
 				 * to record the token in the array `tokens'. For certain types
 				 * of tokens, some extra actions should be performed.
 				 */
-
 				switch (rules[i].token_type) {
 				case TK_DECIMAL:
 				case TK_HEXADECIMAL:
 				case TK_REGNAME:
 					if (substr_len > 31)
-						panic("value too long");
+						panic("str too long");
 					strncpy(tokens[nr_token].str, substr_start, substr_len);
 					tokens[nr_token].str[substr_len] = '\0';
 					tokens[nr_token].type = rules[i].token_type;
@@ -305,26 +304,55 @@ uint32_t eval(int p, int q)
 		else if (tokens[p].type == TK_HEXADECIMAL)
 			sscanf(tokens[p].str + 2, "%x", &n);
 		else if (tokens[p].type == TK_REGNAME) {
-			if (strcmp(tokens[p].str + 2, "ax") == 0)
-				return cpu.eax;
-			else if (strcmp(tokens[p].str + 2, "bx") == 0)
-				return cpu.ebx;
-			else if (strcmp(tokens[p].str + 2, "cx") == 0)
-				return cpu.ecx;
-			else if (strcmp(tokens[p].str + 2, "dx") == 0)
-				return cpu.edx;
+            // eax, ebx, ebx, ecx, esp, ebp, esi, edi
+            // ax, dx, bx, cx, sp, bp, si, di
+            // al, cl, dl, bl, ah, ch, dh, bh
+            int width;
+            int id = -1;
+            if (strstr(tokens[p].str, "e") != NULL)
+                width = 4;
+            else if ((strstr(tokens[p].str, "l") != NULL) || (strstr(tokens[p].str, "h") != NULL))
+                width = 1;
+            else
+                width = 2;
+
+			if (strstr(tokens[p].str, "a") != NULL)
+				id = 0;
+			else if (strcmp(tokens[p].str + 2, "b") == 0)
+				id = 2;
+			else if (strcmp(tokens[p].str + 2, "c") == 0)
+				id = 3;
+			else if (strcmp(tokens[p].str + 2, "d") == 0)
+				id = 1;
 			else if (strcmp(tokens[p].str + 2, "sp") == 0)
-				return cpu.esp;
+				id = 4;
 			else if (strcmp(tokens[p].str + 2, "bp") == 0)
-				return cpu.ebp;
+				id = 5;
 			else if (strcmp(tokens[p].str + 2, "si") == 0)
-				return cpu.esi;
+				id = 6;
 			else if (strcmp(tokens[p].str + 2, "di") == 0)
-				return cpu.edi;
-			else if (strcmp(tokens[p].str + 2, "ip") == 0)
-				return cpu.eip;
-			else
-				panic("no such register");
+				id = 7;
+
+            if (strstr(tokens[p].str, "h") != NULL)
+				id += 4;
+
+            if (id != -1)
+                return reg_val(id, width);
+
+			if (strstr(tokens[p].str, "ip") == 0)
+				return vaddr_read(host_to_guest(&cpu.eip), width);
+
+            if (strstr(tokens[p].str, "OF") == 0)
+				return cpu.eflags.OF;
+            else if (strstr(tokens[p].str, "SF") == 0)
+				return cpu.eflags.SF;
+            else if (strstr(tokens[p].str, "ZF") == 0)
+				return cpu.eflags.ZF;
+            else if (strstr(tokens[p].str, "CF") == 0)
+				return cpu.eflags.CF;
+            else if (strstr(tokens[p].str, "IF") == 0)
+				return cpu.eflags.IF;
+			panic("no such register");
 		} else
 			assert(0);
 		return n;
@@ -370,23 +398,13 @@ void expr_test();
 
 uint32_t expr(char *e)
 {
-#ifdef DEBUG
-	// test expr
-	if (strcmp(e, "test") == 0) {
-		Log("********** expr test **********");
-		expr_test();
-		return 0;
-	}
-#endif
-
 	if (!make_token(e)) {
 		panic("make tokens failed");
 		return 0;
 	}
 
 	/* TODO: Insert codes to evaluate the expression. */
-	int res = eval(0, nr_token - 1);
-	return res;
+	return eval(0, nr_token - 1);
 }
 
 void expr_test()

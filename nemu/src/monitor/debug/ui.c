@@ -62,8 +62,9 @@ static int cmd_info(char *args)
 	}
 
 	if (strcmp(args, "r") == 0) {
-		char eip[9], eax[9], ebx[9], ecx[9], edx[9], esp[9], ebp[9], esi[9], edi[9];
-		sprintf(eip, "%08x", cpu.eip);
+		//char eip[9], eax[9], ebx[9], ecx[9], edx[9], esp[9], ebp[9], esi[9], edi[9];
+		/*
+        sprintf(eip, "%08x", cpu.eip);
 		sprintf(eax, "%08x", cpu.eax);
 		sprintf(ebx, "%08x", cpu.ebx);
 		sprintf(ecx, "%08x", cpu.ecx);
@@ -72,15 +73,16 @@ static int cmd_info(char *args)
 		sprintf(ebp, "%08x", cpu.ebp);
 		sprintf(esi, "%08x", cpu.esi);
 		sprintf(edi, "%08x", cpu.edi);
-		printf("%%eip: 0x%s\n", eip);
-		printf("%%eax: 0x%s\n", eax);
-		printf("%%ebx: 0x%s\n", ebx);
-		printf("%%ecx: 0x%s\n", ecx);
-		printf("%%edx: 0x%s\n", edx);
-		printf("%%esp: 0x%s\n", esp);
-		printf("%%ebp: 0x%s\n", ebp);
-		printf("%%esi: 0x%s\n", esi);
-		printf("%%edi: 0x%s\n", edi);
+		*/
+        printf("%%eip: 0x%08x\n", cpu.eip);
+		printf("%%eax: 0x%08x\n", cpu.eax);
+		printf("%%ebx: 0x%08x\n", cpu.ebx);
+		printf("%%ecx: 0x%08x\n", cpu.ecx);
+		printf("%%edx: 0x%08x\n", cpu.edx);
+		printf("%%esp: 0x%08x\n", cpu.esp);
+		printf("%%ebp: 0x%08x\n", cpu.ebp);
+		printf("%%esi: 0x%08x\n", cpu.esi);
+		printf("%%edi: 0x%08x\n", cpu.edi);
 	} else if (strcmp(args, "w") == 0) {
 		show_wp();
 #ifdef MY_DEBUG
@@ -88,7 +90,6 @@ static int cmd_info(char *args)
 #endif
 	} else {
 		cmd_help("info");
-		return 0;
 	}
 
 	return 0;
@@ -135,7 +136,7 @@ static int cmd_p(char *args)
 	int res = expr(args);
 	char hes[11];
 	sprintf(hes, "0x%x", res);
-	printf("result = %d | %s\n", res, hes);
+	printf("result = %d | %u | 0x%x\n", res, res, res);
 
 	return 0;
 }
@@ -159,7 +160,7 @@ static int cmd_w(char *args)
 	}
     */
 	WP *w = new_wp(args, 0);
-	printf("[-] set wp [%d], %s: %d\n", w->NO, w->str, w->value);
+	printf("[+] set wp [%d], %s = %d\n", w->NO, w->str, w->value);
 
 	return 0;
 }
@@ -253,6 +254,7 @@ void ui_mainloop(int is_batch_mode)
 		int i;
 		for (i = 0; i < NR_CMD; i++) {
 			if (strcmp(cmd, cmd_table[i].name) == 0) {
+                // 返回 0 则结束程序
 				if (cmd_table[i].handler(args) < 0) {
 					return;
 				}

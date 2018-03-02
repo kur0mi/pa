@@ -29,16 +29,14 @@ void cpu_exec(uint64_t n)
 		 * instruction decode, and the actual execution. */
 		exec_wrapper(print_flag);
 
-#ifdef DEBUG
 		/* TODO: check watchpoints here. */
 		WP *t = check_wp(NULL);
 		while (t != NULL) {
 			if (nemu_state != NEMU_END)
 				nemu_state = NEMU_STOP;
-			printf("[-] wp [%d]:(%s) has changed, its value is %d\n", t->NO, t->str, t->value);
+			printf("[+] wp [%d], %s = %d ==> %d\n", t->NO, t->str, t->oldvalue, t->value);
 			t = check_wp(t);
 		}
-#endif
 
 #ifdef HAS_IOE
 		extern void device_update();

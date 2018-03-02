@@ -41,7 +41,6 @@ WP *new_wp(char *str, int value)
 			t->next = head;
 			head = t;
 		}
-
 		return t;
 	} else {
 		assert(0);
@@ -106,6 +105,7 @@ WP *check_wp(WP * w)
 	while (w != NULL) {
 		int res = expr(w->str);
 		if (res != w->value) {
+            w->oldvalue = w->value;
 			w->value = res;
 			return w;
 		}
