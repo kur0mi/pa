@@ -50,7 +50,7 @@ static struct rule {
 	{
 	"^(0|[1-9][0-9]*)", TK_DECIMAL},	// decimal numbers
 	{
-	"^([$%]e(ax|bx|cx|dx|sp|bp|si|di|ip)|IF|SF|OF|CF|ZF)", TK_REGNAME},	// reg name
+	"^([$%]e(ax|bx|cx|dx|sp|bp|si|di|ip)|[abcd][lh]|IF|SF|OF|CF|ZF)", TK_REGNAME},	// reg name
 	{
 	"^(,)", TK_COMMA},	// comma
 	{
@@ -352,6 +352,7 @@ uint32_t eval(int p, int q)
 				return cpu.eflags.CF;
             else if (strstr(tokens[p].str, "IF") == 0)
 				return cpu.eflags.IF;
+
 			panic("no such register");
 		} else
 			assert(0);
