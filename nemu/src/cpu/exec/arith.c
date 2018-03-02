@@ -2,37 +2,58 @@
 
 make_EHelper(add)
 {
-	if (id_dest->type == OP_TYPE_MEM)
-		rtl_add(guest_to_host(id_dest->addr), &id_dest->val, &id_src->val);
-	else if (id_dest->type == OP_TYPE_REG) {
-		rtl_add(&t0, &id_dest->val, &id_src->val);
-		rtl_sr(id_dest->reg, id_dest->width, &t0);	
-	}
+	// t0 为运算结果
+	rtl_add(&t0, &id_dest->val, &id_src->val);
+
+	rtl_sltu(&t1, &t0, &id_dest->val);
+	rtl_set_CF(&t1);
+	
+	rtl_xor(&t1, &id_dest->val, &id_src->val);
+	rtl_xor(&t1, &t1, &t0);
+	rtl_xor(&t1, &t1, &t0);
+	rtl_not(&t1);
+	rtl_msb(&t1, &t1, id_dest->width);
+	rtl_set_OF(&t1);
+	
+	operand_write(id_dest, &t0);
+	
+	rtl_update_ZFSF(&t0, id_dest->width);
+
+#ifdef EXEC_DEBUG
+	printf("%d + %d = %d\n", id_dest->val, id_src->val, t0);
+	printf("%u + %u = %u\n", id_dest->val, id_src->val, t0);
+	rtl_check_eflags();
+#endif	
 
 	print_asm_template2(add);
 }
 
 make_EHelper(sub)
-{
-#ifdef FUNC_DEBUG 
-	printf("[[ sub ]]\n");
-	if (id_dest->type == OP_TYPE_MEM)
-		printf("mem: 0x%08x\n", id_dest->addr);
-	else if (id_dest->type == OP_TYPE_REG)
-		printf("reg: %%%s\n", reg_name(id_dest->reg, id_dest->width));
-	printf("value: 0x%08x - 0x%08x\n", id_dest->val, id_src->val);
-	printf("\n");
-#endif
-
+{	
 	if (id_src->width == 1 && id_dest->width != 1)
 		rtl_sext(&id_src->val, &id_src->val, id_src->width);
 
-	if (id_dest->type == OP_TYPE_MEM)
-		rtl_sub(guest_to_host(id_dest->addr), &id_dest->val, &id_src->val);
-	else if (id_dest->type == OP_TYPE_REG) {
-		rtl_sub(&t0, &id_dest->val, &id_src->val);
-		rtl_sr(id_dest->reg, id_dest->width, &t0);	
-	}
+	// t0 为运算结果
+	rtl_sub(&t0, &id_dest->val, &id_src->val);	
+
+	rtl_sltu(&t1, &id_dest->val, &id_src->val);
+	rtl_set_CF(&t1);
+	
+	rtl_xor(&t1, &id_dest->val, &id_src->val);
+	rtl_xor(&t1, &t1, &id_src->val);
+	rtl_xor(&t1, &t1, &id_src->val);
+	rtl_msb(&t1, &t1, id_dest->width);
+	rtl_set_OF(&t1);
+	
+	operand_write(id_dest, &t0);
+	
+	rtl_update_ZFSF(&t0, id_dest->width);
+
+#ifdef EXEC_DEBUG
+	printf("%d - %d = %d\n", id_dest->val, id_src->val, t0);
+	printf("%u - %u = %u\n", id_dest->val, id_src->val, t0);
+	rtl_check_eflags();
+#endif	
 
 	print_asm_template2(sub);
 }
@@ -42,12 +63,25 @@ make_EHelper(cmp)
 	if (id_src->width == 1 && id_dest->width != 1)
 		rtl_sext(&id_src->val, &id_src->val, id_src->width);
 
-	if (id_dest->type == OP_TYPE_MEM)
-		rtl_sub(&t3, &id_dest->val, &id_src->val);
-	else if (id_dest->type == OP_TYPE_REG) {
-		rtl_sub(&t0, &id_dest->val, &id_src->val);
-		rtl_sm(&t3, id_dest->width, &t0);	
-	}
+	// t0 为运算结果
+	rtl_sub(&t0, &id_dest->val, &id_src->val);	
+
+	rtl_sltu(&t1, &id_dest->val, &id_src->val);
+	rtl_set_CF(&t1);
+	
+	rtl_xor(&t1, &id_dest->val, &id_src->val);
+	rtl_xor(&t1, &t1, &id_src->val);
+	rtl_xor(&t1, &t1, &id_src->val);
+	rtl_msb(&t1, &t1, id_dest->width);
+	rtl_set_OF(&t1);
+	
+	rtl_update_ZFSF(&t0, id_dest->width);
+
+#ifdef EXEC_DEBUG
+	printf("%d - %d = %d\n", id_dest->val, id_src->val, t0);
+	printf("%u - %u = %u\n", id_dest->val, id_src->val, t0);
+	rtl_check_eflags();
+#endif	
 
 	print_asm_template2(cmp);
 }
@@ -78,25 +112,17 @@ make_EHelper(adc)
 	rtl_add(&t2, &id_dest->val, &id_src->val);
 	rtl_sltu(&t3, &t2, &id_dest->val);
 	rtl_get_CF(&t1);
+#ifdef EXEC_DEBUG
+	rtlreg_t carry = t1;
+#endif
 	rtl_add(&t2, &t2, &t1);
 	operand_write(id_dest, &t2);
-	/*	t2 = dest + src
-	 *	t3 = t2 < dest
-	 *	t1 = CF
-	 *	t2 += t1
-	 *	dest = t2
-	 */
-
+	
 	rtl_update_ZFSF(&t2, id_dest->width);
-	/*	ZF, CF = t2
-	 */
 
 	rtl_sltu(&t0, &t2, &id_dest->val);
 	rtl_or(&t0, &t3, &t0);
 	rtl_set_CF(&t0);
-	/*	t0 = t2 < dest
-	 *	t0 = t0 | t3
-	 */
 
 	rtl_xor(&t0, &id_dest->val, &id_src->val);
 	rtl_not(&t0);
@@ -104,6 +130,12 @@ make_EHelper(adc)
 	rtl_and(&t0, &t0, &t1);
 	rtl_msb(&t0, &t0, id_dest->width);
 	rtl_set_OF(&t0);
+
+#ifdef EXEC_DEBUG
+	printf("%d + %d + %d = %d\n", id_dest->val, id_src->val, carry, t0);
+	printf("%u + %u + %u = %u\n", id_dest->val, id_src->val, carry, t0);
+	rtl_check_eflags();
+#endif	
 
 	print_asm_template2(adc);
 }
@@ -113,6 +145,9 @@ make_EHelper(sbb)
 	rtl_sub(&t2, &id_dest->val, &id_src->val);
 	rtl_sltu(&t3, &id_dest->val, &t2);
 	rtl_get_CF(&t1);
+#ifdef EXEC_DEBUG
+	rtlreg_t carry = t1;
+#endif
 	rtl_sub(&t2, &t2, &t1);
 	operand_write(id_dest, &t2);
 
@@ -127,6 +162,12 @@ make_EHelper(sbb)
 	rtl_and(&t0, &t0, &t1);
 	rtl_msb(&t0, &t0, id_dest->width);
 	rtl_set_OF(&t0);
+
+#ifdef EXEC_DEBUG
+	printf("%d + %d + %d = %d\n", id_dest->val, id_src->val, carry, t0);
+	printf("%u + %u + %u = %u\n", id_dest->val, id_src->val, carry, t0);
+	rtl_check_eflags();
+#endif	
 
 	print_asm_template2(sbb);
 }
