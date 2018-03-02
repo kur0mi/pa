@@ -85,6 +85,10 @@ make_EHelper(popa)
 	rtlreg_t i;
 	for (i = 7; (int32_t)i >= 0; i--) {
 		if (i != 4)
+			rtl_sr(i, id_dest->width, guest_to_host(cpu.esp));
+		rtl_subi(&cpu.esp, &cpu.esp, id_dest->width);
+		/*
+		if (i != 4)
 			rtl_pop(true, &i, id_dest->width);
 		else {
 			rtlreg_t temp = cpu.eax;
@@ -92,6 +96,7 @@ make_EHelper(popa)
 			rtl_pop(true, &id, id_dest->width);
 			cpu.eax = temp;
 		}
+		*/
 	}
 
 	print_asm("popa");
