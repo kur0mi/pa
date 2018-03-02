@@ -309,7 +309,7 @@ uint32_t eval(int p, int q)
             // al, cl, dl, bl, ah, ch, dh, bh
             int width;
             int id = -1;
-            if (strcasestr(tokens[p].str, "e") != NULL)
+            if (strstr(tokens[p].str, "e") != NULL)
                 width = 4;
             else if ((strstr(tokens[p].str, "l") != NULL) || (strstr(tokens[p].str, "h") != NULL))
                 width = 1;
