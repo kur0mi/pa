@@ -318,19 +318,19 @@ uint32_t eval(int p, int q)
 
 			if (strstr(tokens[p].str, "a") != NULL)
 				id = 0;
-			else if (strstr(tokens[p].str + 2, "b") != NULL)
+			else if (strstr(tokens[p].str, "b") != NULL)
 				id = 2;
-			else if (strstr(tokens[p].str + 2, "c") != NULL)
+			else if (strstr(tokens[p].str, "c") != NULL)
 				id = 3;
-			else if (strstr(tokens[p].str + 2, "d") != NULL)
+			else if (strstr(tokens[p].str, "d") != NULL)
 				id = 1;
-			else if (strstr(tokens[p].str + 2, "sp") != NULL)
+			else if (strstr(tokens[p].str, "sp") != NULL)
 				id = 4;
-			else if (strstr(tokens[p].str + 2, "bp") != NULL)
+			else if (strstr(tokens[p].str, "bp") != NULL)
 				id = 5;
-			else if (strstr(tokens[p].str + 2, "si") != NULL)
+			else if (strstr(tokens[p].str, "si") != NULL)
 				id = 6;
-			else if (strstr(tokens[p].str + 2, "di") != NULL)
+			else if (strstr(tokens[p].str, "di") != NULL)
 				id = 7;
 
             if (strstr(tokens[p].str, "h") != NULL)
