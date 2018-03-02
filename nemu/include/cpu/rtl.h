@@ -337,4 +337,16 @@ static inline void rtl_update_ZFSF(const rtlreg_t * result, int width)
 	rtl_update_SF(result, width);
 }
 
+// 检查标志位
+#ifdef EXEC_DEBUG
+static inline void rtl_check_eflags()
+{
+	printf("[[ check_eflags ]]");
+	printf("ZF: %d\n", cpu.eflags.ZF);
+	printf("SF: %d\n", cpu.eflags.SF);
+	printf("OF: %d\n", cpu.eflags.OF);
+	printf("CF: %d\n", cpu.eflags.CF);
+}
+#endif
+
 #endif

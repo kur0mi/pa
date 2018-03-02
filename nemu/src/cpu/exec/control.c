@@ -10,6 +10,12 @@ make_EHelper(jmp)
 	decoding.jmp_eip = decoding.seq_eip + id_dest->val;
 	decoding.is_jmp = 1;
 
+#ifdef EXEC_DEBUG
+	printf("[[ jmp ]]\n");
+	printf("jmp to: 0x%08x\n", decoding.jmp_eip);
+	printf("\n");
+#endif
+
 	print_asm("jmp %x", decoding.jmp_eip);
 }
 
@@ -22,6 +28,12 @@ make_EHelper(jcc)
 	decoding.jmp_eip = decoding.seq_eip + id_dest->val;
 	decoding.is_jmp = t2;
 
+#ifdef EXEC_DEBUG
+	printf("[[ jcc ]]\n");
+	printf("jmp to: 0x%08x\n", decoding.jmp_eip);
+	printf("\n");
+#endif
+	
 	print_asm("j%s %x", get_cc_name(subcode), decoding.jmp_eip);
 }
 
@@ -30,6 +42,12 @@ make_EHelper(jmp_rm)
 {
 	decoding.jmp_eip = id_dest->val;
 	decoding.is_jmp = 1;
+
+#ifdef EXEC_DEBUG
+	printf("[[ jmp_rm ]]\n");
+	printf("jmp to: 0x%08x\n", decoding.jmp_eip);
+	printf("\n");
+#endif
 
 	print_asm("jmp *%s", id_dest->str);
 }
@@ -43,8 +61,8 @@ make_EHelper(call)
 
 #ifdef EXEC_DEBUG
 	printf("[[ call ]]\n");
-	printf("\tpush current addr: 0x%08x\n", vaddr_read(cpu.esp, id_dest->width));
-	printf("\tjmp to: 0x%08x\n", decoding.jmp_eip);
+	printf("push current addr: 0x%08x\n", vaddr_read(cpu.esp, id_dest->width));
+	printf("jmp to: 0x%08x\n", decoding.jmp_eip);
 	printf("\n");
 #endif
 	
@@ -59,9 +77,9 @@ make_EHelper(ret)
 	decoding.jmp_eip = temp;
 	decoding.is_jmp = 1;
 
-#ifdef EXT_DEBUG
+#ifdef EXEC_DEBUG
 	printf("[[ ret ]]\n");
-	printf("\tjmp to: 0x%08x\n", decoding.jmp_eip);
+	printf("jmp to: 0x%08x\n", decoding.jmp_eip);
 	printf("\n");
 #endif
 	
@@ -70,7 +88,16 @@ make_EHelper(ret)
 
 make_EHelper(call_rm)
 {
-	TODO();
+	rtl_push(&decoding.seq_eip, id_dest->width);	
+	decoding.jmp_eip = id_dest->val;
+	decoding.is_jmp = 1;
 
+#ifdef EXEC_DEBUG
+	printf("[[ call_rm ]]\n");
+	printf("push current addr: 0x%08x\n", vaddr_read(cpu.esp, id_dest->width));
+	printf("jmp to: 0x%08x\n", decoding.jmp_eip);
+	printf("\n");
+#endif
+	
 	print_asm("call *%s", id_dest->str);
 }
