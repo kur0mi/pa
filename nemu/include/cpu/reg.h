@@ -30,19 +30,19 @@ typedef union {
 		rtlreg_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
 		vaddr_t eip;
 
-		/*	CF 影响无符号数
-		 *	SF，OF 影响有符号数
-		 *	ZF 都适用
+		/*      CF 影响无符号数
+		 *      SF，OF 影响有符号数
+		 *      ZF 都适用
 		 */
 		struct {
-			rtlreg_t CF:1;		// CF: 0
+			rtlreg_t CF:1;	// CF: 0
 			rtlreg_t pass1:5;
-			rtlreg_t ZF:1;		// ZF: 6
-			rtlreg_t SF:1;		// SF: 7
+			rtlreg_t ZF:1;	// ZF: 6
+			rtlreg_t SF:1;	// SF: 7
 			rtlreg_t pass2:1;
-			rtlreg_t IF:1;		// IF: 9
+			rtlreg_t IF:1;	// IF: 9
 			rtlreg_t pass3:1;
-			rtlreg_t OF:1;		// OF: 11
+			rtlreg_t OF:1;	// OF: 11
 		} eflags;
 	};
 

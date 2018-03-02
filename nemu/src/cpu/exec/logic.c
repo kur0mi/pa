@@ -19,12 +19,11 @@ make_EHelper(and)
 		rtl_sr(id_dest->reg, id_dest->width, &t0);
 	}
 
-
 	print_asm_template2(and);
 }
 
 make_EHelper(xor)
-{	
+{
 	if (id_dest->type == OP_TYPE_MEM)
 		rtl_xor(guest_to_host(id_dest->addr), &id_dest->val, &id_dest->val);
 	else if (id_dest->type == OP_TYPE_REG) {

@@ -7,53 +7,53 @@ make_EHelper(add)
 
 	rtl_sltu(&t1, &t0, &id_dest->val);
 	rtl_set_CF(&t1);
-	
+
 	rtl_xor(&t1, &id_dest->val, &id_src->val);
 	rtl_xor(&t1, &t1, &t0);
 	rtl_xor(&t1, &t1, &t0);
 	rtl_not(&t1);
 	rtl_msb(&t1, &t1, id_dest->width);
 	rtl_set_OF(&t1);
-	
+
 	operand_write(id_dest, &t0);
-	
+
 	rtl_update_ZFSF(&t0, id_dest->width);
 
 #ifdef EXEC_DEBUG
 	printf("%d + %d = %d\n", id_dest->val, id_src->val, t0);
 	printf("%u + %u = %u\n", id_dest->val, id_src->val, t0);
 	rtl_check_eflags();
-#endif	
+#endif
 
 	print_asm_template2(add);
 }
 
 make_EHelper(sub)
-{	
+{
 	if (id_src->width == 1 && id_dest->width != 1)
 		rtl_sext(&id_src->val, &id_src->val, id_src->width);
 
 	// t0 为运算结果
-	rtl_sub(&t0, &id_dest->val, &id_src->val);	
+	rtl_sub(&t0, &id_dest->val, &id_src->val);
 
 	rtl_sltu(&t1, &id_dest->val, &id_src->val);
 	rtl_set_CF(&t1);
-	
+
 	rtl_xor(&t1, &id_dest->val, &id_src->val);
 	rtl_xor(&t1, &t1, &id_src->val);
 	rtl_xor(&t1, &t1, &id_src->val);
 	rtl_msb(&t1, &t1, id_dest->width);
 	rtl_set_OF(&t1);
-	
+
 	operand_write(id_dest, &t0);
-	
+
 	rtl_update_ZFSF(&t0, id_dest->width);
 
 #ifdef EXEC_DEBUG
 	printf("%d - %d = %d\n", id_dest->val, id_src->val, t0);
 	printf("%u - %u = %u\n", id_dest->val, id_src->val, t0);
 	rtl_check_eflags();
-#endif	
+#endif
 
 	print_asm_template2(sub);
 }
@@ -64,31 +64,52 @@ make_EHelper(cmp)
 		rtl_sext(&id_src->val, &id_src->val, id_src->width);
 
 	// t0 为运算结果
-	rtl_sub(&t0, &id_dest->val, &id_src->val);	
+	rtl_sub(&t0, &id_dest->val, &id_src->val);
 
 	rtl_sltu(&t1, &id_dest->val, &id_src->val);
 	rtl_set_CF(&t1);
-	
+
 	rtl_xor(&t1, &id_dest->val, &id_src->val);
 	rtl_xor(&t1, &t1, &id_src->val);
 	rtl_xor(&t1, &t1, &id_src->val);
 	rtl_msb(&t1, &t1, id_dest->width);
 	rtl_set_OF(&t1);
-	
+
 	rtl_update_ZFSF(&t0, id_dest->width);
 
 #ifdef EXEC_DEBUG
 	printf("%d - %d = %d\n", id_dest->val, id_src->val, t0);
 	printf("%u - %u = %u\n", id_dest->val, id_src->val, t0);
 	rtl_check_eflags();
-#endif	
+#endif
 
 	print_asm_template2(cmp);
 }
 
 make_EHelper(inc)
 {
-	TODO();
+	// t0 为运算结果
+	rtl_addi(&t0, &id_dest->val, 1);
+
+	rtl_sltu(&t1, &t0, &id_dest->val);
+	rtl_set_CF(&t1);
+
+	rtl_xor(&t1, &id_dest->val, &id_src->val);
+	rtl_xor(&t1, &t1, &t0);
+	rtl_xor(&t1, &t1, &t0);
+	rtl_not(&t1);
+	rtl_msb(&t1, &t1, id_dest->width);
+	rtl_set_OF(&t1);
+
+	operand_write(id_dest, &t0);
+
+	rtl_update_ZFSF(&t0, id_dest->width);
+
+#ifdef EXEC_DEBUG
+	printf("%d + %d = %d\n", id_dest->val, 1, t0);
+	printf("%u + %u = %u\n", id_dest->val, 1, t0);
+	rtl_check_eflags();
+#endif
 
 	print_asm_template1(inc);
 }
@@ -117,7 +138,7 @@ make_EHelper(adc)
 #endif
 	rtl_add(&t2, &t2, &t1);
 	operand_write(id_dest, &t2);
-	
+
 	rtl_update_ZFSF(&t2, id_dest->width);
 
 	rtl_sltu(&t0, &t2, &id_dest->val);
@@ -135,7 +156,7 @@ make_EHelper(adc)
 	printf("%d + %d + %d = %d\n", id_dest->val, id_src->val, carry, t0);
 	printf("%u + %u + %u = %u\n", id_dest->val, id_src->val, carry, t0);
 	rtl_check_eflags();
-#endif	
+#endif
 
 	print_asm_template2(adc);
 }
@@ -167,7 +188,7 @@ make_EHelper(sbb)
 	printf("%d + %d + %d = %d\n", id_dest->val, id_src->val, carry, t0);
 	printf("%u + %u + %u = %u\n", id_dest->val, id_src->val, carry, t0);
 	rtl_check_eflags();
-#endif	
+#endif
 
 	print_asm_template2(sbb);
 }

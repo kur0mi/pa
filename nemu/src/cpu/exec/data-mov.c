@@ -83,20 +83,20 @@ make_EHelper(pusha)
 make_EHelper(popa)
 {
 	rtlreg_t i;
-	for (i = 7; (int32_t)i >= 0; i--) {
+	for (i = 7; (int32_t) i >= 0; i--) {
 		if (i != 4)
 			rtl_sr(i, id_dest->width, guest_to_host(cpu.esp));
 		rtl_subi(&cpu.esp, &cpu.esp, id_dest->width);
 		/*
-		if (i != 4)
-			rtl_pop(true, &i, id_dest->width);
-		else {
-			rtlreg_t temp = cpu.eax;
-			rtlreg_t id = 0;
-			rtl_pop(true, &id, id_dest->width);
-			cpu.eax = temp;
-		}
-		*/
+		   if (i != 4)
+		   rtl_pop(true, &i, id_dest->width);
+		   else {
+		   rtlreg_t temp = cpu.eax;
+		   rtlreg_t id = 0;
+		   rtl_pop(true, &id, id_dest->width);
+		   cpu.eax = temp;
+		   }
+		 */
 	}
 
 	print_asm("popa");
@@ -151,4 +151,3 @@ make_EHelper(lea)
 	operand_write(id_dest, &id_src->addr);
 	print_asm_template2(lea);
 }
-

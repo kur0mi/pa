@@ -27,14 +27,14 @@ static inline void rtl_li(rtlreg_t * dest, uint32_t imm)
 	*dest = imm;
 }
 
-#define c_add(a, b) ((a) + (b))		// 加
-#define c_sub(a, b) ((a) - (b))		// 减
-#define c_and(a, b) ((a) & (b))		// 按位与
-#define c_or(a, b)  ((a) | (b))		// 按位或
-#define c_xor(a, b) ((a) ^ (b))		// 按位异或
+#define c_add(a, b) ((a) + (b))	// 加
+#define c_sub(a, b) ((a) - (b))	// 减
+#define c_and(a, b) ((a) & (b))	// 按位与
+#define c_or(a, b)  ((a) | (b))	// 按位或
+#define c_xor(a, b) ((a) ^ (b))	// 按位异或
 #define c_shl(a, b) ((a) << (b))	// 逻辑左移
 #define c_shr(a, b) ((a) >> (b))	// 逻辑右移
-#define c_sar(a, b) ((int32_t)(a) >> (b))			// 算术右移
+#define c_sar(a, b) ((int32_t)(a) >> (b))	// 算术右移
 #define c_slt(a, b) ((int32_t)(a) < (int32_t)(b))	// 小于
 #define c_sltu(a, b) ((a) < (b))	// 小于(无符号比较)
 
@@ -55,16 +55,16 @@ static inline void rtl_addi (rtlreg_t* dest, const rtlreg_t* src1, int imm) {
   }
 
 make_rtl_arith_logic(add)	// rtl_add(dest, src1, src2)
-							// rtl_addi(dest, src1, imm)
-make_rtl_arith_logic(sub)
-make_rtl_arith_logic(and)
-make_rtl_arith_logic(or)
-make_rtl_arith_logic(xor)
-make_rtl_arith_logic(shl)
-make_rtl_arith_logic(shr)
-make_rtl_arith_logic(sar)
-make_rtl_arith_logic(slt)
-make_rtl_arith_logic(sltu)
+    // rtl_addi(dest, src1, imm)
+    make_rtl_arith_logic(sub)
+    make_rtl_arith_logic(and)
+    make_rtl_arith_logic(or)
+    make_rtl_arith_logic(xor)
+    make_rtl_arith_logic(shl)
+    make_rtl_arith_logic(shr)
+    make_rtl_arith_logic(sar)
+    make_rtl_arith_logic(slt)
+    make_rtl_arith_logic(sltu)
 
 /*	rtl_mul		无符号数乘法
  *	rtl_imul	有符号数乘法
@@ -224,10 +224,9 @@ static inline void rtl_get_CF(rtlreg_t* dest) {
 
 // 设置标志位
 make_rtl_setget_eflags(CF)
-make_rtl_setget_eflags(OF)
-make_rtl_setget_eflags(ZF)
-make_rtl_setget_eflags(SF)
-
+    make_rtl_setget_eflags(OF)
+    make_rtl_setget_eflags(ZF)
+    make_rtl_setget_eflags(SF)
 // 数据传送
 static inline void rtl_mv(rtlreg_t * dest, const rtlreg_t * src1)
 {
@@ -270,7 +269,6 @@ static inline void rtl_push(const rtlreg_t * data, int width)
 	cpu.esp -= width;
 	rtl_sm(&cpu.esp, width, data);
 }
-
 
 static inline void rtl_pop(bool is_reg, rtlreg_t * tt, int width)
 {
@@ -325,7 +323,7 @@ static inline void rtl_update_ZF(const rtlreg_t * result, int width)
 {
 	// eflags.ZF <- is_zero(result[width * 8 - 1 .. 0])
 	rtlreg_t temp = ((*result) == 0);
-	rtl_set_ZF(&temp);	
+	rtl_set_ZF(&temp);
 }
 
 // RTL 指令 - 更新 标志位 SF
@@ -333,7 +331,7 @@ static inline void rtl_update_SF(const rtlreg_t * result, int width)
 {
 	// eflags.SF <- is_sign(result[width * 8 - 1 .. 0])
 	rtlreg_t temp;
-	rtl_shri(&temp, result, 8*width-1);
+	rtl_shri(&temp, result, 8 * width - 1);
 	rtl_set_SF(&temp);
 }
 

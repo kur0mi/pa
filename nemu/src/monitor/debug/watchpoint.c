@@ -105,7 +105,7 @@ WP *check_wp(WP * w)
 	while (w != NULL) {
 		int res = expr(w->str);
 		if (res != w->value) {
-            w->oldvalue = w->value;
+			w->oldvalue = w->value;
 			w->value = res;
 			return w;
 		}

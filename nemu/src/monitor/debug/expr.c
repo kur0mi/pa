@@ -304,17 +304,17 @@ uint32_t eval(int p, int q)
 		else if (tokens[p].type == TK_HEXADECIMAL)
 			sscanf(tokens[p].str + 2, "%x", &n);
 		else if (tokens[p].type == TK_REGNAME) {
-            // eax, ebx, ebx, ecx, esp, ebp, esi, edi
-            // ax, dx, bx, cx, sp, bp, si, di
-            // al, cl, dl, bl, ah, ch, dh, bh
-            int width;
-            int id = -1;
-            if (strstr(tokens[p].str, "e") != NULL)
-                width = 4;
-            else if ((strstr(tokens[p].str, "l") != NULL) || (strstr(tokens[p].str, "h") != NULL))
-                width = 1;
-            else
-                width = 2;
+			// eax, ebx, ebx, ecx, esp, ebp, esi, edi
+			// ax, dx, bx, cx, sp, bp, si, di
+			// al, cl, dl, bl, ah, ch, dh, bh
+			int width;
+			int id = -1;
+			if (strstr(tokens[p].str, "e") != NULL)
+				width = 4;
+			else if ((strstr(tokens[p].str, "l") != NULL) || (strstr(tokens[p].str, "h") != NULL))
+				width = 1;
+			else
+				width = 2;
 
 			if (strstr(tokens[p].str, "a") != NULL)
 				id = 0;
@@ -322,13 +322,13 @@ uint32_t eval(int p, int q)
 				id = 1;
 			else if (strstr(tokens[p].str, "d") != NULL)
 				id = 2;
-            else if (strstr(tokens[p].str, "b") != NULL)
+			else if (strstr(tokens[p].str, "b") != NULL)
 				id = 3;
 
-            if (strstr(tokens[p].str, "h") != NULL)
+			if (strstr(tokens[p].str, "h") != NULL)
 				id += 4;
 
-            if (strstr(tokens[p].str, "sp") != NULL)
+			if (strstr(tokens[p].str, "sp") != NULL)
 				id = 4;
 			else if (strstr(tokens[p].str, "bp") != NULL)
 				id = 5;
@@ -337,21 +337,21 @@ uint32_t eval(int p, int q)
 			else if (strstr(tokens[p].str, "di") != NULL)
 				id = 7;
 
-            if (id != -1)
-                return reg_val(id, width);
+			if (id != -1)
+				return reg_val(id, width);
 
 			if (strstr(tokens[p].str, "ip") != NULL)
 				return cpu.eip & (~0u >> ((4 - width) << 3));
 
-            if (strstr(tokens[p].str, "of") != NULL)
+			if (strstr(tokens[p].str, "of") != NULL)
 				return cpu.eflags.OF;
-            else if (strstr(tokens[p].str, "sf") != NULL)
+			else if (strstr(tokens[p].str, "sf") != NULL)
 				return cpu.eflags.SF;
-            else if (strstr(tokens[p].str, "zf") != NULL)
+			else if (strstr(tokens[p].str, "zf") != NULL)
 				return cpu.eflags.ZF;
-            else if (strstr(tokens[p].str, "cf") != NULL)
+			else if (strstr(tokens[p].str, "cf") != NULL)
 				return cpu.eflags.CF;
-            else if (strstr(tokens[p].str, "if") != NULL)
+			else if (strstr(tokens[p].str, "if") != NULL)
 				return cpu.eflags.IF;
 
 			panic("no such register");
