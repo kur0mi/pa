@@ -52,12 +52,11 @@ make_EHelper(call)
 
 make_EHelper(ret)
 {
-	rtlreg_t temp = cpu.eax;
-	rtlreg_t id = 0;
-	rtl_pop(true, &id, id_src->width);
-	decoding.jmp_eip = cpu.eax;
+	rtlreg_t temp = vaddr_read(cpu.esp, id_dest->width);
+	vaddr_write(host_to_guest(&decoding.jmp_eip), id_dest->width, temp);
+	rtl_addi(&cpu.esp, &cpu.esp, id_dest->width);
+	decoding.jmp_eip = temp;
 	decoding.is_jmp = 1;
-	cpu.eax = temp;
 
 #ifdef EXT_DEBUG
 	printf("[[ ret ]]\n");
