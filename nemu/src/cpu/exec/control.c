@@ -41,9 +41,10 @@ make_EHelper(call)
 	decoding.jmp_eip = decoding.seq_eip + id_dest->val;
 	decoding.is_jmp = 1;
 
-#ifdef EXT_DEBUG
+#ifdef EXEC_DEBUG
 	printf("[[ call ]]\n");
-	printf("jmp to: 0x%08x\n", decoding.jmp_eip);
+	printf("\tpush current addr: 0x%08x\n", vaddr_read(cpu.esp, id_dest->width));
+	printf("\tjmp to: 0x%08x\n", decoding.jmp_eip);
 	printf("\n");
 #endif
 	
@@ -60,8 +61,7 @@ make_EHelper(ret)
 
 #ifdef EXT_DEBUG
 	printf("[[ ret ]]\n");
-	printf("pop %%esp\n");
-	printf("jmp to: 0x%08x\n", decoding.jmp_eip);
+	printf("\tjmp to: 0x%08x\n", decoding.jmp_eip);
 	printf("\n");
 #endif
 	
