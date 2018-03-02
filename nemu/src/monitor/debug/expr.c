@@ -129,7 +129,6 @@ static bool make_token(char *e)
 					if (substr_len > 31)
 						panic("str too long");
 					strncpy(tokens[nr_token].str, substr_start, substr_len);
-					strlwr(tokens[nr_token].str);
 					tokens[nr_token].str[substr_len] = '\0';
 					tokens[nr_token].type = rules[i].token_type;
 					break;
@@ -310,7 +309,7 @@ uint32_t eval(int p, int q)
             // al, cl, dl, bl, ah, ch, dh, bh
             int width;
             int id = -1;
-            if (strstr(tokens[p].str, "e") != NULL)
+            if (strcasestr(tokens[p].str, "e") != NULL)
                 width = 4;
             else if ((strstr(tokens[p].str, "l") != NULL) || (strstr(tokens[p].str, "h") != NULL))
                 width = 1;
