@@ -80,7 +80,7 @@ void init_regex()
 	int ret;
 
 	for (i = 0; i < NR_REGEX; i++) {
-		ret = regcomp(&re[i], rules[i].regex, REG_EXTENDED);
+		ret = regcomp(&re[i], rules[i].regex, REG_EXTENDED | REG_ICASE);
 		if (ret != 0) {
 			regerror(ret, &re[i], error_msg, 128);
 			panic("regex compilation failed: %s\n%s", error_msg, rules[i].regex);
@@ -129,6 +129,7 @@ static bool make_token(char *e)
 					if (substr_len > 31)
 						panic("str too long");
 					strncpy(tokens[nr_token].str, substr_start, substr_len);
+					strlwr(tokens[nr_token].str);
 					tokens[nr_token].str[substr_len] = '\0';
 					tokens[nr_token].type = rules[i].token_type;
 					break;
@@ -343,15 +344,15 @@ uint32_t eval(int p, int q)
 			if (strstr(tokens[p].str, "ip") != NULL)
 				return cpu.eip & (~0u >> ((4 - width) << 3));
 
-            if (strstr(tokens[p].str, "OF") != NULL)
+            if (strstr(tokens[p].str, "if") != NULL)
 				return cpu.eflags.OF;
-            else if (strstr(tokens[p].str, "SF") != NULL)
+            else if (strstr(tokens[p].str, "sf") != NULL)
 				return cpu.eflags.SF;
-            else if (strstr(tokens[p].str, "ZF") != NULL)
+            else if (strstr(tokens[p].str, "zf") != NULL)
 				return cpu.eflags.ZF;
-            else if (strstr(tokens[p].str, "CF") != NULL)
+            else if (strstr(tokens[p].str, "cf") != NULL)
 				return cpu.eflags.CF;
-            else if (strstr(tokens[p].str, "IF") != NULL)
+            else if (strstr(tokens[p].str, "if") != NULL)
 				return cpu.eflags.IF;
 
 			panic("no such register");
