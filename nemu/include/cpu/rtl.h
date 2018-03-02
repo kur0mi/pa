@@ -242,6 +242,13 @@ static inline void rtl_not(rtlreg_t * dest)
 	*dest = ~(*dest);
 }
 
+// 逻辑非
+static inline void rtl_neg(rtlreg_t * dest)
+{
+	// dest <- (-dest)
+	*dest = -(*dest);
+}
+
 // 符号位扩展
 static inline void rtl_sext(rtlreg_t * dest, const rtlreg_t * src1, int width)
 {
@@ -251,7 +258,7 @@ static inline void rtl_sext(rtlreg_t * dest, const rtlreg_t * src1, int width)
 
 static inline void rtl_push(const rtlreg_t * data, int width)
 {
-#ifdef EXT_DEBUG
+#ifdef RTL_DEBUG
 	printf("******* [[ push ]] *******\n");
 	printf("[push data]: 0x%08x\n", *data);
 	//printf("[width]: %d\n", width);
@@ -267,7 +274,7 @@ static inline void rtl_push(const rtlreg_t * data, int width)
 
 static inline void rtl_pop(bool is_reg, rtlreg_t * tt, int width)
 {
-#ifdef EXT_DEBUG
+#ifdef RTL_DEBUG
 	printf("******* [[ pop ]] *******\n");
 	printf("[from esp]: 0x%08x\n", cpu.esp);
 	if (is_reg)
@@ -341,7 +348,7 @@ static inline void rtl_update_ZFSF(const rtlreg_t * result, int width)
 #ifdef EXEC_DEBUG
 static inline void rtl_check_eflags()
 {
-	printf("[[ check_eflags ]]");
+	printf("[[ check_eflags ]]\n");
 	printf("ZF: %d\n", cpu.eflags.ZF);
 	printf("SF: %d\n", cpu.eflags.SF);
 	printf("OF: %d\n", cpu.eflags.OF);

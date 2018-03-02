@@ -29,6 +29,11 @@ typedef union {
 	struct {
 		rtlreg_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
 		vaddr_t eip;
+
+		/*	CF 影响无符号数
+		 *	SF，OF 影响有符号数
+		 *	ZF 都适用
+		 */
 		struct {
 			rtlreg_t CF:1;		// CF: 0
 			rtlreg_t pass1:5;
