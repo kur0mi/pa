@@ -341,7 +341,7 @@ uint32_t eval(int p, int q)
                 return reg_val(id, width);
 
 			if (strstr(tokens[p].str, "ip") != NULL)
-				return vaddr_read(host_to_guest(&cpu.eip), width);
+				return cpu.eip & (~0u >> ((4 - width) << 3));
 
             if (strstr(tokens[p].str, "OF") != NULL)
 				return cpu.eflags.OF;
