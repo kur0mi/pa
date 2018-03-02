@@ -26,11 +26,13 @@ typedef uint16_t ioaddr_t;
 #define false 0
 #define true 1
 
+/*
 char *strlwr(char *str){
 	char *orign=str;
 	for (; *str!='\0'; str++)
 	*str = (char)((int)(*str) + 32);
 	return orign;
 }
+*/
 
 #endif
