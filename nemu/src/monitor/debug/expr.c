@@ -319,11 +319,11 @@ uint32_t eval(int p, int q)
 			if (strstr(tokens[p].str, "a") != NULL)
 				id = 0;
 			else if (strstr(tokens[p].str, "b") != NULL)
-				id = 2;
-			else if (strstr(tokens[p].str, "c") != NULL)
 				id = 3;
-			else if (strstr(tokens[p].str, "d") != NULL)
+			else if (strstr(tokens[p].str, "c") != NULL)
 				id = 1;
+			else if (strstr(tokens[p].str, "d") != NULL)
+				id = 2;
 			else if (strstr(tokens[p].str, "sp") != NULL)
 				id = 4;
 			else if (strstr(tokens[p].str, "bp") != NULL)
