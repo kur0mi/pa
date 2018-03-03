@@ -126,7 +126,7 @@ static int cmd_w(char *args)
 	}
 
 	WP *w = new_wp(args, 0);
-	TipText("[+] set wp [%d], %s = 0x%08x\n", w->NO, w->str, w->value);
+	DebugText("[+] set wp [%d], %s = 0x%08x\n", w->NO, w->str, w->value);
 
 	return 0;
 }
@@ -140,7 +140,7 @@ static int cmd_b(char *args)
 
     sprintf(args, "$eip==%s", args);
 	WP *w = new_wp(args, 0);
-	printf("[+] set bp [%d], %s\n", w->NO, w->str);
+	DebugText("[+] set bp [%d], %s\n", w->NO, w->str);
 
 	return 0;
 }
@@ -245,7 +245,7 @@ void ui_mainloop(int is_batch_mode)
 		}
 
 		if (i == NR_CMD) {
-			printf("Unknown command '%s'\n", cmd);
+			AlarmText("Unknown command '%s'\n", cmd);
 		}
 	}
 }
