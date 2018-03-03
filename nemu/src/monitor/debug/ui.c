@@ -143,7 +143,8 @@ static int cmd_b(char *args)
 		return 0;
 	}
 
-    sprintf(args, "$eip==%s", args);
+	char temp[] = " == $eip";
+	strcat(args, temp);
 	WP *w = new_wp(args, 0);
 	printf("[+] set bp [%d], %s\n", w->NO, w->str);
 
