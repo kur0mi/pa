@@ -253,6 +253,13 @@ static inline void rtl_sext(rtlreg_t * dest, const rtlreg_t * src1, int width)
 {
 	// dest <- signext(src1[(width * 8 - 1) .. 0])
 	*dest = c_sar(c_shl(*src1, 4 - width), 4 - width);
+#ifdef RTL_DEBUG
+	printf("[[ rtl_sext ]]");
+	printf("src: 0x%08x\n", *src1);
+	printf("width: %d\n", width);
+	printf("dest: 0x%08x\n", *dest);
+	printf("\n");
+#endif
 }
 
 static inline void rtl_push(const rtlreg_t * data, int width)
