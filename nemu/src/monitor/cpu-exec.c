@@ -7,7 +7,7 @@
  * This is useful when you use the `si' command.
  * You can modify this value as you want.
  */
-#define MAX_INSTR_TO_PRINT 100
+#define MAX_INSTR_TO_PRINT 200
 
 int nemu_state = NEMU_STOP;
 
@@ -22,7 +22,7 @@ void cpu_exec(uint64_t n)
 	}
 	nemu_state = NEMU_RUNNING;
 
-	bool print_flag = (int64_t) n < MAX_INSTR_TO_PRINT;
+	bool print_flag = n < MAX_INSTR_TO_PRINT;
 
 	for (; n > 0; n--) {
 		/* Execute one instruction, including instruction fetch,
