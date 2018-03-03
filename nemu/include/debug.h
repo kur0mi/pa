@@ -47,7 +47,7 @@ extern FILE *log_fp;
       fflush(stdout); \
       fprintf(stdout, "\x1b[1;32m"); \
       fprintf(stdout, format, ## __VA_ARGS__); \
-      fprintf(stdout, "\x1b[0m\n"); \
+      fprintf(stdout, "\x1b[0m"); \
   } while (0)
 
 
