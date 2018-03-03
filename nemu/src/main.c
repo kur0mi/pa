@@ -3,6 +3,7 @@ void ui_mainloop(int);
 
 int main(int argc, char *argv[])
 {
+	GreenText("green");
 	/* Initialize the monitor. */
 	int is_batch_mode = init_monitor(argc, argv);
 

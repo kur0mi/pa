@@ -42,4 +42,12 @@ extern FILE *log_fp;
 
 #define TODO() panic("please implement me")
 
+#define GreenText(cond, ...) \
+  do { \
+      fflush(stdout); \
+      fprintf(stdout, "\x1b[1;32m"); \
+      fprintf(stdout, __VA_ARGS__); \
+      fprintf(stdout, "\x1b[0m\n"); \
+  } while (0)
+
 #endif
