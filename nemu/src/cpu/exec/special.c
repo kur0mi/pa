@@ -17,7 +17,7 @@ make_EHelper(inv)
 	temp[1] = instr_fetch(eip, 4);
 
 	uint8_t *p = (void *)temp;
-	printf("invalid opcode(eip = 0x%08x): %02x %02x %02x %02x %02x %02x %02x %02x ...\n\n", ori_eip, p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7]);
+	printf("invalid opcode(eip = 0x%08x): %02x\n %02x %02x %02x %02x %02x %02x %02x ...\n\n", ori_eip, p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7]);
 
 	extern char logo[];
 	printf("There are two cases which will trigger this unexpected exception:\n" "1. The instruction at eip = 0x%08x is not implemented.\n" "2. Something is implemented incorrectly.\n", ori_eip);

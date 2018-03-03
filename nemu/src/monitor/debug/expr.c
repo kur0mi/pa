@@ -113,9 +113,9 @@ static bool make_token(char *e)
 					panic("token too many");
 				char *substr_start = e + position;
 				int substr_len = pmatch.rm_eo;
-#ifdef DEBUG
-				Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
-#endif
+
+				//Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
+
 				position += substr_len;
 
 				/* TODO: Now a new token is recognized with rules[i]. Add codes
@@ -137,14 +137,10 @@ static bool make_token(char *e)
 				case '-':
 					if (nr_token == 0 || check_negtive_prefixx(nr_token - 1)) {
 						tokens[nr_token].type = TK_NEGTIVE;
-#ifdef MY_DEBUG
-						Log("negtive");
-#endif
+                        //Log("negtive");
 					} else {
 						tokens[nr_token].type = rules[i].token_type;
-#ifdef MY_DEBUG
-						Log("sub");
-#endif
+						//Log("sub");
 					}
 					break;
 				case '*':
@@ -292,9 +288,7 @@ int get_dominant(int p, int q)
 
 uint32_t eval(int p, int q)
 {
-#ifdef MY_DEBUG
-	Log("eval %d - %d", p, q);
-#endif
+	//Log("eval %d - %d", p, q);
 	if (p > q) {
 		panic("Bad expression");
 	} else if (p == q) {
