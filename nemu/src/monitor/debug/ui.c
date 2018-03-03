@@ -190,7 +190,7 @@ static int cmd_help(char *args)
 	if (arg == NULL) {
 		/* no argument given */
 		for (i = 0; i < NR_CMD; i++) {
-			kurumi(0, green, "%s - %s\n", cmd_table[i].name, cmd_table[i].description);
+			kurumi(0, darkgreen, "%s - %s\n", cmd_table[i].name, cmd_table[i].description);
 		}
 	} else {
 		for (i = 0; i < NR_CMD; i++) {
