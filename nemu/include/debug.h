@@ -72,7 +72,7 @@ enum { black=30, red, green, yellow, blue, purple, darkgreen, white
 #define TipText(format, ...) \
   do { \
       fflush(stdout); \
-      fprintf(stdout, "\x1b[43;36m"); \
+      fprintf(stdout, "\x1b[43;34m"); \
       fprintf(stdout, format, ## __VA_ARGS__); \
       fprintf(stdout, "\x1b[0m"); \
   } while (0)
