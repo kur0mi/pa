@@ -42,7 +42,7 @@ extern FILE *log_fp;
 
 #define TODO() panic("please implement me")
 
-enum { black=30, red, green, yellow, blue, purple, darkgreen, white
+enum { black = 30, red, green, yellow, blue, purple, darkgreen, white
 };
 
 #define kurumi(back, front, format, ...) \

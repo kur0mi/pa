@@ -68,11 +68,9 @@ static int cmd_info(char *args)
 		DebugText("%%ebp: 0x%08x\n", cpu.ebp);
 		DebugText("%%esi: 0x%08x\n", cpu.esi);
 		DebugText("%%edi: 0x%08x\n", cpu.edi);
-	}
-    else if (strcmp(args, "w") == 0) {
+	} else if (strcmp(args, "w") == 0) {
 		show_wp();
-	}
-    else {
+	} else {
 		cmd_help("info");
 	}
 
@@ -98,7 +96,7 @@ static int cmd_x(char *args)
 	for (i = 0; i < len; i += 4) {
 		int loop = len - i < 4 ? len - i : 4;
 		uint32_t data = vaddr_read(nAddr + i, loop);
-        DebugText("[0x%08x]: ", nAddr + i);
+		DebugText("[0x%08x]: ", nAddr + i);
 		int j;
 		for (j = 0; j < loop; j++) {
 			DebugText("0x%02x ", data & 0xff);
@@ -176,8 +174,8 @@ static struct {
 	"x", "   x N EXPR,  // eXamine memory, N bytes", cmd_x}, {
 	"p", "   p EXPR,    // Print expr", cmd_p}, {
 	"w", "   w EXPR,    // set Watchpoint", cmd_w}, {
-    "d", "   d N,       // Delete num N watchpoint", cmd_d}, {
-    "b", "   b EXPR,    // set Breakpoint", cmd_b}
+	"d", "   d N,       // Delete num N watchpoint", cmd_d}, {
+	"b", "   b EXPR,    // set Breakpoint", cmd_b}
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
