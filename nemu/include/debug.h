@@ -48,7 +48,7 @@ enum { black, red, green, yellow, blue, purple, darkgreen, white
 #define kurumi(back, front, format, ...) \
   do { \
       fflush(stdout); \
-      fprintf(stdout, "\x1b[back;frontm"); \
+      fprintf(stdout, "\x1b[%d;%dm", back, front); \
       fprintf(stdout, format, ## __VA_ARGS__); \
       fprintf(stdout, "\x1b[0m"); \
   } while (0)
