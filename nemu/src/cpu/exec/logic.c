@@ -13,7 +13,7 @@ make_EHelper(test)
 make_EHelper(and)
 {
 	rtl_sext(&t1, &id_src->val, id_src->width);
-	rtl_and(&t0, &id_dest->val, &id_src->val);
+	rtl_and(&t0, &id_dest->val, &t1);
 	operand_write(id_dest, &t0);
 
 	print_asm_template2(and);
