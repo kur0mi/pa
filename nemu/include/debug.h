@@ -46,8 +46,10 @@ extern FILE *log_fp;
   do { \
       fflush(stdout); \
       fprintf(stdout, "\x1b[1;32m"); \
-      fprintf(stdout, format, ## __VA_ARGS__); \
+      fprintf(stdout, "hello world"); \
       fprintf(stdout, "\x1b[0m\n"); \
   } while (0)
+
+//fprintf(stdout, format, ## __VA_ARGS__);
 
 #endif
