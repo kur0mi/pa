@@ -41,7 +41,7 @@ static int cmd_q(char *args)
 
 static int cmd_help(char *args);
 
-static int cmd_si(char *args)
+static int cmd_n(char *args)
 {
 	int n = 1;
 	if (args != NULL)
@@ -68,9 +68,11 @@ static int cmd_info(char *args)
 		printf("%%ebp: 0x%08x\n", cpu.ebp);
 		printf("%%esi: 0x%08x\n", cpu.esi);
 		printf("%%edi: 0x%08x\n", cpu.edi);
-	} else if (strcmp(args, "w") == 0) {
+	}
+    else if (strcmp(args, "w") == 0) {
 		show_wp();
-	} else {
+	}
+    else {
 		cmd_help("info");
 	}
 
@@ -116,8 +118,6 @@ static int cmd_x(char *args)
 static int cmd_p(char *args)
 {
 	int res = expr(args);
-	char hes[11];
-	sprintf(hes, "0x%x", res);
 	printf("result = %d | %u | 0x%x\n", res, res, res);
 
 	return 0;
@@ -129,19 +129,23 @@ static int cmd_w(char *args)
 		cmd_help("w");
 		return 0;
 	}
-	//char *tok1 = strtok(args, "=");
-	//char *tok2 = strtok(NULL, "=");
 
-	/*
-	   if (tok2 == NULL)
-	   res = expr(tok1);
-	   else {
-	   res = expr(tok2);
-	   *(tok2 - 1) = '\0';
-	   }
-	 */
 	WP *w = new_wp(args, 0);
 	printf("[+] set wp [%d], %s = 0x%08x\n", w->NO, w->str, w->value);
+
+	return 0;
+}
+
+static int cmd_b(char *args)
+{
+	if (args == NULL) {
+		cmd_help("b");
+		return 0;
+	}
+
+    sprintf(args, "$eip==%s", args);
+	WP *w = new_wp(args, 0);
+	printf("[+] set bp [%d], %s\n", w->NO, w->str);
 
 	return 0;
 }
@@ -167,16 +171,18 @@ static struct {
 } cmd_table[] = {
 	{
 	"help", "Display informations about all supported commands", cmd_help}, {
-	"c", "   c,         // Continue the execution of the program", cmd_c}, {
-	"q", "   q,         // Exit NEMU", cmd_q},
+	"c", "   c,         // Continue", cmd_c}, {
+	"q", "   q,         // Quit", cmd_q},
 	    /* TODO: Add more commands */
 	{
-	"si", "  si [N],    // Exec next N instr, default to 1", cmd_si}, {
-	"info", "info r|w,  // Print infos of register or watchpoint", cmd_info}, {
-	"x", "   x N EXPR,  // Print memory by N bytes", cmd_x}, {
-	"p", "   p EXPR,    // Calcu expression", cmd_p}, {
-	"w", "   w EXPR,    // Set watch point", cmd_w}, {
-"d", "   d N,       // Delete num N point", cmd_d},};
+	"n", "   n [N],     // Next N instr, default to 1", cmd_n}, {
+	"info", "info r|w,  // Infos of reg or watchpoint", cmd_info}, {
+	"x", "   x N EXPR,  // eXamine memory, N bytes", cmd_x}, {
+	"p", "   p EXPR,    // Print expr", cmd_p}, {
+	"w", "   w EXPR,    // set Watchpoint", cmd_w}, {
+    "d", "   d N,       // Delete num N watchpoint", cmd_d}, {
+    "b", "   b EXPR,    // set Breakpoint", cmd_b}
+};
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
 

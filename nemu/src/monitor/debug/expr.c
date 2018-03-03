@@ -70,7 +70,6 @@ static struct rule {
 	{
 	"^(!)", TK_LOGIC_NOT},	// logic not
 };
-
 // C has not (?!pattern), em fxxk...
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -87,7 +86,7 @@ void init_regex()
 	int ret;
 
 	for (i = 0; i < NR_REGEX; i++) {
-		// 忽略大小写
+        // 忽略大小写
 		ret = regcomp(&re[i], rules[i].regex, REG_EXTENDED | REG_ICASE);
 		if (ret != 0) {
 			regerror(ret, &re[i], error_msg, 128);
@@ -119,8 +118,8 @@ static bool make_token(char *e)
 			if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0) {
 				if (nr_token >= 31) {
 					Log("too many tokens");
-					return false;
-				}
+                    return false;
+                }
 				char *substr_start = e + position;
 				int substr_len = pmatch.rm_eo;
 
@@ -137,8 +136,8 @@ static bool make_token(char *e)
 				case TK_REGNAME:
 					if (substr_len > 31) {
 						Log("token descrip to long");
-						return false;
-					}
+                        return false;
+                    }
 					strncpy(tokens[nr_token].str, substr_start, substr_len);
 					tokens[nr_token].str[substr_len] = '\0';
 					tokens[nr_token].type = rules[i].token_type;
@@ -290,7 +289,7 @@ int get_dominant(int p, int q)
 		}
 	}
 
-	Assert(domi != -1, "cannot find dominant");
+    Assert(domi != -1, "cannot find dominant");
 	return domi;
 }
 
@@ -303,15 +302,17 @@ uint32_t eval(int p, int q)
 		uint32_t n = 0;
 		if (tokens[p].type == TK_DECIMAL) {
 			sscanf(tokens[p].str, "%d", &n);
-			return n;
-		} else if (tokens[p].type == TK_HEXADECIMAL) {
+            return n;
+        }
+		else if (tokens[p].type == TK_HEXADECIMAL) {
 			sscanf(tokens[p].str + 2, "%x", &n);
-			return n;
-		} else if (tokens[p].type == TK_REGNAME) {
+            return n;
+        }
+		else if (tokens[p].type == TK_REGNAME) {
 			// eax, ebx, ebx, ecx, esp, ebp, esi, edi
 			// ax, dx, bx, cx, sp, bp, si, di
 			// al, cl, dl, bl, ah, ch, dh, bh
-			// 寄存器宽度
+            // 寄存器宽度
 			int width;
 			if (strstr(tokens[p].str, "e") != NULL)
 				width = 4;
@@ -320,8 +321,8 @@ uint32_t eval(int p, int q)
 			else
 				width = 2;
 
-			// 寄存器编号
-			int id = -1;
+            // 寄存器编号
+            int id = -1;
 			if (strstr(tokens[p].str, "a") != NULL)
 				id = 0;
 			else if (strstr(tokens[p].str, "c") != NULL)
@@ -361,14 +362,14 @@ uint32_t eval(int p, int q)
 				return cpu.eflags.IF;
 
 			Log("no such register: %s", tokens[p].str);
-			return 0;
+            return 0;
 		} else {
 			Log("no such unit: %s", tokens[p].str);
-			return 0;
-		}
+            return 0;
+        }
 	} else {
-		while (check_parentheses(p, q))
-			return eval(p + 1, q - 1);
+        while (check_parentheses(p, q))
+		    return eval(p + 1, q - 1);
 
 		int domi = get_dominant(p, q);
 		if (tokens[domi].type == TK_NEGTIVE)
@@ -401,7 +402,7 @@ uint32_t eval(int p, int q)
 			return val2;
 		default:
 			Log("未识别的符号");
-			return 0;
+            return 0;
 		}
 	}
 }

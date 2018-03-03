@@ -221,9 +221,10 @@ static inline void rtl_get_CF(rtlreg_t* dest) {
 
 // 设置标志位
 make_rtl_setget_eflags(CF)
-    make_rtl_setget_eflags(OF)
-    make_rtl_setget_eflags(ZF)
-    make_rtl_setget_eflags(SF)
+make_rtl_setget_eflags(OF)
+make_rtl_setget_eflags(ZF)
+make_rtl_setget_eflags(SF)
+
 // 数据传送
 static inline void rtl_mv(rtlreg_t * dest, const rtlreg_t * src1)
 {
@@ -250,7 +251,7 @@ static inline void rtl_sext(rtlreg_t * dest, const rtlreg_t * src1, int width)
 {
 	// dest <- signext(src1[(width * 8 - 1) .. 0])
 #ifdef RTL_DEBUG
-	rtlreg_t temp = *src1;
+    rtlreg_t temp = *src1;
 #endif
 	*dest = c_sar(c_shl(*src1, 32 - width * 8), 32 - width * 8);
 #ifdef RTL_DEBUG
@@ -273,7 +274,7 @@ static inline void rtl_push(const rtlreg_t * data, int width)
 #endif
 	// esp <- esp - 4
 	// M[esp] <- src1
-	rtl_subi(&cpu.esp, &cpu.esp, width);
+    rtl_subi(&cpu.esp, &cpu.esp, width);
 	rtl_sm(&cpu.esp, width, data);
 }
 
@@ -330,7 +331,7 @@ static inline void rtl_update_ZF(const rtlreg_t * result, int width)
 {
 	// eflags.ZF <- is_zero(result[width * 8 - 1 .. 0])
 	rtlreg_t temp;
-	rtl_eq0(&temp, result);
+    rtl_eq0(&temp, result);
 	rtl_set_ZF(&temp);
 }
 
