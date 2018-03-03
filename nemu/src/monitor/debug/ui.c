@@ -199,7 +199,7 @@ static int cmd_help(char *args)
 				return 0;
 			}
 		}
-		kurumi(white, red, "Unknown command '%s'\n", arg);
+		kurumi(0, red, "Unknown command '%s'\n", arg);
 	}
 	return 0;
 }
