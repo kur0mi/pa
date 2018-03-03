@@ -98,12 +98,7 @@ static int cmd_x(char *args)
 	for (i = 0; i < len; i += 4) {
 		int loop = len - i < 4 ? len - i : 4;
 		uint32_t data = vaddr_read(nAddr + i, loop);
-#ifdef MY_DEBUG
-		printf("[debug]: cmd_x");
-		printf("    read %d bytes: 0x%08x", loop, data);
-		printf("    from 0x%08x: ", nAddr + i);
-#endif
-		printf("[0x%08x]: ", nAddr + i);
+        printf("[0x%08x]: ", nAddr + i);
 		int j;
 		for (j = 0; j < loop; j++) {
 			printf("0x%02x ", data & 0xff);
@@ -143,9 +138,8 @@ static int cmd_b(char *args)
 		return 0;
 	}
 
-	char temp[32] = "$eip == ";
-	strcat(temp, args);
-	WP *w = new_wp(temp, 0);
+    sprintf(args, "$eip==%s", args);
+	WP *w = new_wp(args, 0);
 	printf("[+] set bp [%d], %s\n", w->NO, w->str);
 
 	return 0;

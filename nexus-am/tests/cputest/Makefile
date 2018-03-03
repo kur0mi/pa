@@ -1,5 +1,5 @@
 include $(AM_HOME)/Makefile.check
-.PHONY: all run clean latest $(ALL)
+.PHONY: all run clean latest $(ALL) show
 
 ALL = $(basename $(notdir $(shell find tests/. -name "*.c")))
 
@@ -19,3 +19,9 @@ clean:
 	rm -rf Makefile.* build/
 
 latest:
+
+show:
+	@echo "target: $(ALL)"
+	@echo "ARCH: $(ARCH)"
+	@echo "goal: $(MAKECMDGOALS)"
+
