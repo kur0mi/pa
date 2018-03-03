@@ -25,7 +25,7 @@ make_EHelper(jcc)
 	// the target address is calculated at the decode stage
 	uint8_t subcode = decoding.opcode & 0xf;
 	rtl_setcc(&t2, subcode);
-	rtl_andi(&id_dest->val, &id_dest->val, 0xff);
+	rtl_sext(&id_dest->val, &id_dest->val, id_dest->width);
 	decoding.jmp_eip = decoding.seq_eip + id_dest->val;
 	decoding.is_jmp = t2;
 
