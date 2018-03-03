@@ -190,16 +190,16 @@ static int cmd_help(char *args)
 	if (arg == NULL) {
 		/* no argument given */
 		for (i = 0; i < NR_CMD; i++) {
-			kurumi(0, darkgreen, "%s - %s\n", cmd_table[i].name, cmd_table[i].description);
+			kurumi(0, green, "%s - %s\n", cmd_table[i].name, cmd_table[i].description);
 		}
 	} else {
 		for (i = 0; i < NR_CMD; i++) {
 			if (strcmp(arg, cmd_table[i].name) == 0) {
-				kurumi("0, darkgreen, %s - %s\n", cmd_table[i].name, cmd_table[i].description);
+				kurumi(0, green, "%s - %s\n", cmd_table[i].name, cmd_table[i].description);
 				return 0;
 			}
 		}
-		printf("Unknown command '%s'\n", arg);
+		kurumi(0, red, "Unknown command '%s'\n", arg);
 	}
 	return 0;
 }
