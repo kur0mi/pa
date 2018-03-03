@@ -98,10 +98,10 @@ static int cmd_x(char *args)
 	for (i = 0; i < len; i += 4) {
 		int loop = len - i < 4 ? len - i : 4;
 		uint32_t data = vaddr_read(nAddr + i, loop);
-        printf("[0x%08x]: ", nAddr + i);
+        DebugText("[0x%08x]: ", nAddr + i);
 		int j;
 		for (j = 0; j < loop; j++) {
-			printf("0x%02x ", data & 0xff);
+			DebugText("0x%02x ", data & 0xff);
 			data = data >> 8;
 		}
 		printf("\n");
@@ -113,7 +113,7 @@ static int cmd_x(char *args)
 static int cmd_p(char *args)
 {
 	int res = expr(args);
-	printf("result = %d | %u | 0x%x\n", res, res, res);
+	DebugText("result = %d | 0x%x\n", res, res);
 
 	return 0;
 }
@@ -126,7 +126,7 @@ static int cmd_w(char *args)
 	}
 
 	WP *w = new_wp(args, 0);
-	printf("[+] set wp [%d], %s = 0x%08x\n", w->NO, w->str, w->value);
+	TipText("[+] set wp [%d], %s = 0x%08x\n", w->NO, w->str, w->value);
 
 	return 0;
 }
