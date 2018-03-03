@@ -7,9 +7,6 @@
  */
 
 #include "nemu.h"
-#include "cpu/decode.h"
-
-void operand_write(Operand *, rtlreg_t *);
 
 // extern 关键字 表明 该变量 在其他文件中声明
 extern rtlreg_t t0, t1, t2, t3;	// 临时寄存器
@@ -207,7 +204,7 @@ static inline void rtl_sr(int r, int width, const rtlreg_t * src1)
 }
 
 /**************
-static inline void rtl_set_CF(const rtlreg_t* src) { 
+static inline void rtl_set_CF(const rtlreg_t* src) {
     cpu.eflags.CF = *src;
 }
 static inline void rtl_get_CF(rtlreg_t* dest) {
@@ -252,10 +249,13 @@ static inline void rtl_neg(rtlreg_t * dest)
 static inline void rtl_sext(rtlreg_t * dest, const rtlreg_t * src1, int width)
 {
 	// dest <- signext(src1[(width * 8 - 1) .. 0])
+#ifdef RTL_DEBUG
+	rtlreg_t temp = *src1;
+#endif
 	*dest = c_sar(c_shl(*src1, 32 - width * 8), 32 - width * 8);
 #ifdef RTL_DEBUG
-	printf("[[ rtl_sext ]]");
-	printf("src: 0x%08x\n", *src1);
+	printf("[[ rtl_sext ]]\n");
+	printf("src: 0x%08x\n", temp);
 	printf("width: %d\n", width);
 	printf("dest: 0x%08x\n", *dest);
 	printf("\n");
@@ -267,13 +267,13 @@ static inline void rtl_push(const rtlreg_t * data, int width)
 #ifdef RTL_DEBUG
 	printf("******* [[ push ]] *******\n");
 	printf("[push data]: 0x%08x\n", *data);
-	//printf("[width]: %d\n", width);
+	printf("[width]: %d\n", width);
 	printf("[to esp]: 0x%08x\n", cpu.esp - width);
 	printf("\n");
 #endif
 	// esp <- esp - 4
 	// M[esp] <- src1
-	cpu.esp -= width;
+	rtl_subi(&cpu.esp, &cpu.esp, width);
 	rtl_sm(&cpu.esp, width, data);
 }
 
@@ -322,14 +322,15 @@ static inline void rtl_neq0(rtlreg_t * dest, const rtlreg_t * src1)
 static inline void rtl_msb(rtlreg_t * dest, const rtlreg_t * src1, int width)
 {
 	// dest <- src1[width * 8 - 1]
-	*dest = (*src1) >> (width - 1);
+	*dest = (*src1) >> (width * 8 - 1);
 }
 
 // RTL 指令 - 更新 标志位 ZF
 static inline void rtl_update_ZF(const rtlreg_t * result, int width)
 {
 	// eflags.ZF <- is_zero(result[width * 8 - 1 .. 0])
-	rtlreg_t temp = ((*result) == 0);
+	rtlreg_t temp;
+	rtl_eq0(&temp, result);
 	rtl_set_ZF(&temp);
 }
 
@@ -349,8 +350,8 @@ static inline void rtl_update_ZFSF(const rtlreg_t * result, int width)
 	rtl_update_SF(result, width);
 }
 
+#ifndef MY_RELEASE
 // 检查标志位
-#ifdef EXEC_DEBUG
 static inline void rtl_check_eflags()
 {
 	printf("[[ check_eflags ]]\n");

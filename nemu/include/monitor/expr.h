@@ -4,6 +4,5 @@
 #include "common.h"
 
 uint32_t expr(char *e);
-void expr_test();
 
 #endif

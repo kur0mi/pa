@@ -87,6 +87,7 @@ void show_wp()
 	}
 }
 
+#ifndef MY_RELEASE
 void show_free()
 {
 	WP *t = free_;
@@ -95,6 +96,7 @@ void show_free()
 		t = t->next;
 	}
 }
+#endif
 
 WP *check_wp(WP * w)
 {

@@ -43,14 +43,11 @@ static int cmd_help(char *args);
 
 static int cmd_si(char *args)
 {
-	int n;
-	if (args == NULL)
-		n = 1;
-	else
+	int n = 1;
+	if (args != NULL)
 		n = atoi(args);
 
 	cpu_exec(n);
-
 	return 0;
 }
 
@@ -62,18 +59,6 @@ static int cmd_info(char *args)
 	}
 
 	if (strcmp(args, "r") == 0) {
-		//char eip[9], eax[9], ebx[9], ecx[9], edx[9], esp[9], ebp[9], esi[9], edi[9];
-		/*
-		   sprintf(eip, "%08x", cpu.eip);
-		   sprintf(eax, "%08x", cpu.eax);
-		   sprintf(ebx, "%08x", cpu.ebx);
-		   sprintf(ecx, "%08x", cpu.ecx);
-		   sprintf(edx, "%08x", cpu.edx);
-		   sprintf(esp, "%08x", cpu.esp);
-		   sprintf(ebp, "%08x", cpu.ebp);
-		   sprintf(esi, "%08x", cpu.esi);
-		   sprintf(edi, "%08x", cpu.edi);
-		 */
 		printf("%%eip: 0x%08x\n", cpu.eip);
 		printf("%%eax: 0x%08x\n", cpu.eax);
 		printf("%%ebx: 0x%08x\n", cpu.ebx);
@@ -85,9 +70,6 @@ static int cmd_info(char *args)
 		printf("%%edi: 0x%08x\n", cpu.edi);
 	} else if (strcmp(args, "w") == 0) {
 		show_wp();
-#ifdef MY_DEBUG
-		show_free();
-#endif
 	} else {
 		cmd_help("info");
 	}
@@ -159,7 +141,7 @@ static int cmd_w(char *args)
 	   }
 	 */
 	WP *w = new_wp(args, 0);
-	printf("[+] set wp [%d], %s = %d\n", w->NO, w->str, w->value);
+	printf("[+] set wp [%d], %s = 0x%08x\n", w->NO, w->str, w->value);
 
 	return 0;
 }
