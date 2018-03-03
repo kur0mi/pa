@@ -138,8 +138,9 @@ static int cmd_b(char *args)
 		return 0;
 	}
 
-    sprintf(args, "$eip==%s", args);
-	WP *w = new_wp(args, 0);
+	char temp[32] = "$eip == ";
+	strcat(temp, args);
+	WP *w = new_wp(temp, 0);
 	DebugText("[+] set bp [%d], %s\n", w->NO, w->str);
 
 	return 0;
