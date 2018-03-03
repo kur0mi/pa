@@ -59,15 +59,15 @@ static int cmd_info(char *args)
 	}
 
 	if (strcmp(args, "r") == 0) {
-		printf("%%eip: 0x%08x\n", cpu.eip);
-		printf("%%eax: 0x%08x\n", cpu.eax);
-		printf("%%ebx: 0x%08x\n", cpu.ebx);
-		printf("%%ecx: 0x%08x\n", cpu.ecx);
-		printf("%%edx: 0x%08x\n", cpu.edx);
-		printf("%%esp: 0x%08x\n", cpu.esp);
-		printf("%%ebp: 0x%08x\n", cpu.ebp);
-		printf("%%esi: 0x%08x\n", cpu.esi);
-		printf("%%edi: 0x%08x\n", cpu.edi);
+		DebugText("%%eip: 0x%08x\n", cpu.eip);
+		DebugText("%%eax: 0x%08x\n", cpu.eax);
+		DebugText("%%ebx: 0x%08x\n", cpu.ebx);
+		DebugText("%%ecx: 0x%08x\n", cpu.ecx);
+		DebugText("%%edx: 0x%08x\n", cpu.edx);
+		DebugText("%%esp: 0x%08x\n", cpu.esp);
+		DebugText("%%ebp: 0x%08x\n", cpu.ebp);
+		DebugText("%%esi: 0x%08x\n", cpu.esi);
+		DebugText("%%edi: 0x%08x\n", cpu.edi);
 	}
     else if (strcmp(args, "w") == 0) {
 		show_wp();
@@ -190,16 +190,16 @@ static int cmd_help(char *args)
 	if (arg == NULL) {
 		/* no argument given */
 		for (i = 0; i < NR_CMD; i++) {
-			kurumi(0, green, "%s - %s\n", cmd_table[i].name, cmd_table[i].description);
+			DebugText("%s - %s\n", cmd_table[i].name, cmd_table[i].description);
 		}
 	} else {
 		for (i = 0; i < NR_CMD; i++) {
 			if (strcmp(arg, cmd_table[i].name) == 0) {
-				kurumi(0, green, "%s - %s\n", cmd_table[i].name, cmd_table[i].description);
+				DebugText("%s - %s\n", cmd_table[i].name, cmd_table[i].description);
 				return 0;
 			}
 		}
-		kurumi(0, red, "Unknown command '%s'\n", arg);
+		AlarmText("Unknown command '%s'\n", arg);
 	}
 	return 0;
 }

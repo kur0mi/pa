@@ -53,4 +53,20 @@ enum { black=30, red, green, yellow, blue, purple, darkgreen, white
       fprintf(stdout, "\x1b[0m"); \
   } while (0)
 
+#define DebugText(format, ...) \
+  do { \
+      fflush(stdout); \
+      fprintf(stdout, "\x1b[0;32m"); \
+      fprintf(stdout, format, ## __VA_ARGS__); \
+      fprintf(stdout, "\x1b[0m"); \
+  } while (0)
+
+#define AlarmText(format, ...) \
+  do { \
+      fflush(stdout); \
+      fprintf(stdout, "\x1b[0;31m"); \
+      fprintf(stdout, format, ## __VA_ARGS__); \
+      fprintf(stdout, "\x1b[0m"); \
+  } while (0)
+
 #endif
