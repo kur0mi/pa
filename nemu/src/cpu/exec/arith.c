@@ -20,9 +20,9 @@ make_EHelper(add)
 	rtl_update_ZFSF(&t0, id_dest->width);
 
 #ifdef EXEC_DEBUG
-	printf("%d + %d = %d\n", id_dest->val, id_src->val, t0);
-	printf("%x + %x = %x\n", id_dest->val, id_src->val, t0);
-	printf("%u + %u = %u\n", id_dest->val, id_src->val, t0);
+	DebugText("%d + %d = %d\n", id_dest->val, id_src->val, t0);
+	DebugText("%x + %x = %x\n", id_dest->val, id_src->val, t0);
+	DebugText("%u + %u = %u\n", id_dest->val, id_src->val, t0);
 	rtl_check_eflags();
 #endif
 
