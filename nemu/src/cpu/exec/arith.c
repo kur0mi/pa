@@ -49,7 +49,7 @@ make_EHelper(sub)
 	rtl_update_ZFSF(&t0, id_dest->width);
 
 #ifdef EXEC_DEBUG
-	printf("0x%x - 0x%x = 0x%x\n", id_dest->val, id_src->val, t0);
+	DebugText("0x%x - 0x%x = 0x%x\n", id_dest->val, id_src->val, t0);
 	//rtl_check_eflags();
 #endif
 
