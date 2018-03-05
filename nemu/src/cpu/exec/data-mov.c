@@ -104,7 +104,9 @@ make_EHelper(popa)
 
 make_EHelper(leave)
 {
-	TODO();
+	rtl_mv(&cpu.esp, &cpu.ebp);
+	rtl_sr(R_EBP, id_src->width, guest_to_host(cpu.esp));
+	rtl_addi(&cpu.esp, &cpu.esp, id_src->width);
 
 	print_asm("leave");
 }
