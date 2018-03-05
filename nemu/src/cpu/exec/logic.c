@@ -17,6 +17,9 @@ make_EHelper(and)
 	operand_write(id_dest, &t0);
 
 	print_asm_template2(and);
+#ifdef EXEC_DEBUG
+	DebugText("0x%x & 0x%x ==> 0x%x\n", id_src->val, id_dest->val, t0);
+#endif
 }
 
 make_EHelper(xor)
