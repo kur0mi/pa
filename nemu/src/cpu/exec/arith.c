@@ -21,6 +21,7 @@ make_EHelper(add)
 
 #ifdef EXEC_DEBUG
 	printf("%d + %d = %d\n", id_dest->val, id_src->val, t0);
+	printf("%x + %x = %x\n", id_dest->val, id_src->val, t0);
 	printf("%u + %u = %u\n", id_dest->val, id_src->val, t0);
 	rtl_check_eflags();
 #endif
