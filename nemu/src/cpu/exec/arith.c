@@ -22,7 +22,7 @@ make_EHelper(add)
 	print_asm_template2(add);
 
 #ifdef EXEC_DEBUG
-	DebugText("0x%x + 0x%x ==> 0x%x\n", id_dest->val, id_src->val, t0);
+	DebugText("0x%08x + 0x%08x ==> 0x%08x\n", id_dest->val, id_src->val, t0);
 	//rtl_check_eflags();
 #endif
 }
@@ -49,9 +49,8 @@ make_EHelper(sub)
 	rtl_update_ZFSF(&t0, id_dest->width);
 
 #ifdef EXEC_DEBUG
-	printf("%d - %d = %d\n", id_dest->val, id_src->val, t0);
-	printf("%u - %u = %u\n", id_dest->val, id_src->val, t0);
-	rtl_check_eflags();
+	printf("0x%x - 0x%x = 0x%x\n", id_dest->val, id_src->val, t0);
+	//rtl_check_eflags();
 #endif
 
 	print_asm_template2(sub);
