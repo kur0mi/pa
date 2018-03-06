@@ -134,8 +134,9 @@ make_EHelper(dec)
 
 make_EHelper(neg)
 {
-	TODO();
-
+	rtl_neg(&id_dest->val);
+	operand_write(id_dest, &id_dest->val);
+	
 	print_asm_template1(neg);
 }
 
@@ -164,9 +165,8 @@ make_EHelper(adc)
 	rtl_set_OF(&t0);
 
 #ifdef EXEC_DEBUG
-	printf("%d + %d + %d = %d\n", id_dest->val, id_src->val, carry, t0);
-	printf("%u + %u + %u = %u\n", id_dest->val, id_src->val, carry, t0);
-	rtl_check_eflags();
+	//printf("%u + %u + %u = %u\n", id_dest->val, id_src->val, carry, t0);
+	//rtl_check_eflags();
 #endif
 
 	print_asm_template2(adc);
@@ -196,9 +196,8 @@ make_EHelper(sbb)
 	rtl_set_OF(&t0);
 
 #ifdef EXEC_DEBUG
-	printf("%d + %d + %d = %d\n", id_dest->val, id_src->val, carry, t0);
-	printf("%u + %u + %u = %u\n", id_dest->val, id_src->val, carry, t0);
-	rtl_check_eflags();
+	//printf("%u + %u + %u = %u\n", id_dest->val, id_src->val, carry, t0);
+	//rtl_check_eflags();
 #endif
 
 	print_asm_template2(sbb);
