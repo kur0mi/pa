@@ -20,9 +20,8 @@ make_EHelper(add)
 	rtl_update_ZFSF(&t0, id_dest->width);
 
 	print_asm_template2(add);
-
 #ifdef EXEC_DEBUG
-	DebugText("0x%08x + 0x%08x ==> 0x%08x\n", id_dest->val, id_src->val, t0);
+	//DebugText("0x%08x + 0x%08x ==> 0x%08x\n", id_dest->val, id_src->val, t0);
 	//rtl_check_eflags();
 #endif
 }
@@ -48,12 +47,11 @@ make_EHelper(sub)
 
 	rtl_update_ZFSF(&t0, id_dest->width);
 
+	print_asm_template2(sub);
 #ifdef EXEC_DEBUG
-	DebugText("0x%x - 0x%x = 0x%x\n", id_dest->val, id_src->val, t0);
+	//DebugText("0x%x - 0x%x = 0x%x\n", id_dest->val, id_src->val, t0);
 	//rtl_check_eflags();
 #endif
-
-	print_asm_template2(sub);
 }
 
 make_EHelper(cmp)
@@ -75,18 +73,15 @@ make_EHelper(cmp)
 
 	rtl_update_ZFSF(&t0, id_dest->width);
 
-#ifdef EXEC_DEBUG
-	printf("%d - %d = %d\n", id_dest->val, id_src->val, t0);
-	printf("%u - %u = %u\n", id_dest->val, id_src->val, t0);
-	rtl_check_eflags();
-#endif
-
 	print_asm_template2(cmp);
+#ifdef EXEC_DEBUG
+	//DebugText("0x%x - 0x%x = 0x%x\n", id_dest->val, id_src->val, t0);
+	//rtl_check_eflags();
+#endif
 }
 
 make_EHelper(inc)
 {
-/*
 	// t0 为运算结果
 	rtl_addi(&t0, &id_dest->val, 1);
 
@@ -104,20 +99,37 @@ make_EHelper(inc)
 
 	rtl_update_ZFSF(&t0, id_dest->width);
 
-#ifdef EXEC_DEBUG
-	printf("%d + %d = %d\n", id_dest->val, 1, t0);
-	printf("%u + %u = %u\n", id_dest->val, 1, t0);
-	rtl_check_eflags();
-#endif
-*/
 	print_asm_template1(inc);
+#ifdef EXEC_DEBUG
+	//DebugText("0x%x + 0x%x = 0x%x\n", id_dest->val, 1, t0);
+	//rtl_check_eflags();
+#endif
 }
 
 make_EHelper(dec)
 {
-	TODO();
+	// t0 为运算结果
+	rtl_subi(&t0, &id_dest->val, 1);
+
+	rtl_sltu(&t1, &t0, &id_dest->val);
+	rtl_set_CF(&t1);
+
+	rtl_xor(&t1, &id_dest->val, &id_src->val);
+	rtl_xor(&t1, &t1, &t0);
+	rtl_xor(&t1, &t1, &t0);
+	rtl_not(&t1);
+	rtl_msb(&t1, &t1, id_dest->width);
+	rtl_set_OF(&t1);
+
+	operand_write(id_dest, &t0);
+
+	rtl_update_ZFSF(&t0, id_dest->width);
 
 	print_asm_template1(dec);
+#ifdef EXEC_DEBUG
+	//DebugText("0x%x + 0x%x = 0x%x\n", id_dest->val, 1, t0);
+	//rtl_check_eflags();
+#endif
 }
 
 make_EHelper(neg)
