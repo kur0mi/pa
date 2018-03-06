@@ -8,17 +8,14 @@
 
 #include "nemu.h"
 
-// extern 关键字 表明 该变量 在其他文件中声明
+// extern 关键字表明 该变量 在其他文件中声明
 extern rtlreg_t t0, t1, t2, t3;	// 临时寄存器
 extern const rtlreg_t tzero;	// 0 寄存器
 
 /* RTL basic instructions */
 
-/*	imm --> dest
- *
- *	dest 写入的地址
- *	imm  写入的值
- */
+// 装载立即数
+// imm --> dest
 static inline void rtl_li(rtlreg_t * dest, uint32_t imm)
 {
 	*dest = imm;
@@ -88,30 +85,29 @@ static inline void rtl_idiv(rtlreg_t * q, rtlreg_t * r, const rtlreg_t * src1_hi
 	asm volatile ("idiv %4":"=a" (*q), "=d"(*r):"d"(*src1_hi), "a"(*src1_lo), "r"(*src2));
 }
 
-// addr --> dest
+// 装载内存
+// mem --> dest
 static inline void rtl_lm(rtlreg_t * dest, const rtlreg_t * addr, int len)
 {
 #ifdef RTL_DEBUG
-	printf("******* [[ rtl_lm ]] *******\n");
-	printf("[read mem]: 0x%08x\n", *addr);
-	printf("[to addr]: 0x%08x\n", host_to_guest(dest));
-	printf("\n");
+	DebugText("******* [[ rtl_lm ]] *******\n");
+	DebugText("[read mem]: 0x%08x\n", *addr);
+	DebugText("[to addr]: 0x%08x\n", host_to_guest(dest));
+	DebugText("\n");
 #endif
 
 	*dest = vaddr_read(*addr, len);
 }
 
-// src1 --> addr
-// *src1 = 0x34
-// *addr = 0x100fff
-// 在地址 0x100fff 处写入值 0x34
+// 写回内存
+// dest --> mem
 static inline void rtl_sm(rtlreg_t * addr, int len, const rtlreg_t * src1)
 {
 #ifdef RTL_DEBUG
-	printf("******* [[ rtl_sm ]] *******\n");
-	printf("[write mem]: 0x%08x\n", *addr);
-	printf("[value]: 0x%08x\n", *src1);
-	printf("\n");
+	DebugText("******* [[ rtl_sm ]] *******\n");
+	DebugText("[write mem]: 0x%08x\n", *addr);
+	DebugText("[value]: 0x%08x\n", *src1);
+	DebugText("\n");
 #endif
 
 	vaddr_write(*addr, len, *src1);
@@ -153,14 +149,15 @@ static inline void rtl_sr_l(int r, const rtlreg_t * src1)
  *	进一步封装
  */
 
+// 装载寄存器
 // register --> dest
 static inline void rtl_lr(rtlreg_t * dest, int r, int width)
 {
 #ifdef RTL_DEBUG
-	printf("******* [[ rtl_lr ]] *******\n");
-	printf("[read reg]: %%%s\n", reg_name(r, width));
-	printf("[to addr]: 0x%08x\n", *dest);
-	printf("\n");
+	DebugText("******* [[ rtl_lr ]] *******\n");
+	DebugText("[read reg]: %%%s\n", reg_name(r, width));
+	DebugText("[to addr]: 0x%08x\n", *dest);
+	DebugText("\n");
 #endif
 
 	switch (width) {
@@ -178,14 +175,15 @@ static inline void rtl_lr(rtlreg_t * dest, int r, int width)
 	}
 }
 
+// 写回寄存器
 // src1 --> register
 static inline void rtl_sr(int r, int width, const rtlreg_t * src1)
 {
 #ifdef RTL_DEBUG
-	printf("******* [[ rtl_sr ]] *******\n");
-	printf("[write reg]: %%%s\n", reg_name(r, width));
-	printf("[value]: 0x%08x\n", *src1);
-	printf("\n");
+	DebugText("******* [[ rtl_sr ]] *******\n");
+	DebugText("[write reg]: %%%s\n", reg_name(r, width));
+	DebugText("[value]: 0x%08x\n", *src1);
+	DebugText("\n");
 #endif
 
 	switch (width) {
@@ -224,72 +222,75 @@ make_rtl_setget_eflags(CF)
     make_rtl_setget_eflags(OF)
     make_rtl_setget_eflags(ZF)
     make_rtl_setget_eflags(SF)
+
 // 数据传送
+// dest <- src1
 static inline void rtl_mv(rtlreg_t * dest, const rtlreg_t * src1)
 {
-	// dest <- src1
 	*dest = *src1;
 }
 
 // 按位取反
+// dest <- (~dest)
 static inline void rtl_not(rtlreg_t * dest)
 {
-	// dest <- ~dest
 	*dest = ~(*dest);
 }
 
 // 逻辑非
+// dest <- (-dest)
 static inline void rtl_neg(rtlreg_t * dest)
 {
-	// dest <- (-dest)
 	*dest = -(*dest);
 }
 
 // 符号位扩展
+// dest <- signext(src1[(width * 8 - 1) .. 0])
 static inline void rtl_sext(rtlreg_t * dest, const rtlreg_t * src1, int width)
 {
-	// dest <- signext(src1[(width * 8 - 1) .. 0])
 #ifdef RTL_DEBUG
 	rtlreg_t temp = *src1;
 #endif
 	*dest = c_sar(c_shl(*src1, 32 - width * 8), 32 - width * 8);
 #ifdef RTL_DEBUG
-	printf("[[ rtl_sext ]]\n");
-	printf("src: 0x%08x\n", temp);
-	printf("width: %d\n", width);
-	printf("dest: 0x%08x\n", *dest);
-	printf("\n");
+	DebugText("[[ rtl_sext ]]\n");
+	DebugText("src: 0x%08x\n", temp);
+	DebugText("width: %d\n", width);
+	DebugText("dest: 0x%08x\n", *dest);
+	DebugText("\n");
 #endif
 }
 
+// 压栈
+// esp <- esp - 4
+// M[esp] <- src1
 static inline void rtl_push(const rtlreg_t * data, int width)
 {
 #ifdef RTL_DEBUG
-	printf("******* [[ push ]] *******\n");
-	printf("[push data]: 0x%08x\n", *data);
-	printf("[width]: %d\n", width);
-	printf("[to esp]: 0x%08x\n", cpu.esp - width);
-	printf("\n");
+	DebugText("******* [[ push ]] *******\n");
+	DebugText("[push data]: 0x%08x\n", *data);
+	DebugText("[width]: %d\n", width);
+	DebugText("[to esp]: 0x%08x\n", cpu.esp - width);
+	DebugText("\n");
 #endif
-	// esp <- esp - 4
-	// M[esp] <- src1
 	rtl_subi(&cpu.esp, &cpu.esp, width);
 	rtl_sm(&cpu.esp, width, data);
 }
 
+// 出栈
+// dest <- M[esp]
+// esp <- esp + 4
 static inline void rtl_pop(bool is_reg, rtlreg_t * tt, int width)
 {
 #ifdef RTL_DEBUG
-	printf("******* [[ pop ]] *******\n");
-	printf("[from esp]: 0x%08x\n", cpu.esp);
+	DebugText("******* [[ pop ]] *******\n");
+	DebugText("[from esp]: 0x%08x\n", cpu.esp);
 	if (is_reg)
-		printf("[to reg]: %%%s\n", reg_name(*tt, width));
+		DebugText("[to reg]: %%%s\n", reg_name(*tt, width));
 	else
-		printf("[to mem]: 0x%08x", *tt);
-	printf("\n");
+		DebugText("[to mem]: 0x%08x", *tt);
+	DebugText("\n");
 #endif
-	// dest <- M[esp]
-	// esp <- esp + 4
 	if (is_reg)
 		rtl_sr(*tt, width, guest_to_host(cpu.esp));
 	else
@@ -354,11 +355,11 @@ static inline void rtl_update_ZFSF(const rtlreg_t * result, int width)
 // 检查标志位
 static inline void rtl_check_eflags()
 {
-	printf("[[ check_eflags ]]\n");
-	printf("ZF: %d\n", cpu.eflags.ZF);
-	printf("SF: %d\n", cpu.eflags.SF);
-	printf("OF: %d\n", cpu.eflags.OF);
-	printf("CF: %d\n", cpu.eflags.CF);
+	DebugText("[[ check_eflags ]]\n");
+	DebugText("ZF: %d\n", cpu.eflags.ZF);
+	DebugText("SF: %d\n", cpu.eflags.SF);
+	DebugText("OF: %d\n", cpu.eflags.OF);
+	DebugText("CF: %d\n", cpu.eflags.CF);
 }
 #endif
 
