@@ -19,7 +19,7 @@ int main() {
 		}
 	}
 */
-/*
+
 	int i, j, ans_idx = 0;
 	for(i = 0; i < NR_DATA; i ++) {
 		for(j = 0; j < NR_DATA; j ++) {
@@ -29,6 +29,6 @@ int main() {
 	}
 
 	nemu_assert(i == NR_DATA);
-*/
+
 	return 0;
 }
