@@ -29,7 +29,7 @@ int main() {
 		nemu_assert(j == NR_DATA);
 	}
 
-	nemu_assert(i == NR_DATA);
+	//nemu_assert(i == NR_DATA);
 
 	return 0;
 }
