@@ -51,10 +51,10 @@ void rtl_setcc(rtlreg_t * dest, uint8_t subcode)
 		rtl_mv(dest, &t0);
 		break;
 	case CC_P:		// parity
-		panic("n86 does not have PF");
+		AlarmText("n86 does not have PF\n");
 		break;
 	default:
-		panic("should not reach here");
+		AlarmText("setcc should not reach here\n");
 	}
 
 	if (invert) {
