@@ -21,15 +21,15 @@ int main() {
 */
 
 	int i, j;
-	for(i = 0; i < 8; i ++) {
-		for(j = 0; j < 8; j ++) {
+	for(i = 0; i < 4; i ++) {
+		for(j = 0; j < 4; j ++) {
 			//ans_idx ++;
 			//nemu_assert(add(test_data[i], test_data[j]) == ans[ans_idx ++]);
 		}
-		nemu_assert(j == 8);
+		nemu_assert(j == 4);
 	}
 
-	nemu_assert(i == 8);
+	nemu_assert(i == 4);
 
 /*	int j;
 	for(j = 0; j < NR_DATA; j ++) {}
