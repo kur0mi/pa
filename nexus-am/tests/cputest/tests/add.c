@@ -26,10 +26,10 @@ int main() {
 			//ans_idx ++;
 			//nemu_assert(add(test_data[i], test_data[j]) == ans[ans_idx ++]);
 		}
-		//nemu_assert(j == 6);
+		nemu_assert(j == 6);
 	}
 
-	nemu_assert(i == 6);
+	//nemu_assert(i == 6);
 
 /*	int j;
 	for(j = 0; j < NR_DATA; j ++) {}
