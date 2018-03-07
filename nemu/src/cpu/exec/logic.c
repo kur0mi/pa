@@ -8,24 +8,32 @@ make_EHelper(test)
 	rtl_update_ZFSF(&t0, id_src->width);
 
 	print_asm_template2(test);
+#ifdef EXEC_DEBUG
+    DebugText("[[ test ]]\n");
+	DebugText("0x%x & 0x%x ==> 0x%x\n", id_dest->val, id_src->val, t0);
+    rtl_check_eflags();
+#endif
 }
 
 make_EHelper(and)
 {
 	rtl_sext(&t1, &id_src->val, id_src->width);
 	rtl_and(&t0, &id_dest->val, &t1);
+#ifdef EXEC_DEBUG
+	DebugText("0x%x & 0x%x ==> 0x%x\n", id_dest->val, id_src->val, t0);
+#endif
 	operand_write(id_dest, &t0);
 
 	print_asm_template2(and);
-#ifdef EXEC_DEBUG
-	DebugText("0x%x & 0x%x ==> 0x%x\n", id_src->val, id_dest->val, t0);
-#endif
 }
 
 make_EHelper(xor)
 {
 	rtl_xor(&t0, &id_dest->val, &id_src->val);
-	operand_write(id_dest, &t0);
+#ifdef EXEC_DEBUG
+	DebugText("0x%x ^ 0x%x ==> 0x%x\n", id_dest->val, id_src->val, t0);
+#endif
+    operand_write(id_dest, &t0);
 
 	print_asm_template2(xor);
 }

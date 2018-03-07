@@ -17,13 +17,14 @@ void exec_wrapper(bool);
 void cpu_exec(uint64_t n)
 {
 	if (nemu_state == NEMU_END) {
-		printf("Program execution has ended. To restart the program, exit NEMU and run again.\n");
+		AlarmText("Program execution has ended. To restart the program, exit NEMU and run again.\n");
 		return;
 	}
 	nemu_state = NEMU_RUNNING;
 
-	bool print_flag = (int64_t) n < MAX_INSTR_TO_PRINT;
+	bool print_flag = n < MAX_INSTR_TO_PRINT;
 
+#ifdef DEBUG
 	for (; n > 0; n--) {
 		/* Execute one instruction, including instruction fetch,
 		 * instruction decode, and the actual execution. */
@@ -34,9 +35,10 @@ void cpu_exec(uint64_t n)
 		while (t != NULL) {
 			if (nemu_state != NEMU_END)
 				nemu_state = NEMU_STOP;
-			printf("[+] wp [%d], %s = 0x%08x ==> 0x%08x\n", t->NO, t->str, t->oldvalue, t->value);
+			DebugText("[+] wp [%d], (%s): 0x%08x ==> 0x%08x\n", t->NO, t->str, t->oldvalue, t->value);
 			t = check_wp(t);
 		}
+#endif
 
 #ifdef HAS_IOE
 		extern void device_update();

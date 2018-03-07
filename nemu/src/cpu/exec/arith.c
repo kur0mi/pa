@@ -146,7 +146,7 @@ make_EHelper(adc)
 	rtl_sltu(&t3, &t2, &id_dest->val);
 	rtl_get_CF(&t1);
 #ifdef EXEC_DEBUG
-	//rtlreg_t carry = t1;
+	rtlreg_t carry = t1;
 #endif
 	rtl_add(&t2, &t2, &t1);
 	operand_write(id_dest, &t2);
@@ -178,7 +178,7 @@ make_EHelper(sbb)
 	rtl_sltu(&t3, &id_dest->val, &t2);
 	rtl_get_CF(&t1);
 #ifdef EXEC_DEBUG
-	//rtlreg_t carry = t1;
+	rtlreg_t carry = t1;
 #endif
 	rtl_sub(&t2, &t2, &t1);
 	operand_write(id_dest, &t2);

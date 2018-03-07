@@ -355,11 +355,7 @@ static inline void rtl_update_ZFSF(const rtlreg_t * result, int width)
 // 检查标志位
 static inline void rtl_check_eflags()
 {
-	DebugText("[[ check_eflags ]]\n");
-	DebugText("ZF: %d\n", cpu.eflags.ZF);
-	DebugText("SF: %d\n", cpu.eflags.SF);
-	DebugText("OF: %d\n", cpu.eflags.OF);
-	DebugText("CF: %d\n", cpu.eflags.CF);
+	DebugText("ZF: %d\tSF: %d\tOF: %d\tCF: %d\n", cpu.eflags.ZF, cpu.eflags.SF, cpu.eflags.OF, cpu.eflags.CF);
 }
 #endif
 

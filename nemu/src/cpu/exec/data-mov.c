@@ -7,16 +7,16 @@
 
 make_EHelper(mov)
 {
-#ifdef EXT_DEBUG
-	printf("******* [[ mov ]] *******\n");
-	printf("[mov data]: 0x%08x\n", id_src->val);
+#ifdef EXEC_DEBUG
+	DebugText("******* [[ mov ]] *******\n");
+	DebugText("[mov data]: 0x%08x\n", id_src->val);
 	if (id_dest->type == OP_TYPE_REG)
-		printf("\t[to reg]: %d\n", id_dest->reg);
+		DebugText("\t[to reg]: %%%s\n", reg_name(id_dest->reg, id_dest->width));
 	else if (id_dest->type == OP_TYPE_MEM)
-		printf("\t[to mem]: 0x%08x\n", id_dest->addr);
+		DebugText("\t[to mem]: 0x%08x\n", id_dest->addr);
 	else
 		panic("exec error. ");
-	printf("\n");
+	DebugText("\n");
 #endif
 
 	operand_write(id_dest, &id_src->val);
@@ -25,16 +25,16 @@ make_EHelper(mov)
 
 make_EHelper(push)
 {
-#ifdef EXT_DEBUG
-	printf("******* [[ push ]] *******\n");
-	printf("[push data]: 0x%08x\n", id_dest->val);
+#ifdef EXEC_DEBUG
+	DebugText("******* [[ push ]] *******\n");
+	DebugText("[push data]: 0x%08x\n", id_dest->val);
 	if (id_dest->type == OP_TYPE_REG)
-		printf("\t[from reg]: %%%s\n", reg_name(id_dest->reg, id_dest->width));
+		DebugText("\t[from reg]: %%%s\n", reg_name(id_dest->reg, id_dest->width));
 	else if (id_dest->type == OP_TYPE_MEM)
-		printf("\t[from mem]: 0x%08x\n", id_dest->addr);
+		DebugText("\t[from mem]: 0x%08x\n", id_dest->addr);
 	else
 		panic("exec error. ");
-	printf("\n");
+	DebugText("\n");
 #endif
 
 	rtl_push(&id_dest->val, id_dest->width);
@@ -43,16 +43,16 @@ make_EHelper(push)
 
 make_EHelper(pop)
 {
-#ifdef EXT_DEBUG
-	printf("******* [[ pop ]] *******\n");
-	printf("[pop data]: 0x%08x\n", vaddr_read(cpu.esp, id_dest->width));
+#ifdef EXEC_DEBUG
+	DebugText("******* [[ pop ]] *******\n");
+	DebugText("[pop data]: 0x%08x\n", vaddr_read(cpu.esp, id_dest->width));
 	if (id_dest->type == OP_TYPE_REG)
-		printf("\t[to reg]: %%%s\n", reg_name(id_dest->reg, id_dest->width));
+		DebugText("\t[to reg]: %%%s\n", reg_name(id_dest->reg, id_dest->width));
 	else if (id_dest->type == OP_TYPE_MEM)
-		printf("\t[to mem]: 0x%08x\n", id_dest->addr);
+		DebugText("\t[to mem]: 0x%08x\n", id_dest->addr);
 	else
 		panic("exec error. ");
-	printf("\n");
+	DebugText("\n");
 #endif
 
 	operand_write(id_dest, guest_to_host(cpu.esp));
@@ -78,6 +78,16 @@ make_EHelper(pusha)
 	rtl_push(&cpu.edi, id_dest->width);
 
 	print_asm("pusha");
+#ifdef EXEC_DEBUG
+    assert(cpu.eax == vaddr_read(cpu.esp-4, 4));
+    assert(cpu.ecx == vaddr_read(cpu.esp-8, 4));
+    assert(cpu.edx == vaddr_read(cpu.esp-12, 4));
+    assert(cpu.ebx == vaddr_read(cpu.esp-16, 4));
+    // ignore cpu.esp
+    assert(cpu.ebp == vaddr_read(cpu.esp-24, 4));
+    assert(cpu.esi == vaddr_read(cpu.esp-28, 4));
+    assert(cpu.edi == vaddr_read(cpu.esp-32, 4));
+#endif
 }
 
 make_EHelper(popa)
@@ -87,28 +97,31 @@ make_EHelper(popa)
 		if (i != 4)
 			rtl_sr(i, id_dest->width, guest_to_host(cpu.esp));
 		rtl_subi(&cpu.esp, &cpu.esp, id_dest->width);
-		/*
-		   if (i != 4)
-		   rtl_pop(true, &i, id_dest->width);
-		   else {
-		   rtlreg_t temp = cpu.eax;
-		   rtlreg_t id = 0;
-		   rtl_pop(true, &id, id_dest->width);
-		   cpu.eax = temp;
-		   }
-		 */
 	}
 
 	print_asm("popa");
+#ifdef EXEC_DEBUG
+    assert(cpu.eax == vaddr_read(cpu.esp-4, 4));
+    assert(cpu.ecx == vaddr_read(cpu.esp-8, 4));
+    assert(cpu.edx == vaddr_read(cpu.esp-12, 4));
+    assert(cpu.ebx == vaddr_read(cpu.esp-16, 4));
+    // ignore cpu.esp
+    assert(cpu.ebp == vaddr_read(cpu.esp-24, 4));
+    assert(cpu.esi == vaddr_read(cpu.esp-28, 4));
+    assert(cpu.edi == vaddr_read(cpu.esp-32, 4));
+#endif
 }
 
 make_EHelper(leave)
 {
 	rtl_mv(&cpu.esp, &cpu.ebp);
-	rtl_sr(R_EBP, id_src->width, guest_to_host(cpu.esp));
+	rtl_sr(R_EBP, id_dest->width, guest_to_host(cpu.esp));
 	rtl_addi(&cpu.esp, &cpu.esp, id_src->width);
 
 	print_asm("leave");
+#ifdef EXEC_DEBUG
+    assert(cpu.ebp == vaddr_read(cpu.esp - 4, 4));
+#endif
 }
 
 make_EHelper(cltd)
@@ -152,4 +165,8 @@ make_EHelper(lea)
 {
 	operand_write(id_dest, &id_src->addr);
 	print_asm_template2(lea);
+#ifdef EXEC_DEBUG
+    DebugText("effictive address: 0x%08x\n", id_src->addr);
+    DebugText("to\n");
+#endif
 }

@@ -60,13 +60,14 @@ make_EHelper(call)
 	decoding.jmp_eip = decoding.seq_eip + id_dest->val;
 	decoding.is_jmp = 1;
 
-	print_asm("call %x", decoding.jmp_eip);
 #ifdef EXEC_DEBUG
-	DebugText("[[ call ]]\n");
-	DebugText("push current addr: 0x%08x\n", vaddr_read(cpu.esp, id_dest->width));
-	DebugText("jmp to: 0x%08x\n", decoding.jmp_eip);
-	DebugText("\n");
+	printf("[[ call ]]\n");
+	printf("push current addr: 0x%08x\n", vaddr_read(cpu.esp, id_dest->width));
+	printf("jmp to: 0x%08x\n", decoding.jmp_eip);
+	printf("\n");
 #endif
+
+	print_asm("call %x", decoding.jmp_eip);
 }
 
 make_EHelper(ret)
@@ -77,12 +78,13 @@ make_EHelper(ret)
 	decoding.jmp_eip = temp;
 	decoding.is_jmp = 1;
 
-	print_asm("ret");
 #ifdef EXEC_DEBUG
-	DebugText("[[ ret ]]\n");
-	DebugText("jmp to: 0x%08x\n", decoding.jmp_eip);
-	DebugText("\n");
+	printf("[[ ret ]]\n");
+	printf("jmp to: 0x%08x\n", decoding.jmp_eip);
+	printf("\n");
 #endif
+
+	print_asm("ret");
 }
 
 make_EHelper(call_rm)
