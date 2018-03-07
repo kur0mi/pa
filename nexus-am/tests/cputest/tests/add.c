@@ -19,7 +19,7 @@ int main() {
 		}
 	}
 */
-
+/*
 	int i, j;
 	for(i = 0; i < NR_DATA; i ++) {
 		for(j = 0; j < NR_DATA; j ++) {
@@ -30,6 +30,9 @@ int main() {
 	}
 
 	//nemu_assert(i == NR_DATA);
-
+*/
+	int j;
+	for(j = 0; j < NR_DATA; j ++) {}
+	nemu_assert(j == NR_DATA);
 	return 0;
 }
