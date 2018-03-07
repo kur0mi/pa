@@ -124,7 +124,7 @@ static int cmd_w(char *args)
 	}
 
 	WP *w = new_wp(args, 0);
-	DebugText("[+] set wp [%d], %s = 0x%08x\n", w->NO, w->str, w->value);
+	DebugText("[+] set wp [%d]: (%s) = 0x%08x\n", w->NO, w->str, w->value);
 
 	return 0;
 }
