@@ -19,15 +19,5 @@ int main() {
 		}
 	}
 
-/*
-	int i, j;
-	for(i = 0; i < 3; i ++) {
-		for(j = 0; j < 3; j ++) {
-			nemu_assert(add(test_data[i], test_data[j]) == ans[i * NR_DATA + j]);
-		}
-	}
-*/
-	//nemu_assert(add(test_data[1], test_data[3]) == ans[4]);
-
 	return 0;
 }
