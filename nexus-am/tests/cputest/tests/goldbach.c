@@ -28,11 +28,11 @@ int goldbach(int n) {
 int main() {
 	//nemu_assert(goldbach(6) == 1);
 	//nemu_assert(is_prime());
-	//nemu_assert();
-	nemu_assert(is_prime(2) == 1);
-	nemu_assert(is_prime(3) == 1);
-	nemu_assert(is_prime(5) == 1);
-	nemu_assert(is_prime(7) == 1);
+	nemu_assert(1 && 1 == 1);
+	//nemu_assert(is_prime(2) == 1);
+	//nemu_assert(is_prime(3) == 1);
+	//nemu_assert(is_prime(5) == 1);
+	//nemu_assert(is_prime(7) == 1);
 
 	return 0;
 }
