@@ -9,6 +9,7 @@ fib
 
 matrix-mul
 max
+min3
 mov-c
 movsx
 mul-longlong
