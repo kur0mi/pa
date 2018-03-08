@@ -6,6 +6,9 @@ make_EHelper(add)
 	rtl_add(&t0, &id_dest->val, &id_src->val);
 
 	rtl_sltu(&t1, &t0, &id_dest->val);
+#ifdef ONLY_DEBUG
+	TipText("set CF: 0x%08x\n", t0);
+#endif
 	rtl_set_CF(&t1);
 
 	rtl_xor(&t1, &id_dest->val, &id_src->val);
