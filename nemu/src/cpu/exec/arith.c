@@ -2,6 +2,9 @@
 
 make_EHelper(add)
 {
+	rtl_sext(&id_src->val, &id_src->val, id_src->width);
+	rtl_sext(&id_dest->val, &id_dest->val, id_dest->width);
+
 	// t0 为运算结果
 	rtl_add(&t0, &id_dest->val, &id_src->val);
 
@@ -28,8 +31,8 @@ make_EHelper(add)
 
 make_EHelper(sub)
 {
-	if (id_src->width == 1 && id_dest->width != 1)
-		rtl_sext(&id_src->val, &id_src->val, id_src->width);
+	rtl_sext(&id_src->val, &id_src->val, id_src->width);
+	rtl_sext(&id_dest->val, &id_dest->val, id_dest->width);
 
 	// t0 为运算结果
 	rtl_sub(&t0, &id_dest->val, &id_src->val);
@@ -56,8 +59,8 @@ make_EHelper(sub)
 
 make_EHelper(cmp)
 {
-	if (id_src->width == 1 && id_dest->width != 1)
-		rtl_sext(&id_src->val, &id_src->val, id_src->width);
+	rtl_sext(&id_src->val, &id_src->val, id_src->width);
+	rtl_sext(&id_dest->val, &id_dest->val, id_dest->width);
 
 	// t0 为运算结果
 	rtl_sub(&t0, &id_dest->val, &id_src->val);
@@ -82,6 +85,8 @@ make_EHelper(cmp)
 
 make_EHelper(inc)
 {
+	rtl_sext(&id_dest->val, &id_dest->val, id_dest->width);
+
 	// t0 为运算结果
 	rtl_addi(&t0, &id_dest->val, 1);
 
@@ -108,6 +113,8 @@ make_EHelper(inc)
 
 make_EHelper(dec)
 {
+	rtl_sext(&id_dest->val, &id_dest->val, id_dest->width);
+
 	// t0 为运算结果
 	rtl_subi(&t0, &id_dest->val, 1);
 
@@ -134,6 +141,8 @@ make_EHelper(dec)
 
 make_EHelper(neg)
 {
+	rtl_sext(&id_dest->val, &id_dest->val, id_dest->width);
+
 	rtl_neg(&id_dest->val);
 	operand_write(id_dest, &id_dest->val);
 
@@ -142,6 +151,9 @@ make_EHelper(neg)
 
 make_EHelper(adc)
 {
+	rtl_sext(&id_dest->val, &id_dest->val, id_dest->width);
+	rtl_sext(&id_src->val, &id_src->val, id_src->width);
+
 	rtl_add(&t2, &id_dest->val, &id_src->val);
 	rtl_sltu(&t3, &t2, &id_dest->val);
 	rtl_get_CF(&t1);
@@ -174,6 +186,9 @@ make_EHelper(adc)
 
 make_EHelper(sbb)
 {
+	rtl_sext(&id_dest->val, &id_dest->val, id_dest->width);
+	rtl_sext(&id_src->val, &id_src->val, id_src->width);
+
 	rtl_sub(&t2, &id_dest->val, &id_src->val);
 	rtl_sltu(&t3, &id_dest->val, &t2);
 	rtl_get_CF(&t1);

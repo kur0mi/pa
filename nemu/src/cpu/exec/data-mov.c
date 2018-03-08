@@ -136,11 +136,13 @@ make_EHelper(leave)
 
 make_EHelper(cltd)
 {
-	if (decoding.is_operand_size_16) {
-		TODO();
-	} else {
-		TODO();
-	}
+	rtl_lr(&t1, R_EAX, id_dest->width);
+	rtl_slt(&t0, &t1, &tzero);
+	if (t0 == 1)
+		t2 = 0xffffffff;
+	else
+		t2 = 0;
+	rtl_sr(R_EDX, id_dest->width, &t2);
 
 	print_asm(decoding.is_operand_size_16 ? "cwtl" : "cltd");
 }
