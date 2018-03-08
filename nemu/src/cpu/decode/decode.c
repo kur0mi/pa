@@ -389,13 +389,13 @@ make_DHelper(call_I)
 
 make_DHelper(Ib)
 {
-	op->type = OP_TYPE_IMM;
-	op->imm = instr_fetch(eip, 1);
-	rtl_sext(&op->imm, &op->imm, 1);
-	rtl_li(&op->val, op->imm);
+	id_dest->type = OP_TYPE_IMM;
+	id_dest->imm = instr_fetch(eip, 1);
+	rtl_sext(&id_dest->imm, &id_dest->imm, 1);
+	rtl_li(&id_dest->val, id_dest->imm);
 
 #ifdef DEBUG
-	snprintf(op->str, OP_STR_SIZE, "$0x%x", op->imm);
+	snprintf(id_dest->str, OP_STR_SIZE, "$0x%x", id_dest->imm);
 #endif
 }
 
