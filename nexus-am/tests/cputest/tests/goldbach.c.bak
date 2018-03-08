@@ -1,6 +1,6 @@
 #include "trap.h"
 
-// 2, 3, 5, 7			return 1
+// 是不是质数
 int is_prime(int n) {
 	if(n < 2) return 0;
 
@@ -26,13 +26,7 @@ int goldbach(int n) {
 }
 
 int main() {
-	//nemu_assert(goldbach(6) == 1);
-	//nemu_assert(is_prime());
-	//nemu_assert();
-	nemu_assert(is_prime(2) == 1);
-	nemu_assert(is_prime(3) == 1);
-	nemu_assert(is_prime(5) == 1);
-	nemu_assert(is_prime(7) == 1);
+	nemu_assert(goldbach(6) == 1);
 
 	return 0;
 }
