@@ -35,14 +35,11 @@ typedef union {
 		 *      ZF 都适用
 		 */
 		struct {
-			rtlreg_t CF:1;	// CF: 0
-			rtlreg_t pass1:5;
-			rtlreg_t ZF:1;	// ZF: 6
-			rtlreg_t SF:1;	// SF: 7
-			rtlreg_t pass2:1;
-			rtlreg_t IF:1;	// IF: 9
-			rtlreg_t pass3:1;
-			rtlreg_t OF:1;	// OF: 11
+			rtlreg_t CF;	// CF: 0
+			rtlreg_t ZF;	// ZF: 6
+			rtlreg_t SF;	// SF: 7
+			rtlreg_t IF;	// IF: 9
+			rtlreg_t OF;	// OF: 11
 		} eflags;
 	};
 
