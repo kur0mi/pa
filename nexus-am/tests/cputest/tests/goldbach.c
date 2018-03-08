@@ -26,7 +26,7 @@ int goldbach(int n) {
 }
 
 int main() {
-	nemu_assert(goldbach(6) == 0);
+	nemu_assert(goldbach(6) == 1);
 	//nemu_assert(is_prime());
 	//nemu_assert(1 && 1 == 1);
 	//nemu_assert(is_prime(2) == 1);
