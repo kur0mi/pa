@@ -54,7 +54,7 @@ make_group(gp1, EX(add), EX(or), EX(adc), EX(sbb), EX(and), EX(sub), EX(xor), EX
     make_group(gp2, EMPTY, EMPTY, EMPTY, EMPTY, EX(shl), EX(shr), EMPTY, EX(sar))
 
     /* 0xf6, 0xf7 */
-    make_group(gp3, IDEX(I2E, test), EMPTY, IDEX(E, not), IDEX(E, neg), IDEX(E, mul), IDEX(E, imul1), IDEX(E, div), IDEX(E, idiv))
+    make_group(gp3, IDEX(E, test), EMPTY, IDEX(E, not), IDEX(E, neg), IDEX(E, mul), IDEX(E, imul1), IDEX(E, div), IDEX(E, idiv))
 
     /* 0xfe */
     make_group(gp4, EX(inc), EX(dec), EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY)
