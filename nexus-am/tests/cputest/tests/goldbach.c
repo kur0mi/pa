@@ -18,11 +18,11 @@ int goldbach(int n) {
 	int i;
 	for(i = 2; i < n; i ++) {
 		if(is_prime(i) && is_prime(n - i)) {
-			return 1;
+			return 0;
 		}
 	}
 
-	return 0;
+	return 1;
 }
 
 int main() {
