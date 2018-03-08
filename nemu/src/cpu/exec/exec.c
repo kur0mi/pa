@@ -54,7 +54,7 @@ make_group(gp1, EX(add), EX(or), EX(adc), EX(sbb), EX(and), EX(sub), EX(xor), EX
     make_group(gp2, EMPTY, EMPTY, EMPTY, EMPTY, EX(shl), EMPTY, EMPTY, EX(sar))
 
     /* 0xf6, 0xf7 */
-    make_group(gp3, EX(test), EMPTY, EX(not), EMPTY, EMPTY, EMPTY, EMPTY, EX(idiv))
+    make_group(gp3, EX(test), EMPTY, EX(not), EMPTY, EX(mul), EX(imul1), EMPTY, EX(idiv))
 
     /* 0xfe */
     make_group(gp4, EX(inc), EX(dec), EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY)
