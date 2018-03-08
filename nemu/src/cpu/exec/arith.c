@@ -12,6 +12,7 @@ make_EHelper(add)
 #endif
 	//rtl_set_CF(&t1);
 	cpu.eflags.CF = t1;
+	TipText("0x%08x\n", cpu.eflags.CF);
 
 	rtl_xor(&t1, &id_dest->val, &id_src->val);
 	rtl_xor(&t1, &t1, &t0);
