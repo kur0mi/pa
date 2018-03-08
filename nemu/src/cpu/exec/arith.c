@@ -8,7 +8,8 @@ make_EHelper(add)
 	rtl_sltu(&t1, &t0, &id_dest->val);
 #ifdef ONLY_DEBUG
 	TipText("set CF: 0x%08x\n", t1);
-
+	TipText("0x%08x => 0x%08x\n", cpu.eflags.CF, t1);
+	TipText("0x%08x < 9x%08x\n", t0, id_dest->val);
 #endif
 	rtl_set_CF(&t1);
 
