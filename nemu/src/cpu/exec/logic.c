@@ -2,7 +2,10 @@
 
 make_EHelper(test)
 {
-	rtl_and(&t0, &id_src->val, &id_dest->val);
+	rtl_sext(&t1, &id_src->val, id_src->width);
+	rtl_sext(&t1, &id_dest->val, id_dest->width);
+
+	rtl_and(&t0, &id_dest->val, &id_dest->val);
 	rtl_set_OF(&tzero);
 	rtl_set_CF(&tzero);
 	rtl_update_ZFSF(&t0, id_dest->width);
@@ -18,6 +21,8 @@ make_EHelper(test)
 make_EHelper(and)
 {
 	rtl_sext(&t1, &id_src->val, id_src->width);
+	rtl_sext(&t1, &id_dest->val, id_dest->width);
+
 	rtl_and(&t0, &id_dest->val, &t1);
 	rtl_set_OF(&tzero);
 	rtl_set_CF(&tzero);
@@ -29,6 +34,9 @@ make_EHelper(and)
 
 make_EHelper(xor)
 {
+	rtl_sext(&t1, &id_src->val, id_src->width);
+	rtl_sext(&t1, &id_dest->val, id_dest->width);
+
 	rtl_xor(&t0, &id_dest->val, &id_src->val);
 	rtl_set_OF(&tzero);
 	rtl_set_CF(&tzero);
@@ -40,6 +48,9 @@ make_EHelper(xor)
 
 make_EHelper(or)
 {
+	rtl_sext(&t1, &id_src->val, id_src->width);
+	rtl_sext(&t1, &id_dest->val, id_dest->width);
+
 	rtl_or(&t0, &id_dest->val, &id_src->val);
 	rtl_set_OF(&tzero);
 	rtl_set_CF(&tzero);
@@ -51,6 +62,9 @@ make_EHelper(or)
 
 make_EHelper(sar)
 {
+	rtl_sext(&t1, &id_src->val, id_src->width);
+	rtl_sext(&t1, &id_dest->val, id_dest->width);
+
 	rtl_sar(&t0, &id_dest->val, &id_src->val);
 	operand_write(id_dest, &t0);
 	// unnecessary to update CF and OF in NEMU
@@ -60,6 +74,9 @@ make_EHelper(sar)
 
 make_EHelper(shl)
 {
+	rtl_sext(&t1, &id_src->val, id_src->width);
+	rtl_sext(&t1, &id_dest->val, id_dest->width);
+
 	rtl_shl(&t0, &id_dest->val, &id_src->val);
 	operand_write(id_dest, &t0);
 	// unnecessary to update CF and OF in NEMU
@@ -69,6 +86,9 @@ make_EHelper(shl)
 
 make_EHelper(shr)
 {
+	rtl_sext(&t1, &id_src->val, id_src->width);
+	rtl_sext(&t1, &id_dest->val, id_dest->width);
+
 	rtl_shr(&t0, &id_dest->val, &id_src->val);
 	operand_write(id_dest, &t0);
 	// unnecessary to update CF and OF in NEMU
@@ -87,6 +107,8 @@ make_EHelper(setcc)
 
 make_EHelper(not)
 {
+	rtl_sext(&t1, &id_dest->val, id_dest->width);
+
 	rtl_not(&id_dest->val);
 	rtl_sm(&id_dest->addr, id_dest->width, &id_dest->val);
 
