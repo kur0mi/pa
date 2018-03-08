@@ -87,7 +87,8 @@ make_EHelper(setcc)
 
 make_EHelper(not)
 {
-	//rtl_not(&id_dest->val);
+	rtl_not(&id_dest->val);
+	rtl_sm(&id_dest->addr, id_dest->width, &id_dest->val);
 
 	print_asm_template1(not);
 }
