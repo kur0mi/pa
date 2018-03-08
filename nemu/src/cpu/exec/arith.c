@@ -10,7 +10,8 @@ make_EHelper(add)
 	TipText("CF: 0x%08x => 0x%08x\n", cpu.eflags.CF, t1);
 	TipText("0x%08x < 0x%08x\n", t0, id_dest->val);
 #endif
-	rtl_set_CF(&t1);
+	//rtl_set_CF(&t1);
+	cpu.eflags.CF = t1;
 
 	rtl_xor(&t1, &id_dest->val, &id_src->val);
 	rtl_xor(&t1, &t1, &t0);
