@@ -387,6 +387,18 @@ make_DHelper(call_I)
 	decode_op_I(eip, id_src, true);
 }
 
+make_DHelper(Ib)
+{
+	op->type = OP_TYPE_IMM;
+	op->imm = instr_fetch(eip, 1);
+	rtl_sext(&op->imm, &op->imm, 1);
+	rtl_li(&op->val, op->imm);
+
+#ifdef DEBUG
+	snprintf(op->str, OP_STR_SIZE, "$0x%x", op->imm);
+#endif
+}
+
 /******************************************/
 
 void operand_write(Operand * op, rtlreg_t * src)
