@@ -222,7 +222,6 @@ make_rtl_setget_eflags(CF)
     make_rtl_setget_eflags(OF)
     make_rtl_setget_eflags(ZF)
     make_rtl_setget_eflags(SF)
-
 // 数据传送
 // dest <- src1
 static inline void rtl_mv(rtlreg_t * dest, const rtlreg_t * src1)

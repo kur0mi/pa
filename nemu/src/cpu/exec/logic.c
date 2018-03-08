@@ -9,9 +9,9 @@ make_EHelper(test)
 
 	print_asm_template2(test);
 #ifdef EXEC_DEBUG
-    DebugText("[[ test ]]\n");
+	DebugText("[[ test ]]\n");
 	DebugText("0x%x & 0x%x ==> 0x%x\n", id_dest->val, id_src->val, t0);
-    rtl_check_eflags();
+	rtl_check_eflags();
 #endif
 }
 
@@ -30,7 +30,7 @@ make_EHelper(and)
 make_EHelper(xor)
 {
 	rtl_xor(&t0, &id_dest->val, &id_src->val);
-    rtl_set_OF(&tzero);
+	rtl_set_OF(&tzero);
 	rtl_set_CF(&tzero);
 	rtl_update_ZFSF(&t0, id_dest->width);
 	operand_write(id_dest, &t0);

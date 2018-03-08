@@ -36,7 +36,7 @@ void cpu_exec(uint64_t n)
 			if (nemu_state != NEMU_END)
 				nemu_state = NEMU_STOP;
 			DebugText("[+] wp [%d], (%s): 0x%08x ==> 0x%08x\n", t->NO, t->str, t->oldvalue, t->value);
-            DebugText("[+] next eip = 0x%08x\n", cpu.eip);
+			DebugText("[+] next eip = 0x%08x\n", cpu.eip);
 			t = check_wp(t);
 		}
 #endif

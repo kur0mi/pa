@@ -6,13 +6,7 @@ make_EHelper(add)
 	rtl_add(&t0, &id_dest->val, &id_src->val);
 
 	rtl_sltu(&t1, &t0, &id_dest->val);
-#ifdef ONLY_DEBUG
-	TipText("CF: 0x%08x => 0x%08x\n", cpu.eflags.CF, t1);
-	TipText("0x%08x < 0x%08x\n", t0, id_dest->val);
-#endif
 	rtl_set_CF(&t1);
-	//cpu.eflags.CF = t1;
-	TipText("0x%08x\n", cpu.eflags.CF);
 
 	rtl_xor(&t1, &id_dest->val, &id_src->val);
 	rtl_xor(&t1, &t1, &t0);
@@ -142,7 +136,7 @@ make_EHelper(neg)
 {
 	rtl_neg(&id_dest->val);
 	operand_write(id_dest, &id_dest->val);
-	
+
 	print_asm_template1(neg);
 }
 
@@ -171,12 +165,11 @@ make_EHelper(adc)
 	rtl_msb(&t0, &t0, id_dest->width);
 	rtl_set_OF(&t0);
 
+	print_asm_template2(adc);
 #ifdef EXEC_DEBUG
 	//printf("%u + %u + %u = %u\n", id_dest->val, id_src->val, carry, t0);
 	//rtl_check_eflags();
 #endif
-
-	print_asm_template2(adc);
 }
 
 make_EHelper(sbb)

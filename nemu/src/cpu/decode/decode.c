@@ -387,11 +387,12 @@ make_DHelper(call_I)
 	decode_op_I(eip, id_src, true);
 }
 
+// 操作数是 b，但需要处理为 v
 make_DHelper(Ib)
 {
 	id_dest->type = OP_TYPE_IMM;
+	id_dest->width = 1;
 	id_dest->imm = instr_fetch(eip, 1);
-	rtl_sext(&id_dest->imm, &id_dest->imm, 1);
 	rtl_li(&id_dest->val, id_dest->imm);
 
 #ifdef DEBUG

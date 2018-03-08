@@ -37,6 +37,12 @@ make_EHelper(push)
 	DebugText("\n");
 #endif
 
+	if (id_dest->width == 1)
+		if (decoding.is_operand_size_16)
+			id_dest->width = 2;
+		else
+			id_dest->width = 4;
+	rtl_sext(&id_dest->val, &id_dest->val, id_dest->width);
 	rtl_push(&id_dest->val, id_dest->width);
 	print_asm_template1(push);
 }
@@ -79,14 +85,14 @@ make_EHelper(pusha)
 
 	print_asm("pusha");
 #ifdef DEBUG
-    assert(cpu.eax == vaddr_read(cpu.esp-4, 4));
-    assert(cpu.ecx == vaddr_read(cpu.esp-8, 4));
-    assert(cpu.edx == vaddr_read(cpu.esp-12, 4));
-    assert(cpu.ebx == vaddr_read(cpu.esp-16, 4));
-    // ignore cpu.esp
-    assert(cpu.ebp == vaddr_read(cpu.esp-24, 4));
-    assert(cpu.esi == vaddr_read(cpu.esp-28, 4));
-    assert(cpu.edi == vaddr_read(cpu.esp-32, 4));
+	assert(cpu.eax == vaddr_read(cpu.esp - 4, 4));
+	assert(cpu.ecx == vaddr_read(cpu.esp - 8, 4));
+	assert(cpu.edx == vaddr_read(cpu.esp - 12, 4));
+	assert(cpu.ebx == vaddr_read(cpu.esp - 16, 4));
+	// ignore cpu.esp
+	assert(cpu.ebp == vaddr_read(cpu.esp - 24, 4));
+	assert(cpu.esi == vaddr_read(cpu.esp - 28, 4));
+	assert(cpu.edi == vaddr_read(cpu.esp - 32, 4));
 #endif
 }
 
@@ -101,21 +107,21 @@ make_EHelper(popa)
 
 	print_asm("popa");
 #ifdef DEBUG
-    assert(cpu.eax == vaddr_read(cpu.esp-4, 4));
-    assert(cpu.ecx == vaddr_read(cpu.esp-8, 4));
-    assert(cpu.edx == vaddr_read(cpu.esp-12, 4));
-    assert(cpu.ebx == vaddr_read(cpu.esp-16, 4));
-    // ignore cpu.esp
-    assert(cpu.ebp == vaddr_read(cpu.esp-24, 4));
-    assert(cpu.esi == vaddr_read(cpu.esp-28, 4));
-    assert(cpu.edi == vaddr_read(cpu.esp-32, 4));
+	assert(cpu.eax == vaddr_read(cpu.esp - 4, 4));
+	assert(cpu.ecx == vaddr_read(cpu.esp - 8, 4));
+	assert(cpu.edx == vaddr_read(cpu.esp - 12, 4));
+	assert(cpu.ebx == vaddr_read(cpu.esp - 16, 4));
+	// ignore cpu.esp
+	assert(cpu.ebp == vaddr_read(cpu.esp - 24, 4));
+	assert(cpu.esi == vaddr_read(cpu.esp - 28, 4));
+	assert(cpu.edi == vaddr_read(cpu.esp - 32, 4));
 #endif
 }
 
 make_EHelper(leave)
 {
-	/*	esp <= ebp
-	 *	ebp <= pop()
+	/*      esp <= ebp
+	 *      ebp <= pop()
 	 */
 	rtl_mv(&cpu.esp, &cpu.ebp);
 	rtl_sr(R_EBP, id_dest->width, guest_to_host(cpu.esp));
@@ -123,7 +129,7 @@ make_EHelper(leave)
 
 	print_asm("leave");
 #ifdef DEBUG
-    assert(cpu.ebp == vaddr_read(cpu.esp - 4, 4));
+	assert(cpu.ebp == vaddr_read(cpu.esp - 4, 4));
 #endif
 }
 
@@ -169,6 +175,6 @@ make_EHelper(lea)
 	operand_write(id_dest, &id_src->addr);
 	print_asm_template2(lea);
 #ifdef DEBUG
-    DebugText("[lea] effictive address: 0x%08x\n", id_src->addr);
+	DebugText("[lea] effictive address: 0x%08x\n", id_src->addr);
 #endif
 }
