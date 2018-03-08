@@ -153,7 +153,7 @@ make_EHelper(adc)
 	rtl_get_CF(&t1);
 #ifdef ONLY_DEBUG
 	rtlreg_t carry = t1;
-	TipText("carry: 0x%08x\n", carry);
+	TipText("[adc] carry = 0x%08x\n", carry);
 #endif
 	rtl_add(&t2, &t2, &t1);
 	operand_write(id_dest, &t2);
