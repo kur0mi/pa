@@ -8,6 +8,7 @@ fact
 fib
 
 matrix-mul
+max
 mov-c
 movsx
 mul-longlong
