@@ -60,7 +60,7 @@ make_group(gp1, EX(add), EX(or), EX(adc), EX(sbb), EX(and), EX(sub), EX(xor), EX
     make_group(gp4, EX(inc), EX(dec), EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY)
 
     /* 0xff */
-    make_group(gp5, EX(inc), EMPTY, EMPTY, EMPTY, EX(jmp), EMPTY, EX(push), EMPTY)
+    make_group(gp5, EX(inc), EMPTY, EX(call_rm), EMPTY, EX(jmp), EMPTY, EX(push), EMPTY)
 
     /* 0x0f 0x01 */
     make_group(gp7, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY)
