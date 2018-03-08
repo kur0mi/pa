@@ -24,11 +24,11 @@ make_EHelper(jmp)
 // 相对条件跳转
 make_EHelper(jcc)
 {
+	rtl_sext(&id_dest->val, &id_dest->val, id_dest->width);
 	// the target address is calculated at the decode stage
 	uint8_t subcode = decoding.opcode & 0xf;
 	rtl_setcc(&t2, subcode);
-	rtl_sext(&t3, &id_dest->val, id_dest->width);
-	decoding.jmp_eip = decoding.seq_eip + t3;
+	decoding.jmp_eip = decoding.seq_eip + id_dest->val;
 	decoding.is_jmp = t2;
 
 #ifdef EXEC_DEBUG
