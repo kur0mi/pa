@@ -39,9 +39,9 @@ make_EHelper(push)
 
 	if (id_dest->width == 1) {
 		if (decoding.is_operand_size_16)
-			id_dest->width == 2;
+			id_dest->width = 2;
 		else
-			id_dest->width == 4;
+			id_dest->width = 4;
 	}
 	rtl_sext(&t0, &id_dest->val, id_dest->width);
 	rtl_push(&t0, id_dest->width);
