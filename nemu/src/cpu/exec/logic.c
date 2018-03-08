@@ -2,10 +2,10 @@
 
 make_EHelper(test)
 {
+	rtl_and(&t0, &id_src->val, &id_dest->val);
 	rtl_set_OF(&tzero);
 	rtl_set_CF(&tzero);
-	rtl_and(&t0, &id_src->val, &id_dest->val);
-	rtl_update_ZFSF(&t0, id_src->width);
+	rtl_update_ZFSF(&t0, id_dest->width);
 
 	print_asm_template2(test);
 #ifdef EXEC_DEBUG
@@ -19,9 +19,9 @@ make_EHelper(and)
 {
 	rtl_sext(&t1, &id_src->val, id_src->width);
 	rtl_and(&t0, &id_dest->val, &t1);
-#ifdef EXEC_DEBUG
-	DebugText("0x%x & 0x%x ==> 0x%x\n", id_dest->val, id_src->val, t0);
-#endif
+	rtl_set_OF(&tzero);
+	rtl_set_CF(&tzero);
+	rtl_update_ZFSF(&t0, id_dest->width);
 	operand_write(id_dest, &t0);
 
 	print_asm_template2(and);
@@ -30,10 +30,10 @@ make_EHelper(and)
 make_EHelper(xor)
 {
 	rtl_xor(&t0, &id_dest->val, &id_src->val);
-#ifdef EXEC_DEBUG
-	DebugText("0x%x ^ 0x%x ==> 0x%x\n", id_dest->val, id_src->val, t0);
-#endif
-    operand_write(id_dest, &t0);
+    rtl_set_OF(&tzero);
+	rtl_set_CF(&tzero);
+	rtl_update_ZFSF(&t0, id_dest->width);
+	operand_write(id_dest, &t0);
 
 	print_asm_template2(xor);
 }
