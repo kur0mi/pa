@@ -26,7 +26,8 @@ make_EHelper(jcc)
 	decoding.is_jmp = t2;
 
 	print_asm("j%s %x", get_cc_name(subcode), decoding.jmp_eip);
-	TipText("jmp to: 0x%08x\n", decoding.jmp_eip);
+	if (t2)
+		TipText("jmp to: 0x%08x\n", decoding.jmp_eip);
 }
 
 // 绝对跳转
