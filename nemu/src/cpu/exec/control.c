@@ -11,7 +11,7 @@ make_EHelper(jmp)
 	decoding.jmp_eip = decoding.seq_eip + id_dest->val;
 	decoding.is_jmp = 1;
 
-#ifdef EXEC_DEBUG
+#ifdef ONLY_DEBUG
 	printf("[[ jmp ]]\n");
 	printf("jmp to: 0x%08x\n", decoding.jmp_eip);
 	printf("\n");
