@@ -12,3 +12,4 @@ pascal
 select-sort
 to-lower-case
 switch
+sub-longlong
