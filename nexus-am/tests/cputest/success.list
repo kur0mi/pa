@@ -6,14 +6,17 @@ dummy
 fact
 
 fib
-sum
+
+matrix-mul
 mov-c
 movsx
 mul-longlong
-prime
+
 pascal
+prime
 select-sort
-to-lower-case
-switch
+
 sub-longlong
-matrix-mul
+sum
+switch
+to-lower-case
