@@ -311,58 +311,75 @@ uint32_t eval(int p, int q)
 			// eax, ebx, ebx, ecx, esp, ebp, esi, edi
 			// ax, dx, bx, cx, sp, bp, si, di
 			// al, cl, dl, bl, ah, ch, dh, bh
-			// 寄存器宽度
-			int width;
-			if (strstr(tokens[p].str, "e") != NULL)
-				width = 4;
-			else if ((strstr(tokens[p].str, "l") != NULL) || (strstr(tokens[p].str, "h") != NULL))
-				width = 1;
-			else
-				width = 2;
+			// eip, ip
+			// zf, cf, sf, of, if
 
-			// 寄存器编号
-			int id = -1;
-			if (strstr(tokens[p].str, "a") != NULL)
-				id = 0;
-			else if (strstr(tokens[p].str, "c") != NULL)
-				id = 1;
-			else if (strstr(tokens[p].str, "d") != NULL)
-				id = 2;
-			else if (strstr(tokens[p].str, "b") != NULL)
-				id = 3;
+			if (strstr(tokens[p].str, "eax") != NULL)
+				return reg_val(R_EAX, 4);
+			else if (strstr(tokens[p].str, "ecx") != NULL)
+				return reg_val(R_ECX, 4);
+			else if (strstr(tokens[p].str, "edx") != NULL)
+				return reg_val(R_EDX, 4);
+			else if (strstr(tokens[p].str, "ebx") != NULL)
+				return reg_val(R_EBX, 4);
+			else if (strstr(tokens[p].str, "esp") != NULL)
+				return reg_val(R_ESP, 4);
+			else if (strstr(tokens[p].str, "ebp") != NULL)
+				return reg_val(R_EBP, 4);
+			else if (strstr(tokens[p].str, "esi") != NULL)
+				return reg_val(R_ESI, 4);
+			else if (strstr(tokens[p].str, "edi") != NULL)
+				return reg_val(R_EDI, 4);
 
-			if (strstr(tokens[p].str, "h") != NULL)
-				id += 4;
-
-			if (strstr(tokens[p].str, "sp") != NULL)
-				id = 4;
+			else if (strstr(tokens[p].str, "ax") != NULL)
+				return reg_val(R_EAX, 2);
+			else if (strstr(tokens[p].str, "cx") != NULL)
+				return reg_val(R_ECX, 2);
+			else if (strstr(tokens[p].str, "dx") != NULL)
+				return reg_val(R_EDX, 2);
+			else if (strstr(tokens[p].str, "bx") != NULL)
+				return reg_val(R_EBX, 2);
+			else if (strstr(tokens[p].str, "sp") != NULL)
+				return reg_val(R_ESP, 2);
 			else if (strstr(tokens[p].str, "bp") != NULL)
-				id = 5;
+				return reg_val(R_EBP, 2);
 			else if (strstr(tokens[p].str, "si") != NULL)
-				id = 6;
+				return reg_val(R_ESI, 2);
 			else if (strstr(tokens[p].str, "di") != NULL)
-				id = 7;
+				return reg_val(R_EDI, 2);
 
-			if (id != -1)
-				return reg_val(id, width);
+			else if (strstr(tokens[p].str, "al") != NULL)
+				return reg_val(R_EAX, 1);
+			else if (strstr(tokens[p].str, "cl") != NULL)
+				return reg_val(R_ECX, 1);
+			else if (strstr(tokens[p].str, "dl") != NULL)
+				return reg_val(R_EDX, 1);
+			else if (strstr(tokens[p].str, "bl") != NULL)
+				return reg_val(R_EBX, 1);
+			else if (strstr(tokens[p].str, "ah") != NULL)
+				return reg_val(R_ESP, 1);
+			else if (strstr(tokens[p].str, "ch") != NULL)
+				return reg_val(R_EBP, 1);
+			else if (strstr(tokens[p].str, "dh") != NULL)
+				return reg_val(R_ESI, 1);
+			else if (strstr(tokens[p].str, "bh") != NULL)
+				return reg_val(R_EDI, 1);
 
-			if (strstr(tokens[p].str, "ip") != NULL)
-				return cpu.eip & (~0u >> ((4 - width) << 3));
+			else if (strstr(tokens[p].str, "eip") != NULL)
+				return cpu.eip;
+			else if (strstr(tokens[p].str, "ip") != NULL)
+				return cpu.eip & 0xffff;
 
-			if (strstr(tokens[p].str, "of") != NULL)
+			else if (strstr(tokens[p].str, "of") != NULL)
 				return cpu.eflags.OF;
 			else if (strstr(tokens[p].str, "sf") != NULL)
 				return cpu.eflags.SF;
 			else if (strstr(tokens[p].str, "zf") != NULL)
 				return cpu.eflags.ZF;
-			else if (strstr(tokens[p].str, "cf") != NULL) {
-				
-				TipText("0x%p  0x%p\n", &cpu.eflags.CF, &cpu.ecx);
+			else if (strstr(tokens[p].str, "cf") != NULL)
 				return cpu.eflags.CF;
-			}
 			else if (strstr(tokens[p].str, "if") != NULL)
 				return cpu.eflags.IF;
-
 
 			AlarmText("no such register: %s", tokens[p].str);
 			return 0;
