@@ -360,10 +360,10 @@ uint32_t eval(int p, int q)
 			else if (strstr(tokens[p].str, "if") != NULL)
 				return cpu.eflags.IF;
 
-			Log("no such register: %s", tokens[p].str);
+			AlarmText("no such register: %s", tokens[p].str);
 			return 0;
 		} else {
-			Log("no such unit: %s", tokens[p].str);
+			AlarmText("no such unit: %s", tokens[p].str);
 			return 0;
 		}
 	} else {
