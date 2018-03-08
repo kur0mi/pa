@@ -6,9 +6,8 @@
 // 相对跳转
 make_EHelper(jmp)
 {
+	rtl_sext(&id_dest->val, &id_dest->val, id_dest->width);
 	// the target address is calculated at the decode stage
-	if (id_dest->width == 1)
-		rtl_sext(&id_dest->val, &id_dest->val, id_dest->width);
 	decoding.jmp_eip = decoding.seq_eip + id_dest->val;
 	decoding.is_jmp = 1;
 
@@ -43,6 +42,8 @@ make_EHelper(jcc)
 // 绝对跳转
 make_EHelper(jmp_rm)
 {
+	rtl_sext(&id_dest->val, &id_dest->val, id_dest->width);
+
 	decoding.jmp_eip = id_dest->val;
 	decoding.is_jmp = 1;
 
@@ -57,6 +58,7 @@ make_EHelper(jmp_rm)
 
 make_EHelper(call)
 {
+	rtl_sext(&id_dest->val, &id_dest->val, id_dest->width);
 	// the target address is calculated at the decode stage
 	rtl_push(&decoding.seq_eip, id_dest->width);
 	decoding.jmp_eip = decoding.seq_eip + id_dest->val;
@@ -91,6 +93,8 @@ make_EHelper(ret)
 
 make_EHelper(call_rm)
 {
+	rtl_sext(&id_dest->val, &id_dest->val, id_dest->width);
+
 	rtl_push(&decoding.seq_eip, id_dest->width);
 	decoding.jmp_eip = id_dest->val;
 	decoding.is_jmp = 1;
