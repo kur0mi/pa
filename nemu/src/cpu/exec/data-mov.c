@@ -43,7 +43,7 @@ make_EHelper(push)
 		else
 			id_dest->width == 4;
 	}
-	rtl_sext(&t0, id_dest->val, id_dest->width);
+	rtl_sext(&t0, &id_dest->val, id_dest->width);
 	rtl_push(&t0, id_dest->width);
 	print_asm_template1(push);
 }
