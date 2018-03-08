@@ -13,3 +13,4 @@ select-sort
 to-lower-case
 switch
 sub-longlong
+matrix-mul
