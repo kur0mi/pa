@@ -355,12 +355,14 @@ uint32_t eval(int p, int q)
 				return cpu.eflags.SF;
 			else if (strstr(tokens[p].str, "zf") != NULL)
 				return cpu.eflags.ZF;
-			else if (strstr(tokens[p].str, "cf") != NULL)
+			else if (strstr(tokens[p].str, "cf") != NULL) {
+				
+				TipText("0x%p  0x%p\n", &cpu.eflags.CF, &cpu.ecx);
 				return cpu.eflags.CF;
+			}
 			else if (strstr(tokens[p].str, "if") != NULL)
 				return cpu.eflags.IF;
 
-			TipText("0x%p  0x%p\n", &cpu.eflags.CF, &cpu.ecx);
 
 			AlarmText("no such register: %s", tokens[p].str);
 			return 0;
