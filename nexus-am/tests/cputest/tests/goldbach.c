@@ -26,7 +26,7 @@ int goldbach(int n) {
 }
 
 int main() {
-	nemu_assert(goldbach(4) == 1);
+	nemu_assert(goldbach(6) == 1);
 
 	return 0;
 }
