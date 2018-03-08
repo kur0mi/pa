@@ -85,7 +85,7 @@ make_EHelper(pusha)
 	rtl_push(&cpu.edi, id_dest->width);
 
 	print_asm("pusha");
-#ifdef EXEC_DEBUG
+#ifdef DEBUG
     assert(cpu.eax == vaddr_read(cpu.esp-4, 4));
     assert(cpu.ecx == vaddr_read(cpu.esp-8, 4));
     assert(cpu.edx == vaddr_read(cpu.esp-12, 4));
@@ -107,7 +107,7 @@ make_EHelper(popa)
 	}
 
 	print_asm("popa");
-#ifdef EXEC_DEBUG
+#ifdef DEBUG
     assert(cpu.eax == vaddr_read(cpu.esp-4, 4));
     assert(cpu.ecx == vaddr_read(cpu.esp-8, 4));
     assert(cpu.edx == vaddr_read(cpu.esp-12, 4));
@@ -121,12 +121,15 @@ make_EHelper(popa)
 
 make_EHelper(leave)
 {
+	/*	esp <= ebp
+	 *	ebp <= pop()
+	 */
 	rtl_mv(&cpu.esp, &cpu.ebp);
 	rtl_sr(R_EBP, id_dest->width, guest_to_host(cpu.esp));
 	rtl_addi(&cpu.esp, &cpu.esp, id_src->width);
 
 	print_asm("leave");
-#ifdef EXEC_DEBUG
+#ifdef DEBUG
     assert(cpu.ebp == vaddr_read(cpu.esp - 4, 4));
 #endif
 }
@@ -172,8 +175,7 @@ make_EHelper(lea)
 {
 	operand_write(id_dest, &id_src->addr);
 	print_asm_template2(lea);
-#ifdef EXEC_DEBUG
-    DebugText("effictive address: 0x%08x\n", id_src->addr);
-    DebugText("to\n");
+#ifdef DEBUG
+    DebugText("[lea] effictive address: 0x%08x\n", id_src->addr);
 #endif
 }
