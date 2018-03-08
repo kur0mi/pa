@@ -12,9 +12,7 @@ make_EHelper(jmp)
 	decoding.is_jmp = 1;
 
 #ifdef ONLY_DEBUG
-	printf("[[ jmp ]]\n");
-	printf("jmp to: 0x%08x\n", decoding.jmp_eip);
-	printf("\n");
+	TipText("jmp to: 0x%08x\n", decoding.jmp_eip);
 #endif
 
 	print_asm("jmp %x", decoding.jmp_eip);
@@ -30,10 +28,8 @@ make_EHelper(jcc)
 	decoding.jmp_eip = decoding.seq_eip + id_dest->val;
 	decoding.is_jmp = t2;
 
-#ifdef EXEC_DEBUG
-	printf("[[ jcc ]]\n");
-	printf("jmp to: 0x%08x\n", decoding.jmp_eip);
-	printf("\n");
+#ifdef ONLY_DEBUG
+	TipText("jmp to: 0x%08x\n", decoding.jmp_eip);
 #endif
 
 	print_asm("j%s %x", get_cc_name(subcode), decoding.jmp_eip);
