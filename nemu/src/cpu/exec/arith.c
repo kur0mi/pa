@@ -64,6 +64,9 @@ make_EHelper(cmp)
 
 	// t0 为运算结果
 	rtl_sub(&t0, &id_dest->val, &id_src->val);
+#ifdef ONLY_DEBUG
+	TipText("0x%08x - 0x%08x\n", id_dest->val, id_src->val);
+#endif
 
 	rtl_sltu(&t1, &id_dest->val, &id_src->val);
 	rtl_set_CF(&t1);
