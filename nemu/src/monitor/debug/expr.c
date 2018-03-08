@@ -360,6 +360,8 @@ uint32_t eval(int p, int q)
 			else if (strstr(tokens[p].str, "if") != NULL)
 				return cpu.eflags.IF;
 
+			TipText("0x%p  0x%p\n", &cpu.eflags.CF, &cpu.ecx);
+
 			AlarmText("no such register: %s", tokens[p].str);
 			return 0;
 		} else {
