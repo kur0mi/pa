@@ -173,7 +173,7 @@ make_EHelper(neg)
 
 	rtl_neg(&id_dest->val);
 
-	rtl_update_ZFSF(&id_dest->val);
+	rtl_update_ZFSF(&id_dest->val, id_dest->width);
 
 	operand_write(id_dest, &id_dest->val);
 
