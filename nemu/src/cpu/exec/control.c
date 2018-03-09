@@ -12,7 +12,7 @@ make_EHelper(jmp)
 	decoding.is_jmp = 1;
 
 	print_asm("jmp %x", decoding.jmp_eip);
-	TipText("jmp to: 0x%08x\n", decoding.jmp_eip);
+	//TipText("jmp to: 0x%08x\n", decoding.jmp_eip);
 }
 
 // 相对条件跳转
@@ -26,8 +26,8 @@ make_EHelper(jcc)
 	decoding.is_jmp = t2;
 
 	print_asm("j%s %x", get_cc_name(subcode), decoding.jmp_eip);
-	if (t2)
-		TipText("jmp to: 0x%08x\n", decoding.jmp_eip);
+	//if (t2)
+		//TipText("jmp to: 0x%08x\n", decoding.jmp_eip);
 }
 
 // 绝对跳转
@@ -39,9 +39,9 @@ make_EHelper(jmp_rm)
 	decoding.is_jmp = 1;
 
 #ifdef EXEC_DEBUG
-	printf("[[ jmp_rm ]]\n");
-	printf("jmp to: 0x%08x\n", decoding.jmp_eip);
-	printf("\n");
+	//printf("[[ jmp_rm ]]\n");
+	//printf("jmp to: 0x%08x\n", decoding.jmp_eip);
+	//printf("\n");
 #endif
 
 	print_asm("jmp *%s", id_dest->str);
