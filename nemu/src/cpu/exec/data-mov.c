@@ -178,6 +178,6 @@ make_EHelper(lea)
 	operand_write(id_dest, &id_src->addr);
 	print_asm_template2(lea);
 #ifdef DEBUG
-	DebugText("[lea] effictive address: 0x%08x\n", id_src->addr);
+	//DebugText("[lea] effictive address: 0x%08x\n", id_src->addr);
 #endif
 }
