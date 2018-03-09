@@ -56,6 +56,7 @@ make_EHelper(sub)
 
 	operand_write(id_dest, &t0);
 
+	TipText("result: 0x%08x\n", t0);
 	rtl_update_ZFSF(&t0, id_dest->width);
 
 	print_asm_template2(sub);
