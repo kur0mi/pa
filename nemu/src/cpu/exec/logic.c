@@ -110,7 +110,7 @@ make_EHelper(not)
 	rtl_sext(&id_dest->val, &id_dest->val, id_dest->width);
 
 	rtl_not(&id_dest->val);
-	rtl_sm(&id_dest->addr, id_dest->width, &id_dest->val);
+	operand_write(id_dest, &id_dest->val);
 
 	print_asm_template1(not);
 }
