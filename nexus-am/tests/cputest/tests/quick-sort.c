@@ -1,13 +1,15 @@
 #include "trap.h"
 
-/*
+
 #define N 20
 
 int a[N] = {2, 12, 14, 6, 13, 15, 16, 10, 0, 18, 11, 19, 9, 1, 7, 5, 4, 3, 8, 17};
-*/
+
+/*
 #define N 2
 
 int a[N] = {8, 17};
+*/
 
 int partition(int *a, int p, int q) {
 	int pivot = a[p];
