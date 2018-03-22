@@ -1,5 +1,5 @@
 
-int main233()
+int main()
 {
 	return 0;
 }
