@@ -87,13 +87,13 @@ make_EHelper(pusha)
 	print_asm("pusha");
 #ifdef DEBUG
 	assert(cpu.edi == vaddr_read(cpu.esp     , 4));
-	assert(cpu.esi == vaddr_read(cpu.esp - 4 , 4));
-	assert(cpu.ebp == vaddr_read(cpu.esp - 8 , 4));
+	assert(cpu.esi == vaddr_read(cpu.esp + 4 , 4));
+	assert(cpu.ebp == vaddr_read(cpu.esp + 8 , 4));
 	// ignore cpu.esp
-	assert(cpu.ebx == vaddr_read(cpu.esp - 12, 4));
-	assert(cpu.edx == vaddr_read(cpu.esp - 16, 4));
-	assert(cpu.ecx == vaddr_read(cpu.esp - 24, 4));
-	assert(cpu.eax == vaddr_read(cpu.esp - 28, 4));
+	assert(cpu.ebx == vaddr_read(cpu.esp + 12, 4));
+	assert(cpu.edx == vaddr_read(cpu.esp + 16, 4));
+	assert(cpu.ecx == vaddr_read(cpu.esp + 24, 4));
+	assert(cpu.eax == vaddr_read(cpu.esp + 28, 4));
 #endif
 }
 
