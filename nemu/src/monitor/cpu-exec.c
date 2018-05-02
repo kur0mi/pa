@@ -24,12 +24,12 @@ void cpu_exec(uint64_t n)
 
 	bool print_flag = (int64_t) n < MAX_INSTR_TO_PRINT;
 
-#ifdef DEBUG
 	for (; n > 0; n--) {
 		/* Execute one instruction, including instruction fetch,
 		 * instruction decode, and the actual execution. */
 		exec_wrapper(print_flag);
 
+#ifdef DEBUG
 		/* TODO: check watchpoints here. */
 		WP *t = check_wp(NULL);
 		while (t != NULL) {
