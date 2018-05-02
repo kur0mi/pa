@@ -392,7 +392,7 @@ make_DHelper(call_I)
 	decode_op_I(eip, id_src, true);
 }
 
-// 操作数是 b，但需要处理为 v
+// 操作数是 b
 make_DHelper(Ib)
 {
 	id_dest->type = OP_TYPE_IMM;
